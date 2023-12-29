@@ -1,0 +1,1430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+	<name>megamebel_install_theme_ocmod</name>
+	<code>Megamebel</code>
+	<version>1.1</version>
+	<author>Bigeon</author>
+	<site>https://bigeon.ru/</site>
+	
+	<file path="admin/controller/catalog/information.php">
+        <operation>
+            <search><![CDATA[if (isset($this->request->post['bottom'])) {]]></search>
+            <add position="before"><![CDATA[
+				if (isset($this->request->post['top'])) {
+					$data['top'] = $this->request->post['top'];
+				} elseif (!empty($information_info)) {
+					$data['top'] = $information_info['top'];
+				} else {
+					$data['top'] = 0;
+				}
+			]]></add>
+        </operation>
+    </file>
+	
+    <file path="admin/model/catalog/information.php">
+        <operation>
+            <search><![CDATA[$this->db->query("INSERT INTO " . DB_PREFIX . "information SET sort_order = '" . (int)$data['sort_order'] . "', bottom = '" . (isset($data['bottom']) ? (int)$data['bottom'] : 0) . "', status = '" . (int)$data['status'] . "'");]]></search>
+            <add position="replace"><![CDATA[
+				$this->db->query("INSERT INTO " . DB_PREFIX . "information SET sort_order = '" . (int)$data['sort_order'] . "', top = '" . (isset($data['top']) ? (int)$data['top'] : 0) . "', bottom = '" . (isset($data['bottom']) ? (int)$data['bottom'] : 0) . "', status = '" . (int)$data['status'] . "'");
+			]]></add>
+        </operation>
+        <operation>
+            <search><![CDATA[$this->db->query("UPDATE " . DB_PREFIX . "information SET sort_order = '" . (int)$data['sort_order'] . "', bottom = '" . (isset($data['bottom']) ? (int)$data['bottom'] : 0) . "', status = '" . (int)$data['status'] . "' WHERE information_id = '" . (int)$information_id . "'");]]></search>
+            <add position="replace"><![CDATA[
+				$this->db->query("UPDATE " . DB_PREFIX . "information SET sort_order = '" . (int)$data['sort_order'] . "', top = '" . (isset($data['top']) ? (int)$data['top'] : 0) . "', bottom = '" . (isset($data['bottom']) ? (int)$data['bottom'] : 0) . "', status = '" . (int)$data['status'] . "' WHERE information_id = '" . (int)$information_id . "'");
+			]]></add>
+        </operation>
+    </file>
+	
+    <file path="admin/language/ru-ru/catalog/information.php">
+        <operation>
+            <search><![CDATA[$_['entry_bottom']           = 'Отображать снизу';]]></search>
+            <add position="before"><![CDATA[
+				$_['entry_top'] = 'Отображать сверху';
+			]]></add>
+        </operation>
+		<operation>
+            <search><![CDATA[$_['help_bottom']            = 'Показывать в нижней части сайта (футер, подвал)';]]></search>
+            <add position="before"><![CDATA[
+				$_['help_top']            = 'Показывать в верхней части сайта (шапка сайта, хедер)';
+			]]></add>
+        </operation>
+    </file>
+	
+    <file path="admin/view/template/catalog/information_form.twig">
+        <operation>
+            <search offset="2"><![CDATA[<label class="col-sm-2 control-label" for="input-bottom">]]></search>
+            <add position="before" offset="1"><![CDATA[
+			    <div class="form-group">
+				<label class="col-sm-2 control-label" for="input-top"><span data-toggle="tooltip" title="{{ help_top }}">{{ entry_top }}</span></label>
+					<div class="col-sm-10">
+						<div class="checkbox">
+							<label>
+							{% if top %}
+							<input type="checkbox" name="top" value="1" checked="checked" id="input-top" />
+							{% else %}
+							<input type="checkbox" name="top" value="1" id="input-top" />
+							{% endif %}
+							&nbsp;</label>
+						</div>
+					</div>
+				</div>
+			]]></add>
+        </operation>
+    </file>
+	
+    <file path="catalog/controller/common/header.php">
+        <operation>
+            <search><![CDATA[$data['base'] = $server;]]></search>
+            <add position="before"><![CDATA[$this->load->model('catalog/information');
+
+				$data['informations'] = array();
+
+				foreach ($this->model_catalog_information->getInformations() as $result) {
+					if ($result['top']) {
+						$data['informations'][] = array(
+							'title' => $result['title'],
+							'href'  => $this->url->link('information/information', 'information_id=' . $result['information_id'])
+						);
+					}
+				}]]></add>
+        </operation>
+		<operation>
+			<search><![CDATA[$data['telephone'] = $this->config->get('config_telephone');]]></search>
+			<add position="after"><![CDATA[
+				$data['tel'] = str_replace(array('(', ')', ' ', '-'), '', $this->config->get('config_telephone'));
+			]]></add>
+        </operation>
+		<operation>
+            <search><![CDATA[$data['contact'] = $this->url->link('information/contact');]]></search>
+            <add position="after"><![CDATA[
+				$data['compare'] = $this->url->link('product/compare');
+			]]></add>
+        </operation>
+		<operation>
+            <search><![CDATA[$this->load->language('common/header');]]></search>
+            <add position="after"><![CDATA[
+				// Mobile cart count
+				$data['cart_count'] = $this->cart->countProducts();
+			]]></add>
+        </operation>
+		<operation>
+			<search><![CDATA[public function index() {]]></search>
+			<add position="after"><![CDATA[
+				$data['open'] 				= $this->config->get('config_open');
+				$data['address'] 			= $this->config->get('config_address');
+				$data['email'] 				= $this->config->get('config_email');
+				$data['firstname'] 			= $this->customer->getFirstName();
+				$data['config_account']		= $this->config->get('config_account');
+				$data['config_wishlist']	= $this->config->get('config_wishlist');
+            ]]></add>
+		</operation>
+		<operation>
+            <search><![CDATA[$this->load->language('common/header');]]></search>
+            <add position="after"><![CDATA[
+				$data['text_compare'] = sprintf($this->language->get('text_compare'), (isset($this->session->data['compare']) ? count($this->session->data['compare']) : 0));
+			]]></add>
+        </operation>		
+    </file>
+	
+	<file path="catalog/controller/common/menu.php">
+		<operation>
+			<search><![CDATA[$data['categories'] = array();]]></search>
+			<add position="after"><![CDATA[
+				$data['special'] = $this->url->link('product/special');
+			]]></add>
+		</operation>
+		<operation>
+            <search><![CDATA[$data['categories'][] = array(]]></search>
+            <add position="before"><![CDATA[
+				if ($category['image']) {
+					$category['image'] = $this->model_tool_image->resize($category['image'], 25, 25);
+				} else {
+					$category['image'] = $this->model_tool_image->resize('placeholder.png', 25, 25);
+				}
+			]]></add>
+        </operation>
+		<operation>
+            <search><![CDATA[$data['categories'][] = array(]]></search>
+            <add position="after"><![CDATA[
+				'image' => $category['image'],
+			]]></add>
+        </operation>
+        <operation>
+            <search><![CDATA[$this->load->model('catalog/product');]]></search>
+            <add position="after"><![CDATA[
+				$this->load->model('tool/image');
+			]]></add>
+        </operation>
+	</file>
+	
+	<file path="catalog/language/uk-ua/common/menu.php">
+		<operation>
+			<search><![CDATA[$_['text_all'] = 'Показати усі';]]></search>
+			<add position="after"><![CDATA[
+				$_['text_special'] = 'Акцii';
+			]]></add>
+		</operation>
+	</file>
+	
+	<file path="catalog/language/ru-ru/common/menu.php">
+		<operation>
+			<search><![CDATA[$_['text_all'] = 'Показать все';]]></search>
+			<add position="after"><![CDATA[
+				$_['text_special'] = 'Акции';
+			]]></add>
+		</operation>
+	</file>
+	
+	<file path="catalog/language/en-gb/common/menu.php">
+		<operation>
+			<search><![CDATA[$_['text_all'] = 'Show All';]]></search>
+			<add position="after"><![CDATA[
+				$_['text_special'] = 'Stocks';
+			]]></add>
+		</operation>
+	</file>
+	
+	<file path="catalog/language/uk-ua/common/header.php">
+	    <operation>
+            <search><![CDATA[$_['text_wishlist'] = 'Закладки (%s)';]]></search>
+            <add position="replace"><![CDATA[
+				$_['text_wishlist']      = '<svg class="svg-icon icon icon-heart" width="24" height="24" viewBox="0 0 20 20"><path fill="#000" d="M13.22,2.984c-1.125,0-2.504,0.377-3.53,1.182C8.756,3.441,7.502,2.984,6.28,2.984c-2.6,0-4.714,2.116-4.714,4.716c0,0.32,0.032,0.644,0.098,0.96c0.799,4.202,6.781,7.792,7.46,8.188c0.193,0.111,0.41,0.168,0.627,0.168c0.187,0,0.376-0.041,0.55-0.127c0.011-0.006,1.349-0.689,2.91-1.865c0.021-0.016,0.043-0.031,0.061-0.043c0.021-0.016,0.045-0.033,0.064-0.053c3.012-2.309,4.6-4.805,4.6-7.229C17.935,5.1,15.819,2.984,13.22,2.984z M12.544,13.966c-0.004,0.004-0.018,0.014-0.021,0.018s-0.018,0.012-0.023,0.016c-1.423,1.076-2.674,1.734-2.749,1.771c0,0-6.146-3.576-6.866-7.363C2.837,8.178,2.811,7.942,2.811,7.7c0-1.917,1.554-3.47,3.469-3.47c1.302,0,2.836,0.736,3.431,1.794c0.577-1.121,2.161-1.794,3.509-1.794c1.914,0,3.469,1.553,3.469,3.47C16.688,10.249,14.474,12.495,12.544,13.966z"></path></svg><span class="count">%s</span> Вибране';
+				$_['text_compare']       = '<span class="count">%s</span>';
+				$_['text_store']         = 'Магазин:';
+				$_['text_favorite']      = 'Вибране';
+				$_['text_email']         = 'Написати нам';
+				$_['text_info']          = 'iнформація';
+				$_['text_job']           = 'Режим роботи';
+				$_['text_phone']         = 'Телефон';
+				$_['text_address']       = 'Нашу адресу';
+			]]></add>
+        </operation>
+		<operation>
+            <search><![CDATA[$_['text_login'] = 'Авторизація';]]></search>
+            <add position="replace"><![CDATA[
+				$_['text_login']         = 'Увійти';
+			]]></add>
+        </operation>        		
+	</file>
+	
+	<file path="catalog/language/ru-ru/common/header.php">
+	    <operation>
+            <search><![CDATA[$_['text_wishlist']      = 'Закладки (%s)';]]></search>
+            <add position="replace"><![CDATA[
+				$_['text_wishlist']      = '<svg class="svg-icon icon icon-heart" width="24" height="24" viewBox="0 0 20 20"><path fill="#000" d="M13.22,2.984c-1.125,0-2.504,0.377-3.53,1.182C8.756,3.441,7.502,2.984,6.28,2.984c-2.6,0-4.714,2.116-4.714,4.716c0,0.32,0.032,0.644,0.098,0.96c0.799,4.202,6.781,7.792,7.46,8.188c0.193,0.111,0.41,0.168,0.627,0.168c0.187,0,0.376-0.041,0.55-0.127c0.011-0.006,1.349-0.689,2.91-1.865c0.021-0.016,0.043-0.031,0.061-0.043c0.021-0.016,0.045-0.033,0.064-0.053c3.012-2.309,4.6-4.805,4.6-7.229C17.935,5.1,15.819,2.984,13.22,2.984z M12.544,13.966c-0.004,0.004-0.018,0.014-0.021,0.018s-0.018,0.012-0.023,0.016c-1.423,1.076-2.674,1.734-2.749,1.771c0,0-6.146-3.576-6.866-7.363C2.837,8.178,2.811,7.942,2.811,7.7c0-1.917,1.554-3.47,3.469-3.47c1.302,0,2.836,0.736,3.431,1.794c0.577-1.121,2.161-1.794,3.509-1.794c1.914,0,3.469,1.553,3.469,3.47C16.688,10.249,14.474,12.495,12.544,13.966z"></path></svg><span class="count">%s</span> Избранное';
+				$_['text_compare']       = '<span class="count">%s</span>';
+				$_['text_store']         = 'Магазин:';
+				$_['text_favorite']      = 'Избранное';
+				$_['text_email']         = 'Написать нам';
+				$_['text_info']          = 'Информация';
+				$_['text_job']           = 'Режим работы';
+				$_['text_phone']         = 'Телефон';
+				$_['text_address']       = 'Наш адрес';
+			]]></add>
+        </operation>
+		<operation>
+            <search><![CDATA[$_['text_login']         = 'Авторизация';]]></search>
+            <add position="replace"><![CDATA[
+				$_['text_login']         = 'Войти';
+			]]></add>
+        </operation>        		
+	</file>
+	
+	<file path="catalog/language/en-gb/common/header.php">
+		<operation>
+            <search><![CDATA[$_['text_wishlist']      = 'Wish List (%s)';]]></search>
+            <add position="replace"><![CDATA[
+				$_['text_wishlist']      = '<svg class="svg-icon icon icon-heart" width="24" height="24" viewBox="0 0 20 20"><path fill="#000" d="M13.22,2.984c-1.125,0-2.504,0.377-3.53,1.182C8.756,3.441,7.502,2.984,6.28,2.984c-2.6,0-4.714,2.116-4.714,4.716c0,0.32,0.032,0.644,0.098,0.96c0.799,4.202,6.781,7.792,7.46,8.188c0.193,0.111,0.41,0.168,0.627,0.168c0.187,0,0.376-0.041,0.55-0.127c0.011-0.006,1.349-0.689,2.91-1.865c0.021-0.016,0.043-0.031,0.061-0.043c0.021-0.016,0.045-0.033,0.064-0.053c3.012-2.309,4.6-4.805,4.6-7.229C17.935,5.1,15.819,2.984,13.22,2.984z M12.544,13.966c-0.004,0.004-0.018,0.014-0.021,0.018s-0.018,0.012-0.023,0.016c-1.423,1.076-2.674,1.734-2.749,1.771c0,0-6.146-3.576-6.866-7.363C2.837,8.178,2.811,7.942,2.811,7.7c0-1.917,1.554-3.47,3.469-3.47c1.302,0,2.836,0.736,3.431,1.794c0.577-1.121,2.161-1.794,3.509-1.794c1.914,0,3.469,1.553,3.469,3.47C16.688,10.249,14.474,12.495,12.544,13.966z"></path></svg><span class="count">%s</span> Wishlist';
+				$_['text_compare']       = '<span class="count">%s</span>';
+				$_['text_store']         = 'Store:';
+				$_['text_job']           = 'Operation mode';
+				$_['text_favorite']      = 'Favorite';
+				$_['text_email']         = 'Write to us';
+				$_['text_info']          = 'Info';
+				$_['text_phone']         = 'Phone';
+				$_['text_address']       = 'Our address';
+			]]></add>
+        </operation>
+    </file>
+
+	<file path="catalog/language/ge-ka/common/header.php">
+		<operation>
+            <search><![CDATA[$_['text_wishlist']      = 'რჩეულთა სია (%s)';]]></search>
+            <add position="replace"><![CDATA[
+				$_['text_wishlist']      = '<svg class="svg-icon icon icon-heart" width="24" height="24" viewBox="0 0 20 20"><path fill="#000" d="M13.22,2.984c-1.125,0-2.504,0.377-3.53,1.182C8.756,3.441,7.502,2.984,6.28,2.984c-2.6,0-4.714,2.116-4.714,4.716c0,0.32,0.032,0.644,0.098,0.96c0.799,4.202,6.781,7.792,7.46,8.188c0.193,0.111,0.41,0.168,0.627,0.168c0.187,0,0.376-0.041,0.55-0.127c0.011-0.006,1.349-0.689,2.91-1.865c0.021-0.016,0.043-0.031,0.061-0.043c0.021-0.016,0.045-0.033,0.064-0.053c3.012-2.309,4.6-4.805,4.6-7.229C17.935,5.1,15.819,2.984,13.22,2.984z M12.544,13.966c-0.004,0.004-0.018,0.014-0.021,0.018s-0.018,0.012-0.023,0.016c-1.423,1.076-2.674,1.734-2.749,1.771c0,0-6.146-3.576-6.866-7.363C2.837,8.178,2.811,7.942,2.811,7.7c0-1.917,1.554-3.47,3.469-3.47c1.302,0,2.836,0.736,3.431,1.794c0.577-1.121,2.161-1.794,3.509-1.794c1.914,0,3.469,1.553,3.469,3.47C16.688,10.249,14.474,12.495,12.544,13.966z"></path></svg><span class="count">%s</span> რჩეულთა სია';
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/language/uk-ua/account/wishlist.php">
+        <operation>
+            <search><![CDATA[$_['text_wishlist'] = 'Закладки (%s)';]]></search>
+            <add position="replace"><![CDATA[
+				$_['text_wishlist']      = '<svg class="svg-icon icon icon-heart" width="24" height="24" viewBox="0 0 20 20"><path fill="#000" d="M13.22,2.984c-1.125,0-2.504,0.377-3.53,1.182C8.756,3.441,7.502,2.984,6.28,2.984c-2.6,0-4.714,2.116-4.714,4.716c0,0.32,0.032,0.644,0.098,0.96c0.799,4.202,6.781,7.792,7.46,8.188c0.193,0.111,0.41,0.168,0.627,0.168c0.187,0,0.376-0.041,0.55-0.127c0.011-0.006,1.349-0.689,2.91-1.865c0.021-0.016,0.043-0.031,0.061-0.043c0.021-0.016,0.045-0.033,0.064-0.053c3.012-2.309,4.6-4.805,4.6-7.229C17.935,5.1,15.819,2.984,13.22,2.984z M12.544,13.966c-0.004,0.004-0.018,0.014-0.021,0.018s-0.018,0.012-0.023,0.016c-1.423,1.076-2.674,1.734-2.749,1.771c0,0-6.146-3.576-6.866-7.363C2.837,8.178,2.811,7.942,2.811,7.7c0-1.917,1.554-3.47,3.469-3.47c1.302,0,2.836,0.736,3.431,1.794c0.577-1.121,2.161-1.794,3.509-1.794c1.914,0,3.469,1.553,3.469,3.47C16.688,10.249,14.474,12.495,12.544,13.966z"></path></svg><span class="count">%s</span> Вибране';
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/language/ru-ru/account/wishlist.php">
+        <operation>
+            <search><![CDATA[$_['text_wishlist'] = 'Закладки (%s)';]]></search>
+            <add position="replace"><![CDATA[
+				$_['text_wishlist']      = '<svg class="svg-icon icon icon-heart" width="24" height="24" viewBox="0 0 20 20"><path fill="#000" d="M13.22,2.984c-1.125,0-2.504,0.377-3.53,1.182C8.756,3.441,7.502,2.984,6.28,2.984c-2.6,0-4.714,2.116-4.714,4.716c0,0.32,0.032,0.644,0.098,0.96c0.799,4.202,6.781,7.792,7.46,8.188c0.193,0.111,0.41,0.168,0.627,0.168c0.187,0,0.376-0.041,0.55-0.127c0.011-0.006,1.349-0.689,2.91-1.865c0.021-0.016,0.043-0.031,0.061-0.043c0.021-0.016,0.045-0.033,0.064-0.053c3.012-2.309,4.6-4.805,4.6-7.229C17.935,5.1,15.819,2.984,13.22,2.984z M12.544,13.966c-0.004,0.004-0.018,0.014-0.021,0.018s-0.018,0.012-0.023,0.016c-1.423,1.076-2.674,1.734-2.749,1.771c0,0-6.146-3.576-6.866-7.363C2.837,8.178,2.811,7.942,2.811,7.7c0-1.917,1.554-3.47,3.469-3.47c1.302,0,2.836,0.736,3.431,1.794c0.577-1.121,2.161-1.794,3.509-1.794c1.914,0,3.469,1.553,3.469,3.47C16.688,10.249,14.474,12.495,12.544,13.966z"></path></svg><span class="count">%s</span> Избранное';
+			]]></add>
+        </operation>
+    </file>
+
+	<file path="catalog/language/ge-ka/account/wishlist.php">
+        <operation>
+            <search><![CDATA[$_['text_wishlist'] = 'რჩეულთა სია (%s)';]]></search>
+            <add position="replace"><![CDATA[
+				$_['text_wishlist']      = '<svg class="svg-icon icon icon-heart" width="24" height="24" viewBox="0 0 20 20"><path fill="#000" d="M13.22,2.984c-1.125,0-2.504,0.377-3.53,1.182C8.756,3.441,7.502,2.984,6.28,2.984c-2.6,0-4.714,2.116-4.714,4.716c0,0.32,0.032,0.644,0.098,0.96c0.799,4.202,6.781,7.792,7.46,8.188c0.193,0.111,0.41,0.168,0.627,0.168c0.187,0,0.376-0.041,0.55-0.127c0.011-0.006,1.349-0.689,2.91-1.865c0.021-0.016,0.043-0.031,0.061-0.043c0.021-0.016,0.045-0.033,0.064-0.053c3.012-2.309,4.6-4.805,4.6-7.229C17.935,5.1,15.819,2.984,13.22,2.984z M12.544,13.966c-0.004,0.004-0.018,0.014-0.021,0.018s-0.018,0.012-0.023,0.016c-1.423,1.076-2.674,1.734-2.749,1.771c0,0-6.146-3.576-6.866-7.363C2.837,8.178,2.811,7.942,2.811,7.7c0-1.917,1.554-3.47,3.469-3.47c1.302,0,2.836,0.736,3.431,1.794c0.577-1.121,2.161-1.794,3.509-1.794c1.914,0,3.469,1.553,3.469,3.47C16.688,10.249,14.474,12.495,12.544,13.966z"></path></svg><span class="count">%s</span> რჩეულთა სია';
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/language/en-gb/account/wishlist.php">
+        <operation>
+            <search><![CDATA[$_['text_wishlist'] = 'Wish List (%s)';]]></search>
+            <add position="replace"><![CDATA[
+				$_['text_wishlist']      = '<svg class="svg-icon icon icon-heart" width="24" height="24" viewBox="0 0 20 20"><path fill="#000" d="M13.22,2.984c-1.125,0-2.504,0.377-3.53,1.182C8.756,3.441,7.502,2.984,6.28,2.984c-2.6,0-4.714,2.116-4.714,4.716c0,0.32,0.032,0.644,0.098,0.96c0.799,4.202,6.781,7.792,7.46,8.188c0.193,0.111,0.41,0.168,0.627,0.168c0.187,0,0.376-0.041,0.55-0.127c0.011-0.006,1.349-0.689,2.91-1.865c0.021-0.016,0.043-0.031,0.061-0.043c0.021-0.016,0.045-0.033,0.064-0.053c3.012-2.309,4.6-4.805,4.6-7.229C17.935,5.1,15.819,2.984,13.22,2.984z M12.544,13.966c-0.004,0.004-0.018,0.014-0.021,0.018s-0.018,0.012-0.023,0.016c-1.423,1.076-2.674,1.734-2.749,1.771c0,0-6.146-3.576-6.866-7.363C2.837,8.178,2.811,7.942,2.811,7.7c0-1.917,1.554-3.47,3.469-3.47c1.302,0,2.836,0.736,3.431,1.794c0.577-1.121,2.161-1.794,3.509-1.794c1.914,0,3.469,1.553,3.469,3.47C16.688,10.249,14.474,12.495,12.544,13.966z"></path></svg><span class="count">%s</span> Wishlist';
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/language/uk-ua/common/cart.php">
+        <operation>
+            <search><![CDATA[$_['text_items']               = '%s товар(ів) - %s';]]></search>
+            <add position="replace"><![CDATA[
+				$_['text_items_empty']     = 'Кошик';
+				$_['text_items']     = '<span class="count">%s</span><span class="user-nav__title mobile-menu__title">Кошик</span>';
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/language/ru-ru/common/cart.php">
+        <operation>
+            <search><![CDATA[$_['text_items']     = 'Товаров %s (%s)';]]></search>
+            <add position="replace"><![CDATA[
+				$_['text_items_empty']     = 'Корзина';
+				$_['text_items']     = '<span class="count">%s</span><span class="user-nav__title mobile-menu__title">Корзина</span>';
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/language/en-gb/common/cart.php">
+        <operation>
+            <search><![CDATA[$_['text_items']     = '%s item(s) - %s';]]></search>
+            <add position="replace"><![CDATA[
+				$_['text_items_empty']     = 'Cart';
+				$_['text_items']     = '<span class="count">%s</span><span class="user-nav__title mobile-menu__title">Cart</span>';
+			]]></add>
+        </operation>
+    </file>
+
+	<file path="catalog/language/ge-ka/common/cart.php">
+        <operation>
+            <search><![CDATA[$_['text_items']     = '%s ნივთ(ებ)ი - %s';]]></search>
+            <add position="replace"><![CDATA[
+				$_['text_items_empty']     = 'ნივთ(ებ)ი';
+				$_['text_items']     = '<span class="count">%s</span><span class="user-nav__title mobile-menu__title">ნივთ(ებ)ი</span>';
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/controller/account/wishlist.php">
+        <operation>
+            <search><![CDATA[if ($product_info) {]]></search>
+            <add position="before"><![CDATA[
+				$json['title'] = $this->language->get('heading_title');
+			]]></add>
+        </operation>
+		<operation>
+            <search><![CDATA[if ($this->customer->isLogged()) {]]></search>
+            <add position="after"><![CDATA[
+				$json['logged'] = 'error';
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/language/uk-ua/account/wishlist.php">
+        <operation>
+            <search><![CDATA[$_['heading_title'] = 'Мої закладки';]]></search>
+            <add position="replace"><![CDATA[
+				$_['heading_title'] = 'Вибране';
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/language/ru-ru/account/wishlist.php">
+        <operation>
+            <search><![CDATA[$_['heading_title'] = 'Мои закладки';]]></search>
+            <add position="replace"><![CDATA[
+				$_['heading_title'] = 'Избранное';
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/controller/product/compare.php">
+        <operation>
+            <search><![CDATA[if ($product_info) {]]></search>
+            <add position="before"><![CDATA[
+				$json['title'] = $this->language->get('heading_title');
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/language/uk-ua/extension/module/{bestseller,featured,latest,special}*.php">
+        <operation>
+            <search><![CDATA[$_['text_tax'] = 'Без ПДВ:';]]></search>
+            <add position="after"><![CDATA[
+				$_['text_reviews_1']    = '%s <span class="counter-text">відгук</span>';
+				$_['text_reviews_2']    = '%s <span class="counter-text">відкликання</span>';
+				$_['text_reviews_3']    = '%s <span class="counter-text">відгуків</span>';
+				$_['text_sale']    		= 'знижка';
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/language/ru-ru/extension/module/{bestseller,featured,latest,special}*.php">
+        <operation>
+            <search><![CDATA[$_['text_tax']      = 'Без НДС:';]]></search>
+            <add position="after"><![CDATA[
+				$_['text_reviews_1']    = '%s <span class="counter-text">отзыв</span>';
+				$_['text_reviews_2']    = '%s <span class="counter-text">отзыва</span>';
+				$_['text_reviews_3']    = '%s <span class="counter-text">отзывов</span>';
+				$_['text_sale']    		= 'Экономия';
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/language/en-gb/extension/module/{bestseller,featured,latest,special}*.php">
+        <operation>
+            <search><![CDATA[$_['text_tax']      = 'Ex Tax:';]]></search>
+            <add position="after"><![CDATA[
+				$_['text_reviews_1']    = '%s <span class="counter-text">review</span>';
+				$_['text_reviews_2']    = '%s <span class="counter-text">reviews</span>';
+				$_['text_reviews_3']    = '%s <span class="counter-text">reviews</span>';
+				$_['text_sale']    		= 'Sale';
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/language/uk-ua/product/{category,compare,manufacturer,search,special}*.php">
+        <operation>
+            <search><![CDATA[$_['text_compare'] = 'Порівняння товарів (%s)';]]></search>
+            <add position="replace"><![CDATA[
+				$_['text_compare']      = '<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg><span class="compare-count">%s</span><span class="compare">Порівняння</span>';
+				$_['text_reviews_1']    = '%s <span class="counter-text">відгук</span>';
+				$_['text_reviews_2']    = '%s <span class="counter-text">відкликання</span>';
+				$_['text_reviews_3']    = '%s <span class="counter-text">відгуків</span>';
+				$_['text_sale']    		= 'знижка';
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/language/ru-ru/product/{category,compare,manufacturer,search,special}.php">
+        <operation>
+            <search><![CDATA[$_['text_compare']      = 'Сравнение товаров (%s)';]]></search>
+            <add position="replace"><![CDATA[
+				$_['text_compare']      = '<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg><span class="compare-count">%s</span><span class="compare">Сравнение</span>';
+				$_['text_reviews_1']    = '%s <span class="counter-text">отзыв</span>';
+				$_['text_reviews_2']    = '%s <span class="counter-text">отзыва</span>';
+				$_['text_reviews_3']    = '%s <span class="counter-text">отзывов</span>';
+				$_['text_sale']    		= 'Экономия';
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/language/en-gb/product/{category,compare,manufacturer,search,special}.php">
+        <operation>
+            <search><![CDATA[$_['text_compare']      = 'Product Compare (%s)';]]></search>
+            <add position="replace"><![CDATA[
+				$_['text_compare']      = '<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg><span class="compare-count">%s</span><span class="user-nav__compare">Compare</span>';
+				$_['text_reviews_1']    = '%s <span class="counter-text">review</span>';
+				$_['text_reviews_2']    = '%s <span class="counter-text">reviews</span>';
+				$_['text_reviews_3']    = '%s <span class="counter-text">reviews</span>';
+				$_['text_sale']    		= 'Sale';
+			]]></add>
+        </operation>
+    </file>
+
+	<file path="catalog/controller/product/{category,manufacturer,search,special}.php">
+		<operation>
+            <search><![CDATA['rating'      => $result['rating'],]]></search>
+            <add position="replace"><![CDATA[
+				'rating'      => $rating,
+			]]></add>
+        </operation>
+    </file>
+
+	<file path="catalog/controller/product/{category,manufacturer,search,special}.php|catalog/controller/extension/module/{bestseller,latest,special}.php">
+        <operation>
+            <search><![CDATA[if (!is_null($result['special']) && (float)$result['special'] >= 0) {]]></search>
+            <add position="after"><![CDATA[
+				$economy = $this->currency->format($this->tax->calculate($result['price'] - $result['special'], $result['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
+			]]></add>
+        </operation>
+        <operation>
+            <search><![CDATA[$special = false;]]></search>
+            <add position="after"><![CDATA[
+				$economy = false;
+			]]></add>
+        </operation>
+		<operation>
+            <search><![CDATA[$data['products'][] = array(]]></search>
+            <add position="before"><![CDATA[
+				$data['reviews_count'] 		= $reviews_count = (int)$result['reviews'];
+				$data['config_wishlist']	= $this->config->get('config_wishlist');
+				$data['config_compare'] 	= $this->config->get('config_compare');
+			]]></add>
+        </operation>
+        <operation>
+            <search><![CDATA[$data['products'][] = array(]]></search>
+            <add position="after"><![CDATA[
+				'economy' 			=> $economy,
+				'attribute_groups' 	=> $this->model_catalog_product->getProductAttributes($result['product_id']),
+				'reviews' 	  		=> sprintf($this->language->get($text_review), (int)$result['reviews']),
+			]]></add>
+        </operation>
+    </file>
+
+	<file path="catalog/controller/product/product.php">
+		<operation>
+            <search><![CDATA[$this->load->model('tool/image');]]></search>
+            <add position="after"><![CDATA[
+				$manufacturer_image = $this->model_catalog_manufacturer->getManufacturer($product_info['manufacturer_id']);
+				if ($manufacturer_image){
+					$data['manufacturers_img'] = $this->model_tool_image->resize($manufacturer_image['image'], 120, 40);
+				} else {
+					$data['manufacturers_img'] = $this->model_tool_image->resize('placeholder.png', 120, 40);
+				}
+            ]]></add>
+        </operation>
+		<operation>
+			<search><![CDATA[if (!is_null($product_info['special']) && (float)$product_info['special'] >= 0) {]]></search>
+			<add position="after"><![CDATA[
+				$data['economy'] = $this->currency->format($this->tax->calculate($product_info['price'] - $product_info['special'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
+				$data['percent'] = 100-round($product_info['special']/$product_info['price']*100, 0);
+			]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[$data['special'] = false;]]></search>
+			<add position="after"><![CDATA[
+				$data['economy'] = false;
+				$data['percent'] = false;
+			]]></add>
+		</operation>
+		<operation>
+            <search><![CDATA[$data['model'] = $product_info['model'];]]></search>
+            <add position="after"><![CDATA[
+				$data['sku'] = $product_info['sku'];
+				$data['weight'] = $this->weight->format($product_info['weight'],$product_info['weight_class_id']);
+			]]></add>
+        </operation>
+		<operation>
+			<search><![CDATA[$data['price'] = false;]]></search>
+			<add position="after"><![CDATA[ 
+				$data['attention']	=	sprintf($this->language->get('text_login'), $this->url->link('account/login'), $this->url->link('account/register'));	
+			]]></add>
+		</operation>	
+    </file>
+
+	<file path="catalog/controller/product/special.php">
+        <operation>
+            <search><![CDATA[$data['products'] = array();]]></search>
+            <add position="after"><![CDATA[
+				function special($number, $suffix) {
+					$keys = array(2, 0, 1, 1, 1, 2);
+					$mod = $number % 100;
+					$suffix_key = ($mod > 7 && $mod < 20) ? 2: $keys[min($mod % 10, 5)];
+					return $suffix[$suffix_key];
+				}
+				$text_review_array = array('text_reviews_1', 'text_reviews_2', 'text_reviews_3');
+			]]></add>
+        </operation>
+		<operation>
+            <search><![CDATA[$data['products'][] = array(]]></search>
+            <add position="before"><![CDATA[
+				$text_review = special($reviews_count, $text_review_array);
+			]]></add>
+        </operation>
+    </file>
+
+	<file path="catalog/controller/product/search.php">
+        <operation>
+            <search><![CDATA[$data['products'] = array();]]></search>
+            <add position="after"><![CDATA[
+				function search($number, $suffix) {
+					$keys = array(2, 0, 1, 1, 1, 2);
+					$mod = $number % 100;
+					$suffix_key = ($mod > 7 && $mod < 20) ? 2: $keys[min($mod % 10, 5)];
+					return $suffix[$suffix_key];
+				}
+				$text_review_array = array('text_reviews_1', 'text_reviews_2', 'text_reviews_3');
+			]]></add>
+        </operation>
+		<operation>
+            <search><![CDATA[$data['products'][] = array(]]></search>
+            <add position="before"><![CDATA[
+				$text_review = search($reviews_count, $text_review_array);
+			]]></add>
+        </operation>
+    </file>
+
+	<file path="catalog/controller/product/manufacturer.php">
+        <operation>
+            <search><![CDATA[$data['products'] = array();]]></search>
+            <add position="after"><![CDATA[
+				function manufacturer($number, $suffix) {
+					$keys = array(2, 0, 1, 1, 1, 2);
+					$mod = $number % 100;
+					$suffix_key = ($mod > 7 && $mod < 20) ? 2: $keys[min($mod % 10, 5)];
+					return $suffix[$suffix_key];
+				}
+				$text_review_array = array('text_reviews_1', 'text_reviews_2', 'text_reviews_3');
+			]]></add>
+        </operation>
+		<operation>
+            <search><![CDATA[$data['products'][] = array(]]></search>
+            <add position="before"><![CDATA[
+				$text_review = manufacturer($reviews_count, $text_review_array);
+			]]></add>
+        </operation>
+    </file>
+
+	<file path="catalog/controller/product/category.php">
+        <operation>
+            <search><![CDATA[$data['products'] = array();]]></search>
+            <add position="after"><![CDATA[
+				function category($number, $suffix) {
+					$keys = array(2, 0, 1, 1, 1, 2);
+					$mod = $number % 100;
+					$suffix_key = ($mod > 7 && $mod < 20) ? 2: $keys[min($mod % 10, 5)];
+					return $suffix[$suffix_key];
+				}
+				$text_review_array = array('text_reviews_1', 'text_reviews_2', 'text_reviews_3');
+			]]></add>
+        </operation>
+		<operation>
+            <search><![CDATA[$data['products'][] = array(]]></search>
+            <add position="before"><![CDATA[
+				$text_review = category($reviews_count, $text_review_array);
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/controller/extension/module/bestseller.php">
+        <operation>
+            <search><![CDATA[$data['products'] = array();]]></search>
+            <add position="after"><![CDATA[
+				function bestseller($number, $suffix) {
+					$keys = array(2, 0, 1, 1, 1, 2);
+					$mod = $number % 100;
+					$suffix_key = ($mod > 7 && $mod < 20) ? 2: $keys[min($mod % 10, 5)];
+					return $suffix[$suffix_key];
+				}
+				$text_review_array = array('text_reviews_1', 'text_reviews_2', 'text_reviews_3');
+			]]></add>
+        </operation>
+		<operation>
+            <search><![CDATA[$data['products'][] = array(]]></search>
+            <add position="before"><![CDATA[
+				$text_review = bestseller($reviews_count, $text_review_array);
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/controller/extension/module/latest.php">
+        <operation>
+            <search><![CDATA[$data['products'] = array();]]></search>
+            <add position="after"><![CDATA[
+				function latest($number, $suffix) {
+					$keys = array(2, 0, 1, 1, 1, 2);
+					$mod = $number % 100;
+					$suffix_key = ($mod > 7 && $mod < 20) ? 2: $keys[min($mod % 10, 5)];
+					return $suffix[$suffix_key];
+				}
+				$text_review_array = array('text_reviews_1', 'text_reviews_2', 'text_reviews_3');
+			]]></add>
+        </operation>
+		<operation>
+            <search><![CDATA[$data['products'][] = array(]]></search>
+            <add position="before"><![CDATA[
+				$text_review = latest($reviews_count, $text_review_array);
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/controller/extension/module/special.php">
+        <operation>
+            <search><![CDATA[$data['products'] = array();]]></search>
+            <add position="after"><![CDATA[
+				function special($number, $suffix) {
+					$keys = array(2, 0, 1, 1, 1, 2);
+					$mod = $number % 100;
+					$suffix_key = ($mod > 7 && $mod < 20) ? 2: $keys[min($mod % 10, 5)];
+					return $suffix[$suffix_key];
+				}
+				$text_review_array = array('text_reviews_1', 'text_reviews_2', 'text_reviews_3');
+			]]></add>
+        </operation>
+		<operation>
+            <search><![CDATA[$data['products'][] = array(]]></search>
+            <add position="before"><![CDATA[
+				$text_review = special($reviews_count, $text_review_array);
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/controller/extension/module/featured.php">
+		<operation>
+            <search><![CDATA[$data['products'] = array();]]></search>
+            <add position="after"><![CDATA[
+				function featured($number, $suffix) {
+					$keys = array(2, 0, 1, 1, 1, 2);
+					$mod = $number % 100;
+					$suffix_key = ($mod > 7 && $mod < 20) ? 2: $keys[min($mod % 10, 5)];
+					return $suffix[$suffix_key];
+				}
+				$text_review_array = array('text_reviews_1', 'text_reviews_2', 'text_reviews_3');
+			]]></add>
+        </operation>
+		<operation>
+            <search><![CDATA[$data['products'][] = array(]]></search>
+            <add position="before"><![CDATA[
+				$data['reviews_count'] 		= $reviews_count = (int)$product_info['reviews'];				
+				$text_review 				= featured($reviews_count, $text_review_array);
+				$data['config_wishlist']	= $this->config->get('config_wishlist');
+			]]></add>
+        </operation>
+		<operation>
+            <search><![CDATA[if (!is_null($product_info['special']) && (float)$product_info['special'] >= 0) {]]></search>
+            <add position="after"><![CDATA[
+				$economy = $this->currency->format($this->tax->calculate($product_info['price'] - $product_info['special'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
+				$percent = 100-round($product_info['special']/$product_info['price']*100, 0);
+			]]></add>
+        </operation>
+        <operation>
+            <search><![CDATA[$special = false;]]></search>
+            <add position="after"><![CDATA[
+				$economy = false;
+				$percent = false;
+			]]></add>
+        </operation>
+        <operation>
+            <search><![CDATA[$data['products'][] = array(]]></search>
+            <add position="after"><![CDATA[
+				'economy' 			=> $economy,
+				'percent' 			=> $percent,
+				'manufacturer'  	=> $product_info['manufacturer'],
+				'reviews' 	  		=> sprintf($this->language->get($text_review), (int)$product_info['reviews']),
+				'attribute_groups' 	=> $this->model_catalog_product->getProductAttributes($product_info['product_id']),
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/language/uk-ua/account/login.php">
+		<operation>
+			<search><![CDATA[$_['text_returning_customer'] = 'Зареєстрований клієнт';]]></search>
+			<add position="replace"><![CDATA[
+				$_['text_returning_customer']      = 'Вхід';
+			]]></add>
+		</operation>
+	</file>
+	
+	<file path="catalog/language/ru-ru/account/login.php">
+		<operation>
+			<search><![CDATA[$_['text_returning_customer']      = 'Зарегистрированный клиент';]]></search>
+			<add position="replace"><![CDATA[
+				$_['text_returning_customer']      = 'Вход';
+			]]></add>
+		</operation>
+	</file>
+			
+	<file path="catalog/controller/product/manufacturer.php">
+		<operation>
+            <search><![CDATA[foreach ($results as $result) {]]></search>
+            <add position="after"><![CDATA[
+				$this->load->model('tool/image');
+            ]]></add>
+        </operation>
+		<operation>
+			<search><![CDATA[$data['categories'][$key]['manufacturer'][] = array(]]></search>
+			<add position="after"><![CDATA[
+				'thumb' => $this->model_tool_image->resize($result['image'], 50, 50),
+			]]></add>
+		</operation>
+	</file>
+	
+	<file path="catalog/language/uk-ua/checkout/cart.php">
+        <operation>
+            <search><![CDATA[$_['text_items']               = '%s товар(ів) - %s';]]></search>
+            <add position="replace"><![CDATA[
+				$_['text_instock']           	= '<span class="text-success modal-stock"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon"><polyline points="20 6 9 17 4 12"></polyline></svg> <span class="align-middle">В наявності</span></span>';
+				$_['text_nostock']           	= '<span class="text-danger modal-stock"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> <span class="align-middle">%s</span></span>';
+				$_['text_items']     		  	= '<span class="count">%s</span><span class="user-nav__title mobile-menu__title">Кошик</span>';
+				$_['text_add']     				= 'В кошику';
+				$_['text_items_empty']          = 'Кошик';
+				$_['text_modal_cart']           = 'Товар в кошику';
+				$_['text_sku']          	    = '<span class="text-muted">Артикул</span> %s';
+				$_['text_modal_cart_checkout']  = '<a href="%s" class="btn btn-primary"><svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>Оформити замовлення</a>';
+				$_['text_modal_cart_continue']  = '<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>Продовжити покупки';
+				$_['text_modal_cart_title']     = 'Ваша корзина';
+			]]></add>
+        </operation>
+	</file>
+	
+	<file path="catalog/language/ru-ru/checkout/cart.php">
+        <operation>
+            <search><![CDATA[$_['text_items'] = 'Товаров %s  (%s)';]]></search>
+            <add position="replace"><![CDATA[
+				$_['text_instock']           	= '<span class="text-success modal-stock"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon"><polyline points="20 6 9 17 4 12"></polyline></svg> <span class="align-middle">В наличии</span></span>';
+				$_['text_nostock']           	= '<span class="text-danger modal-stock"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> <span class="align-middle">%s</span></span>';
+				$_['text_items']     		  	= '<span class="count">%s</span><span class="user-nav__title mobile-menu__title">Корзина</span>';
+				$_['text_items_empty']          = 'Корзина';
+				$_['text_add']     				= 'В корзине';
+				$_['text_modal_cart']           = 'Товар в корзине';
+				$_['text_sku']          	    = '<span class="text-muted">Артикул</span> %s';
+				$_['text_modal_cart_checkout']  = '<a href="%s" class="btn btn-primary"><svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>Оформить заказ</a>';
+				$_['text_modal_cart_continue']  = '<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>Продолжить покупки';
+				$_['text_modal_cart_title']     = 'Ваша корзина';
+			]]></add>
+        </operation>
+	</file>	
+	
+	<file path="catalog/language/en-gb/checkout/cart.php">
+        <operation>
+            <search><![CDATA[$_['text_items']               = '%s item(s) - %s';]]></search>
+            <add position="replace"><![CDATA[
+				$_['text_instock']           	= '<span class="text-success modal-stock"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon"><polyline points="20 6 9 17 4 12"></polyline></svg> <span class="align-middle">In stock</span></span>';
+				$_['text_nostock']           	= '<span class="text-danger modal-stock"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> <span class="align-middle">%s</span></span>';
+				$_['text_items']     			= '<span class="count">%s</span><span class="user-nav__title mobile-menu__title">Cart</span>';
+				$_['text_add']     				= 'In cart';
+				$_['text_items_empty']          = 'Cart';
+				$_['text_modal_cart']           = 'Product in cart';
+				$_['text_sku']           		= '<span class="text-muted">SKU</span> %s';
+				$_['text_modal_cart_checkout']  = '<a href="%s" class="btn btn-primary"><svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>Checkout</a>';
+				$_['text_modal_cart_continue']  = '<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>Continue shopping';
+				$_['text_modal_cart_title']     = 'Cart';
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/controller/checkout/cart.php">
+        <operation>
+            <search><![CDATA[$this->cart->add($this->request->post['product_id'], $quantity, $option, $recurring_id);]]></search>
+            <add position="after"><![CDATA[
+				$json['add'] = $this->language->get('text_add');
+			]]></add>
+        </operation>
+		<operation>
+			<search><![CDATA[$json['success'] = sprintf($this->language->get('text_success'), $this->url->link('product/product', 'product_id=' . $this->request->post['product_id']), $product_info['name'], $this->url->link('checkout/cart'));]]></search>
+			<add position="after"><![CDATA[						
+				$this->load->model('tool/image');				
+				if ($product_info['image']) {
+					$image = $this->model_tool_image->resize($product_info['image'], 150, 150);
+				} else {
+					$image = '';
+				}
+				
+				if ($product_info['quantity'] <= 0) { 
+					$json['stock'] = sprintf($this->language->get('text_nostock'), $product_info['stock_status']);	
+				} else {					
+					$json['stock'] = sprintf($this->language->get('text_instock'));
+				}
+
+				if ($product_info['sku']) {	
+					$json['sku'] = sprintf($this->language->get('text_sku'), $product_info['sku']);								
+				} else {
+					$json['sku'] = '';
+				}
+				
+				$json['img'] 				= $image;
+				$json['name'] 				= $product_info['name'];
+				$json['text_modal_cart'] 	= $this->language->get('text_modal_cart');
+				$json['checkout'] 			= sprintf($this->language->get('text_modal_cart_checkout'), $this->url->link('checkout/checkout'));
+				$json['continue_shopping']  = $this->language->get('text_modal_cart_continue');
+				$json['title'] 				= $this->language->get('text_modal_cart_title');
+			]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[$json['total'] = sprintf($this->language->get('text_items'), $this->cart->countProducts() + (isset($this->session->data['vouchers']) ? count($this->session->data['vouchers']) : 0), $this->currency->format($total, $this->session->data['currency']));]]></search>
+			<add position="after"><![CDATA[
+				$json['countProducts'] = sprintf($this->cart->countProducts());
+			]]></add>
+		</operation>		
+    </file>
+	
+	<file path="catalog/language/uk-ua/product/product.php">
+	    <operation>
+			<search><![CDATA[$_['entry_qty'] = 'Кількість';]]></search>
+			<add position="replace"><![CDATA[
+				$_['entry_qty']                = 'Кількість';
+			]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[$_['tab_review'] = 'Відгуків (%s)';]]></search>
+			<add position="replace"><![CDATA[
+				$_['tab_review']               = 'Відгуків <span>%s</span>';
+			]]></add>
+		</operation>
+		<operation>
+            <search><![CDATA[$_['text_year'] = 'рік';]]></search>
+            <add position="after"><![CDATA[
+				$_['text_all_attributes']                   = 'Всі характеристики';
+				$_['text_comment']                   	    = 'Коментар';
+				$_['text_points_description']               = 'Ви можете придбати цей товар за бонуси <a href="%s">детальніше</a>';
+				$_['text_popup_title']                      = 'Товар доданий в кошик';
+				$_['text_popup_continue']                   = 'Продовжити покупки';
+				$_['text_popup_in_cart']                    = 'Перейти в корзину';
+				$_['text_product_cart']                     = 'Додати в кошик';
+				$_['text_compare']                          = 'Порівняти';
+				$_['text_wishlist']                         = 'У обране';
+				$_['text_last']                             = 'Залишився останній товар - успей купити першим!';
+				$_['text_economy']                          = 'Економія';
+				$_['text_discount_title']                   = 'Таблиця оптових цін';
+				$_['text_social_share']                     = 'Поділитися';
+				$_['text_notice']                     		= 'Натисніть на зображення, щоб збільшити його';
+				$_['text_sku']               				= 'Артикул:';
+				$_['text_weight']               			= 'Вага:';
+				$_['error_review']               	     	= 'Помилка';
+				$_['success_review']               	     	= 'Відмінно!';
+				$_['text_product_show_more']               	= 'Показати ще';
+				$_['text_product_collapse']               	= 'Згорнути';
+				$_['text_zoom_product']               		= 'Збільшити';
+				$_['text_review_buyer']               		= 'Відгуки покупців';
+				$_['text_product_tags']               		= 'Теги';
+				$_['text_reviews_1']                        = '%s відгук';
+				$_['text_reviews_2']                        = '%s відкликання';
+				$_['text_reviews_3']                        = '%s відгуків';
+				$_['text_sale']    							= 'Знижка';
+				$_['text_review_write']    					= 'Ще немає.';
+				$_['text_awful']    						= 'Жахливий';
+				$_['text_bad']    						    = 'Поганий';
+				$_['text_normal']    						= 'Нормальний';
+				$_['text_good']    						    = 'Хороший';
+				$_['text_excellent']    					= 'Відмінний';
+				$_['text_login'] 							= 'Необхідно <a href="%s">авторизуватися</a> або <a href="%s">створити обліковий запис</a> для перегляду цін!';
+			]]></add>
+        </operation>
+	</file>
+	
+	<file path="catalog/language/ru-ru/product/product.php">
+	    <operation>
+			<search><![CDATA[$_['entry_qty']                = 'Количество';]]></search>
+			<add position="replace"><![CDATA[
+				$_['entry_qty']                = 'Кол-во';
+			]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[$_['tab_review']               = 'Отзывов (%s)';]]></search>
+			<add position="replace"><![CDATA[
+				$_['tab_review']               = 'Отзывов <span>%s</span>';
+			]]></add>
+		</operation>
+		<operation>
+            <search><![CDATA[$_['text_year']                = 'год';]]></search>
+            <add position="after"><![CDATA[
+				$_['text_all_attributes']                   = 'Все характеристики';
+				$_['text_comment']                   	    = 'Комментарий';
+				$_['text_points_description']               = 'Вы можете приобрести этот товар за бонусы <a href="%s">подробнее</a>';
+				$_['text_popup_title']                      = 'Товар добавлен в корзину';
+				$_['text_popup_continue']                   = 'Продолжить покупки';
+				$_['text_popup_in_cart']                    = 'Перейти в корзину';
+				$_['text_product_cart']                     = 'Добавить в корзину';
+				$_['text_compare']                          = 'Сравнить';
+				$_['text_wishlist']                         = 'В избранное';
+				$_['text_last']                             = 'Остался последний товар - успей купить первым!';
+				$_['text_economy']                          = 'Экономия';
+				$_['text_discount_title']                   = 'Таблица оптовых цен';
+				$_['text_social_share']                     = 'Поделиться';
+				$_['text_notice']                     		= 'Нажмите на изображение, чтобы увеличить его';
+				$_['text_sku']               				= 'Артикул:';
+				$_['text_weight']               			= 'Вес:';
+				$_['error_review']               	     	= 'Ошибка';
+				$_['success_review']               	     	= 'Отлично!';
+				$_['text_product_show_more']               	= 'Показать еще';
+				$_['text_product_collapse']               	= 'Свернуть';
+				$_['text_zoom_product']               		= 'Увеличить';
+				$_['text_review_buyer']               		= 'Отзывы покупателей';
+				$_['text_product_tags']               		= 'Теги';
+				$_['text_reviews_1']                        = '%s отзыв';
+				$_['text_reviews_2']                        = '%s отзыва';
+				$_['text_reviews_3']                        = '%s отзывов';
+				$_['text_sale']    							= 'Экономия';
+				$_['text_review_write']    					= 'Отзывов пока нет.';
+				$_['text_awful']    						= 'Ужасный';
+				$_['text_bad']    						    = 'Плохой';
+				$_['text_normal']    						= 'Нормальный';
+				$_['text_good']    						    = 'Хороший';
+				$_['text_excellent']    					= 'Отличный';
+				$_['text_login'] 							= 'Необходимо <a href="%s">авторизироваться</a> или <a href="%s">создать учетную запись</a> для просмотра цен!';
+			]]></add>
+        </operation>
+	</file>
+	
+	<file path="catalog/language/en-gb/product/product.php">
+        <operation>
+			<search><![CDATA[$_['tab_review']               = 'Reviews (%s)';]]></search>
+			<add position="replace"><![CDATA[
+				$_['tab_review']               = 'Reviews <small>(%s)</small>';
+			]]></add>
+		</operation>
+		<operation>
+            <search><![CDATA[$_['text_year']                = 'year';]]></search>
+            <add position="after"><![CDATA[
+				$_['text_all_attributes']                	= 'All Features';
+				$_['text_comment']                   	    = 'Comment';
+				$_['text_points_description']            	= 'You can purchase this item for bonuses <a href="%s">подробнее</a>';
+				$_['text_popup_title']                   	= 'Product added to cart';
+				$_['text_popup_continue']                	= 'Continue shopping';
+				$_['text_popup_in_cart']                 	= 'Go to shopping cart';
+				$_['text_compare']                       	= 'Compare';
+				$_['text_wishlist']                      	= 'To favorites';
+				$_['text_last']                          	= 'There is the last item left - have time to buy first!';
+				$_['text_economy']                       	= 'Economy';
+				$_['text_discount_title']                	= 'Wholesale price table';
+				$_['text_social_share']                  	= 'Share';
+				$_['text_notice']                     		= 'Click image to enlarge';
+				$_['text_sku']               			 	= 'SKU:';
+				$_['text_weight']               			= 'Weight:';
+				$_['error_review']               	     	= 'Error';
+				$_['success_review']               	    	= 'Excellent!';
+				$_['text_product_show_more']             	= 'Show more';
+				$_['text_product_collapse']              	= 'Collapse';
+				$_['text_zoom_product']                  	= 'Zoom in';
+				$_['text_review_buyer']               	 	= 'Buyer reviews';
+				$_['text_product_tags']               	 	= 'Tags';
+				$_['text_reviews_1']                     	= '%s review';
+				$_['text_reviews_2']                     	= '%s reviews';
+				$_['text_reviews_3']                     	= '%s reviews';
+				$_['text_sale']    							= 'Sale';
+				$_['text_review_write']    					= 'No reviews yet.';
+				$_['text_awful']    						= 'Awful';
+				$_['text_bad']    						    = 'Bad';
+				$_['text_normal']    						= 'Fine';
+				$_['text_good']    						    = 'Good';
+				$_['text_excellent']    					= 'Excellent';
+				$_['text_login']							= 'Attention: You must <a href="%s">login</a> or <a href="%s">create an account</a> to view prices!';
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/controller/product/{category,manufacturer,search,special}.php|catalog/controller/extension/module/{bestseller,latest,special}.php">
+        <operation>
+            <search><![CDATA[if (!is_null($result['special']) && (float)$result['special'] >= 0) {]]></search>
+            <add position="after"><![CDATA[
+				$economy = $this->currency->format($this->tax->calculate($result['price'] - $result['special'], $this->config->get('config_tax')), $this->session->data['currency']);
+				$percent = 100-round($result['special']/$result['price']*100, 0);
+			]]></add>
+        </operation>
+        <operation>
+            <search><![CDATA[$special = false;]]></search>
+            <add position="after"><![CDATA[
+				$economy = false;
+				$percent = false;
+			]]></add>
+        </operation>
+        <operation>
+            <search><![CDATA[$data['products'][] = array(]]></search>
+            <add position="after"><![CDATA[
+				'economy'		=> $economy,
+				'percent' 		=> $percent,
+				'manufacturer'	=> $result['manufacturer'],
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/language/uk-ua/uk-ua.php">
+		<operation>
+			<search><![CDATA[$_['text_home'] = '<i class="fa fa-home"></i>';]]></search>
+			<add position="replace"><![CDATA[
+				$_['text_home'] = 'Головна';
+			]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[$_['thousand_point'] = '';]]></search>
+			<add position="replace"><![CDATA[
+				$_['thousand_point'] = ' ';
+			]]></add>
+		</operation>		
+	</file>
+	
+	<file path="catalog/language/ru-ru/ru-ru.php">
+		<operation>
+			<search><![CDATA[$_['text_home'] = '<i class="fa fa-home"></i>';]]></search>
+			<add position="replace"><![CDATA[
+				$_['text_home'] = 'Главная';
+			]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[$_['thousand_point'] = '';]]></search>
+			<add position="replace"><![CDATA[
+				$_['thousand_point'] = ' ';
+			]]></add>
+		</operation>		
+	</file>
+	
+	<file path="catalog/controller/common/footer.php">
+        <operation>
+            <search><![CDATA[public function index() {]]></search>
+            <add position="after"><![CDATA[
+				$data['telephone'] 			= $this->config->get('config_telephone');
+				$data['address'] 			= nl2br($this->config->get('config_address'));
+				$data['email'] 				= $this->config->get('config_email');
+				$data['comment'] 			= $this->config->get('config_comment');	
+				$data['phone'] 				= str_replace(array('(', ')', ' ', '-'), '', $this->config->get('config_telephone'));
+				$data['open'] 				= $this->config->get('config_open');
+				$data['config_account']		= $this->config->get('config_account');
+				$data['config_wishlist']	= $this->config->get('config_wishlist');
+				$data['config_facebook'] 	= $this->config->get('config_facebook');
+				$data['config_twitter'] 	= $this->config->get('config_twitter');
+				$data['config_instagram'] 	= $this->config->get('config_instagram');
+				$data['config_vk'] 			= $this->config->get('config_vk');
+				$data['config_youtube'] 	= $this->config->get('config_youtube');
+				$data['config_ok'] 			= $this->config->get('config_ok');
+				$data['config_telegram'] 	= $this->config->get('config_telegram');
+				$data['config_social'] 		= $this->config->get('config_social');
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/language/uk-ua/common/footer.php">
+        <operation>
+            <search><![CDATA[$_['text_wishlist'] = 'Закладки';]]></search>
+            <add position="replace"><![CDATA[
+				$_['text_wishlist']     = 'Вибране';
+			]]></add>
+        </operation>
+		<operation>
+            <search><![CDATA[$_['text_service'] = 'Служба підтримки';]]></search>
+            <add position="after"><![CDATA[
+				$_['text_footer_write']        = 'Напишіть нам';
+				$_['text_accept_payment']      = 'Можна розраховуватися';
+				$_['text_footer_phone']        = 'Залишилися питання? Телефонуйте нам:';
+				$_['text_social_title']        = 'Приєднуйтесь до нас в соціальних мережах';
+				$_['text_scrolltop']           = 'На початок сторінки';
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/language/ru-ru/common/footer.php">
+        <operation>
+            <search><![CDATA[$_['text_wishlist']     = 'Закладки';]]></search>
+            <add position="replace"><![CDATA[
+				$_['text_wishlist']     = 'Избранное';
+			]]></add>
+        </operation>
+		<operation>
+            <search><![CDATA[$_['text_service']      = 'Служба поддержки';]]></search>
+            <add position="after"><![CDATA[
+				$_['text_footer_write']        = 'Напишите нам';
+				$_['text_accept_payment']      = 'Принимаем к оплате';
+				$_['text_footer_phone']        = 'Остались вопросы? Звоните нам:';
+				$_['text_social_title']        = 'Присоединяйтесь к нам в социальных сетях';
+				$_['text_scrolltop']           = 'В начало страницы';
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/language/en-gb/common/footer.php">
+		<operation>
+            <search><![CDATA[$_['text_service']      = 'Customer Service';]]></search>
+            <add position="after"><![CDATA[
+				$_['text_footer_write']        = 'Write to us';
+				$_['text_accept_payment']      = 'We accept for payment';
+				$_['text_footer_phone']        = 'Still have questions? Call us:';
+				$_['text_social_title']        = 'Join us in social networks';
+				$_['text_scrolltop']           = 'Top of page';
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/language/uk-ua/common/search.php">
+        <operation>
+            <search><![CDATA[$_['text_search'] = 'Пошук';]]></search>
+            <add position="replace"><![CDATA[
+				$_['text_search'] = 'Знайти товари';
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/language/ru-ru/common/search.php">
+        <operation>
+            <search><![CDATA[$_['text_search'] = 'Поиск';]]></search>
+            <add position="replace"><![CDATA[
+				$_['text_search'] = 'Найти товары';
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/language/en-gb/common/search.php">
+        <operation>
+            <search><![CDATA[$_['text_search'] = 'Search';]]></search>
+            <add position="replace"><![CDATA[
+				$_['text_search'] = 'Find products';
+			]]></add>
+        </operation>
+    </file>
+	
+	<file path="catalog/controller/product/product.php">
+		<operation>
+            <search><![CDATA[$data['points'] = $product_info['points'];]]></search>
+            <add position="after"><![CDATA[
+				$data['quantity'] = $product_info['quantity'];
+			]]></add>
+        </operation>
+		<operation>
+			<search><![CDATA[$data['reviews'] = sprintf($this->language->get('text_reviews'), (int)$product_info['reviews']);]]></search>
+			<add position="replace"><![CDATA[
+				$data['reviews_count'] = $reviews_count = (int)$product_info['reviews'];
+				function getcartword($count, $suffix) {
+					$keys = array(2, 0, 1, 1, 1, 2);
+					$mod = $count % 100;
+					$suffix_key = ($mod > 7 && $mod < 20) ? 2: $keys[min($mod % 10, 5)];
+					return $suffix[$suffix_key];
+				}
+				$text_array 				= array('text_reviews_1', 'text_reviews_2', 'text_reviews_3');
+				$text 						= getcartword($reviews_count, $text_array);
+				$data['reviews'] 			= sprintf($this->language->get($text), (int)$product_info['reviews']);
+				$data['config_wishlist'] 	= $this->config->get('config_wishlist');
+				$data['config_compare'] 	= $this->config->get('config_compare');
+				$data['config_stock'] 		= $this->config->get('config_stock_display');
+			]]></add>
+		</operation>
+	</file>
+	
+	<file path="catalog/controller/product/category.php">		
+		<operation>
+			<search><![CDATA[$data['categories'][] = array(]]></search>
+			<add position="before"><![CDATA[ 
+				if ($result['image']) {
+					$image = $this->model_tool_image->resize($result['image'], 150, 150);
+				} else {
+					$image = $this->model_tool_image->resize('placeholder.png', 150, 150);
+				} 
+			]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[$data['categories'][] = array(]]></search>
+			<add position="after"><![CDATA[ 
+				'thumb' => $image, 
+			]]></add>
+		</operation>
+	</file>
+	
+	<file path="admin/controller/setting/setting.php">
+		<operation error="skip">
+			<search><![CDATA[$this->load->model('tool/image');]]></search>
+			<add position="before"><![CDATA[
+				if (isset($this->request->post['config_facebook'])) {
+					$data['config_facebook'] = $this->request->post['config_facebook'];
+				} else {
+					$data['config_facebook'] = $this->config->get('config_facebook');
+				}
+				
+				if (isset($this->request->post['config_twitter'])) {
+					$data['config_twitter'] = $this->request->post['config_twitter'];
+				} else {
+					$data['config_twitter'] = $this->config->get('config_twitter');
+				}
+			
+				if (isset($this->request->post['config_instagram'])) {
+					$data['config_instagram'] = $this->request->post['config_instagram'];
+				} else {
+					$data['config_instagram'] = $this->config->get('config_instagram');
+				}
+
+				if (isset($this->request->post['config_vk'])) {
+					$data['config_vk'] = $this->request->post['config_vk'];
+				} else {
+					$data['config_vk'] = $this->config->get('config_vk');
+				}
+			
+				if (isset($this->request->post['config_youtube'])) {
+					$data['config_youtube'] = $this->request->post['config_youtube'];
+				} else {
+					$data['config_youtube'] = $this->config->get('config_youtube');
+				}
+
+				if (isset($this->request->post['config_ok'])) {
+					$data['config_ok'] = $this->request->post['config_ok'];
+				} else {
+					$data['config_ok'] = $this->config->get('config_ok');
+				}
+
+				if (isset($this->request->post['config_telegram'])) {
+					$data['config_telegram'] = $this->request->post['config_telegram'];
+				} else {
+					$data['config_telegram'] = $this->config->get('config_telegram');
+				}
+
+				if (isset($this->request->post['config_account'])) {
+					$data['config_account'] = $this->request->post['config_account'];
+				} else {
+					$data['config_account'] = $this->config->get('config_account');
+				}
+
+				if (isset($this->request->post['config_wishlist'])) {
+					$data['config_wishlist'] = $this->request->post['config_wishlist'];
+				} else {
+					$data['config_wishlist'] = $this->config->get('config_wishlist');
+				}
+
+				if (isset($this->request->post['config_compare'])) {
+					$data['config_compare'] = $this->request->post['config_compare'];
+				} else {
+					$data['config_compare'] = $this->config->get('config_compare');
+				}
+
+				if (isset($this->request->post['config_social'])) {
+					$data['config_social'] = $this->request->post['config_social'];
+				} else {
+					$data['config_social'] = $this->config->get('config_social');
+				}
+			]]></add>
+		</operation>
+	</file>
+	
+	<file path="admin/view/template/setting/setting.twig">
+		<operation>
+			<search><![CDATA[<legend>{{ text_account }}</legend>]]></search>
+			<add position="after"><![CDATA[
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Личный кабинет</label>
+					<div class="col-sm-10">
+						<label class="radio-inline"> {% if config_account %}
+						<input type="radio" name="config_account" value="1" checked="checked" />
+						{{ text_yes }}
+						{% else %}
+						<input type="radio" name="config_account" value="1" />
+						{{ text_yes }}
+						{% endif %} </label>
+						<label class="radio-inline"> {% if not config_account %}
+						<input type="radio" name="config_account" value="0" checked="checked" />
+						{{ text_no }}
+						{% else %}
+						<input type="radio" name="config_account" value="0" />
+						{{ text_no }}
+						{% endif %} </label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Закладки</label>
+					<div class="col-sm-10">
+						<label class="radio-inline"> {% if config_wishlist %}
+						<input type="radio" name="config_wishlist" value="1" checked="checked" />
+						{{ text_yes }}
+						{% else %}
+						<input type="radio" name="config_wishlist" value="1" />
+						{{ text_yes }}
+						{% endif %} </label>
+						<label class="radio-inline"> {% if not config_wishlist %}
+						<input type="radio" name="config_wishlist" value="0" checked="checked" />
+						{{ text_no }}
+						{% else %}
+						<input type="radio" name="config_wishlist" value="0" />
+						{{ text_no }}
+						{% endif %} </label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Сравнение</label>
+					<div class="col-sm-10">
+						<label class="radio-inline"> {% if config_compare %}
+						<input type="radio" name="config_compare" value="1" checked="checked" />
+						{{ text_yes }}
+						{% else %}
+						<input type="radio" name="config_compare" value="1" />
+						{{ text_yes }}
+						{% endif %} </label>
+						<label class="radio-inline"> {% if not config_compare %}
+						<input type="radio" name="config_compare" value="0" checked="checked" />
+						{{ text_no }}
+						{% else %}
+						<input type="radio" name="config_compare" value="0" />
+						{{ text_no }}
+						{% endif %} </label>
+					</div>
+                </div>
+			]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[<li><a href="#tab-server" data-toggle="tab">{{ tab_server }}</a></li>]]></search>
+			<add position="after"><![CDATA[
+				<li><a href="#tab-social-media" data-toggle="tab">Соцсети</a></li>
+			]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[<div class="tab-pane" id="tab-mail">]]></search>
+			<add position="before"><![CDATA[
+			<div class="tab-pane" id="tab-social-media">
+			  <div class="form-group">
+                  <label class="col-sm-2 control-label">Включить соцсети</label>
+                  <div class="col-sm-10">
+                    <label class="radio-inline"> {% if config_social %}
+                      <input type="radio" name="config_social" value="1" checked="checked" />
+                      {{ text_yes }}
+                      {% else %}
+                      <input type="radio" name="config_social" value="1" />
+                      {{ text_yes }}
+                      {% endif %} </label>
+                    <label class="radio-inline"> {% if not config_social %}
+                      <input type="radio" name="config_social" value="0" checked="checked" />
+                      {{ text_no }}
+                      {% else %}
+                      <input type="radio" name="config_social" value="0" />
+                      {{ text_no }}
+                      {% endif %} </label>
+                  </div>
+                </div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="facebook">Ссылка на Facebook</label>
+					<div class="col-sm-10">
+						<input class="form-control" id="facebook" type="text" name="config_facebook" placeholder="Facebook" value="{{ config_facebook }}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="twitter">Ссылка на Twitter</label>
+					<div class="col-sm-10">
+						<input class="form-control" id="twitter" type="text" name="config_twitter" placeholder="Twitter" value="{{ config_twitter }}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="instagram">Ссылка на Instagram</label>
+					<div class="col-sm-10">
+						<input class="form-control" id="instagram" type="text" name="config_instagram" placeholder="Instagram" value="{{ config_instagram }}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="vk">Ссылка на VK</label>
+					<div class="col-sm-10">
+						<input class="form-control" id="vk" type="text" name="config_vk" placeholder="Вконтакте" value="{{ config_vk }}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="youtube">Ссылка на Youtube</label>
+					<div class="col-sm-10">
+						<input class="form-control" id="youtube" type="text" name="config_youtube" placeholder="Youtube" value="{{ config_youtube }}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="ok">Ссылка на Одноклассники</label>
+					<div class="col-sm-10">
+						<input class="form-control" id="ok" type="text" name="config_ok" placeholder="Одноклассники" value="{{ config_ok }}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="telegram">Ссылка на Телеграм</label>
+					<div class="col-sm-10">
+						<input class="form-control" id="telegram" type="text" name="config_telegram" placeholder="Телеграм" value="{{ config_telegram }}" />
+					</div>
+				</div>
+			</div>
+			]]></add>
+		</operation>
+	</file>
+	
+</modification>

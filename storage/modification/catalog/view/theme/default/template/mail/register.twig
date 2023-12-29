@@ -1,0 +1,19 @@
+{{ text_welcome }}
+
+{% if not approval %}
+{{ text_login }}
+
+{{ href_to_confirmation }}
+
+{{ text_service }}
+
+{{ text_thanks }}
+{{ store }}
+{% else %}
+{{ text_approval }}
+
+{{ href_to_confirmation }}
+
+{{ text_thanks }}
+{{ store }}
+{% endif %}

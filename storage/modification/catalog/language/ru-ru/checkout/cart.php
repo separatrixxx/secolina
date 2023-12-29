@@ -1,0 +1,44 @@
+<?php
+$_['heading_title'] = 'Корзина покупок';
+$_['text_success'] = '<a href="%s">%s</a> добавлен <a href="%s">в корзину покупок</a>!';
+$_['text_remove'] = 'Корзина покупок изменена!';
+$_['text_login'] = 'Необходимо <a href="%s">авторизироваться</a> или <a href="%s">создать учетную запись</a> для просмотра цен!';
+
+				$_['text_instock']           	= '<span class="text-success modal-stock"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon"><polyline points="20 6 9 17 4 12"></polyline></svg> <span class="align-middle">В наличии</span></span>';
+				$_['text_nostock']           	= '<span class="text-danger modal-stock"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> <span class="align-middle">%s</span></span>';
+				$_['text_items']     		  	= '<span class="count">%s</span><span class="user-nav__title mobile-menu__title">Корзина</span>';
+				$_['text_items_empty']          = 'Корзина';
+				$_['text_add']     				= 'В корзине';
+				$_['text_modal_cart']           = 'Товар в корзине';
+				$_['text_sku']          	    = '<span class="text-muted">Артикул</span> %s';
+				$_['text_modal_cart_checkout']  = '<a href="%s" class="btn btn-primary"><svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>Оформить заказ</a>';
+				$_['text_modal_cart_continue']  = '<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>Продолжить покупки';
+				$_['text_modal_cart_title']     = 'Ваша корзина';
+			
+$_['text_points'] = 'Бонусные баллы: %s';
+$_['text_next'] = 'Что бы вы хотели сделать дальше?';
+$_['text_next_choice'] = 'Если у вас есть код купона на скидку или бонусные баллы, которые вы хотите использовать, выберите соответствующий пункт ниже. А также, Вы можете приблизительно узнать стоимость доставки в ваш регион.';
+$_['text_empty'] = 'Корзина пуста!';
+$_['text_day'] = 'день';
+$_['text_week'] = 'неделю';
+$_['text_semi_month'] = 'полмесяца';
+$_['text_month'] = 'месяц';
+$_['text_year'] = 'год';
+$_['text_trial'] = 'Стоимость: %s; Периодичность: %s %s; Кол-во платежей: %s; Далее, ';
+$_['text_recurring'] = 'Стоимость: %s; Периодичность: %s %s';
+$_['text_payment_cancel'] = 'Стоимость: %s; Периодичность: %d %s; Кол-во платежей: до отмены';
+$_['text_recurring_item'] = 'Периодические платежи';
+$_['text_payment_recurring'] = 'Платежный профиль';
+$_['text_trial_description'] = 'Стоимость: %s; Периодичность: %d %s; Кол-во платежей: %d;  Далее,  ';
+$_['text_payment_description'] = 'Стоимость: %s; Периодичность: %d %s; Кол-во платежей: %d';
+$_['column_image'] = 'Изображение';
+$_['column_name'] = 'Название';
+$_['column_model'] = 'Модель';
+$_['column_quantity'] = 'Количество';
+$_['column_price'] = 'Цена за шт.';
+$_['column_total'] = 'Всего';
+$_['error_stock'] = 'Товары отмеченные *** отсутствуют в нужном количестве или их нет на складе!';
+$_['error_minimum'] = 'Минимальное количество для заказа товара %s составляет %s!';
+$_['error_required'] = '%s обязательно!';
+$_['error_product'] = 'В вашей корзине нет товаров!';
+$_['error_recurring_required'] = 'Пожалуйста, выберите периодичность платежа!';

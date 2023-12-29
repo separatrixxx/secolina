@@ -1,0 +1,390 @@
+2023-12-04 19:09:04 - 
+
+MOD: Tweak 152 FZ for OpenCart 3x Russkaya sborka
+NOT FOUND!
+CODE: <div class="buttons">
+FILE: catalog/view/theme/bigmag/template/information/contact.twig
+----------------------------------------------------------------
+MOD: Admin Quick Edit PRO
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/system/library/db/mysql.php
+----------------------------------------------------------------
+MOD: Bitrix24 Leads for OpenCart 2
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/admin/view/template/setting/setting.tpl
+
+
+MOD: Buy One Click for OpenCart 3.x
+NOT FOUND!
+CODE: <button type="button" id="button-cart" data-loading-text="{{ text_loading }}" data-toggle="tooltip" title="{{ button_cart }}" class="btn btn-primary btn-lg btn-block"><i class="fa fa-cart-plus cr-k"></i><span class="bt">{{ button_cart }}</span></button>
+FILE: catalog/view/theme/default/template/product/product.twig
+
+
+MOD: Buy One Click for OpenCart 3.x
+NOT FOUND!
+CODE: <div class="button-group__btn">
+FILE: catalog/view/theme/default/template/product/category.twig
+
+
+MOD: Buy One Click for OpenCart 3.x
+NOT FOUND!
+CODE: <div class="button-group__btn">
+FILE: catalog/view/theme/default/template/product/manufacturer_info.twig
+
+
+MOD: Buy One Click for OpenCart 3.x
+NOT FOUND!
+CODE: <div class="button-group__btn">
+FILE: catalog/view/theme/default/template/product/search.twig
+
+
+MOD: Buy One Click for OpenCart 3.x
+NOT FOUND!
+CODE: <div class="button-group__btn">
+FILE: catalog/view/theme/default/template/product/special.twig
+
+
+MOD: Buy One Click for OpenCart 3.x
+NOT FOUND!
+CODE: $data['products'] = array();
+FILE: catalog/controller/extension/module/blog.php
+
+
+MOD: Buy One Click for OpenCart 3.x
+NOT FOUND!
+CODE: <div class="button-group__btn">
+FILE: catalog/view/theme/default/template/extension/module/bestseller.twig
+
+
+MOD: Buy One Click for OpenCart 3.x
+NOT FOUND!
+CODE: <div class="button-group__btn">
+FILE: catalog/view/theme/default/template/extension/module/featured.twig
+
+
+MOD: Buy One Click for OpenCart 3.x
+NOT FOUND!
+CODE: <div class="button-group__btn">
+FILE: catalog/view/theme/default/template/extension/module/latest.twig
+
+
+MOD: Buy One Click for OpenCart 3.x
+NOT FOUND!
+CODE: <div class="button-group__btn">
+FILE: catalog/view/theme/default/template/extension/module/special.twig
+
+
+MOD: DEV-OPENCART.COM — Закладки без регистрации
+NOT FOUND!
+CODE: http://opencart.pro/
+FILE: catalog/language/en-gb/common/footer.php
+
+
+MOD: DEV-OPENCART.COM — Закладки без регистрации
+NOT FOUND!
+CODE: http://opencart.pro/
+FILE: catalog/language/ge-ka/common/footer.php
+
+
+MOD: DEV-OPENCART.COM — Закладки без регистрации
+NOT FOUND!
+CODE: http://opencart.pro/
+FILE: catalog/language/ru-ru/common/footer.php
+
+
+MOD: DEV-OPENCART.COM — Закладки без регистрации
+NOT FOUND!
+CODE: http://opencart.pro/
+FILE: catalog/language/uk-ua/common/footer.php
+
+
+MOD: DEV-OPENCART.COM — Закладки без регистрации
+NOT FOUND!
+CODE: http://myopencart.com/
+FILE: catalog/language/en-gb/common/footer.php
+
+
+MOD: DEV-OPENCART.COM — Закладки без регистрации
+NOT FOUND!
+CODE: http://myopencart.com/
+FILE: catalog/language/ge-ka/common/footer.php
+
+
+MOD: DEV-OPENCART.COM — Закладки без регистрации
+NOT FOUND!
+CODE: http://myopencart.com/
+FILE: catalog/language/ru-ru/common/footer.php
+
+
+MOD: DEV-OPENCART.COM — Закладки без регистрации
+NOT FOUND!
+CODE: http://myopencart.com/
+FILE: catalog/language/uk-ua/common/footer.php
+
+
+MOD: DEV-OPENCART.COM — Закладки без регистрации
+NOT FOUND!
+CODE: http://www.opencart.com
+FILE: catalog/language/en-gb/common/footer.php
+
+
+MOD: DEV-OPENCART.COM — Закладки без регистрации
+NOT FOUND!
+CODE: http://www.opencart.com
+FILE: catalog/language/ge-ka/common/footer.php
+
+
+MOD: DEV-OPENCART.COM — Закладки без регистрации
+NOT FOUND!
+CODE: http://www.opencart.com
+FILE: catalog/language/ru-ru/common/footer.php
+
+
+MOD: DEV-OPENCART.COM — Закладки без регистрации
+NOT FOUND!
+CODE: http://www.opencart.com
+FILE: catalog/language/uk-ua/common/footer.php
+
+
+MOD: DEV-OPENCART.COM — Закладки без регистрации
+NOT FOUND!
+CODE: http://lowenet.biz/
+FILE: catalog/language/en-gb/common/footer.php
+
+
+MOD: DEV-OPENCART.COM — Закладки без регистрации
+NOT FOUND!
+CODE: http://lowenet.biz/
+FILE: catalog/language/ge-ka/common/footer.php
+
+
+MOD: DEV-OPENCART.COM — Закладки без регистрации
+NOT FOUND!
+CODE: http://lowenet.biz/
+FILE: catalog/language/ru-ru/common/footer.php
+
+
+MOD: DEV-OPENCART.COM — Закладки без регистрации
+NOT FOUND!
+CODE: http://lowenet.biz/
+FILE: catalog/language/uk-ua/common/footer.php
+----------------------------------------------------------------
+MOD: Filterit
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/view/theme/*/template/checkout/simplecheckout_shipping.tpl
+----------------------------------------------------------------
+MOD: Filterit
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/view/theme/*/template/checkout/simplecheckout_payment.tpl
+----------------------------------------------------------------
+MOD: Filterit
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/view/theme/unishop/template/checkout/unishipping.tpl
+----------------------------------------------------------------
+MOD: Filterit
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/view/theme/unishop/template/checkout/uni_shipping.tpl
+
+
+MOD: Filterit
+NOT FOUND!
+CODE: $this->config->get('shipping_sort_order')
+FILE: catalog/model/extension/total/shipping.php
+----------------------------------------------------------------
+MOD: Filterit
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/controller/extension/quickcheckout/shipping_method.php
+----------------------------------------------------------------
+MOD: Filterit
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/controller/extension/quickcheckout/payment_method.php
+----------------------------------------------------------------
+MOD: Filterit
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/controller/revolution/revcheckout.php
+----------------------------------------------------------------
+MOD: MicrodataPro 8.1
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/view/theme/*/template/common/{header,header1,header2,header3}.tpl
+----------------------------------------------------------------
+MOD: MicrodataPro 8.1
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/view/theme/*/template/common/{footer,footer2}.tpl
+----------------------------------------------------------------
+MOD: MicrodataPro 8.1
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/view/theme/*/template/product/product.tpl
+----------------------------------------------------------------
+MOD: MicrodataPro 8.1
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/view/theme/*/template/product/category.tpl
+----------------------------------------------------------------
+MOD: MicrodataPro 8.1
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/view/theme/*/template/product/manufacturer_info.tpl
+
+
+MOD: MicrodataPro 8.1
+NOT FOUND!
+CODE: {{footer
+FILE: catalog/view/theme/bigmag/template/product/manufacturer_info.twig
+
+
+MOD: MicrodataPro 8.1
+NOT FOUND!
+CODE: {{footer
+FILE: catalog/view/theme/default/template/product/manufacturer_info.twig
+----------------------------------------------------------------
+MOD: MicrodataPro 8.1
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/view/theme/*/template/information/information.tpl
+----------------------------------------------------------------
+MOD: SEO CMS
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/admin/view/template/common/column_left.tpl
+----------------------------------------------------------------
+MOD: SEO CMS
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/admin/view/template/common/header.tpl
+----------------------------------------------------------------
+MOD: Universal query module 2.3.x - 3.x
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/admin/view/template/common/header.tpl
+----------------------------------------------------------------
+MOD: Universal query module 2.3.x - 3.x
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/view/theme/*/template/common/header.tpl
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/controller/extension/module/ajaxregister.php
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/controller/extension/module/ajaxlogin.php
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/view/theme/*/template/extension/module/ocajaxlogin/ajaxregister.twig
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/view/theme/*/template/extension/module/ocajaxlogin/ajaxlogin.twig
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/controller/extension/module/sms_reg.php
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/view/theme/*/template/extension/module/sms_reg.twig
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/controller/extension/module/regsms.php
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/view/theme/*/template/extension/module/regsms.twig
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/controller/common/login_modal.php
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/view/theme/*/template/common/login_modal.twig
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/view/theme/lightshop/template/common/header1.twig
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/view/theme/lightshop/template/common/header2.twig
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/view/theme/lightshop/template/common/header3.twig
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/view/theme/madeshop/template/madeshop/madeshop_login.twig
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/controller/madeshop/login.php
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/controller/*/module/oct_popup_login.php
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/view/theme/revolution/template/revolution/revpopuplogin.twig
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/controller/revolution/revpopuplogin.php
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/view/theme/*/template/checkout/newstorecheckout.twig
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/controller/checkout/newstorecheckout.php
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/view/theme/*/template/extension/module/uni_register.twig
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/view/theme/*/template/extension/module/uni_login.twig
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/controller/extension/module/uni_login_register.php
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/view/theme/*/template/*/module/oct_popup_login.twig
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/view/theme/ft_frame/template/checkout/simplecheckout_login.twig
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/view/theme/technics/template/account/register.twig
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/view/theme/technics/template/common/header.twig
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/controller/common/header_login.php
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/controller/journal3/checkout.php
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/view/theme/journal3/template/account/register.twig
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/controller/journal2/checkout.php
+----------------------------------------------------------------
+MOD: Авторизация через соц.сети: ВК, ФБ, ОК, ТВ, Mail.ru, Google
+MISSING FILE!
+/home/u651415643/domains/sekolina.com/public_html/catalog/view/theme/journal2/template/journal2/checkout/checkout.twig
+
+
+MOD: Блог/Новости
+NOT FOUND!
+CODE: if ($query->row['query'] && $url[0]
+FILE: catalog/controller/startup/seo_url.php

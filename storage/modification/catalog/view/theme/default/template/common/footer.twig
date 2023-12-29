@@ -1,0 +1,304 @@
+<footer>
+  <div class="container">
+    <div class="row">
+      {% if informations %}
+      <div class="col-sm-3">
+        <h5>{{ text_information }}</h5>
+        <ul class="list-unstyled">
+         {% for information in informations %}
+          <li><a href="{{ information.href }}">{{ information.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+      <div class="col-sm-3">
+        <h5>{{ text_service }}</h5>
+        <ul class="list-unstyled">
+          <li><a href="{{ contact }}">{{ text_contact }}</a></li>
+
+			    {% if testimonial is defined %}
+				<li><a href="{{ testimonial }}">{{ testimonial_title }}</a></li>
+				{% endif %}
+			
+          <li><a href="{{ return }}">{{ text_return }}</a></li>
+          <li><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-3">
+        <h5>{{ text_extra }}</h5>
+        <ul class="list-unstyled">
+          <li><a href="{{ manufacturer }}">{{ text_manufacturer }}</a></li>
+          <li><a href="{{ voucher }}">{{ text_voucher }}</a></li>
+          <li><a href="{{ affiliate }}">{{ text_affiliate }}</a></li>
+          <li><a href="{{ special }}">{{ text_special }}</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-3">
+        <h5>{{ text_account }}</h5>
+        <ul class="list-unstyled">
+          <li><a href="{{ account }}">{{ text_account }}</a></li>
+          <li><a href="{{ order }}">{{ text_order }}</a></li>
+          <li><a href="{{ wishlist }}">{{ text_wishlist }}</a></li>
+          <li><a href="{{ newsletter }}">{{ text_newsletter }}</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr>
+    <p>{{ powered }}</p>
+  </div>
+{{ microdatapro }} {% set microdatapro_main_flag = 1 %} {# microdatapro 8.1 - 1 - main #}
+</footer>
+{% for style in styles %}
+<link href="{{ style.href }}" type="text/css" rel="{{ style.rel }}" media="{{ style.media }}" />
+{% endfor %}
+{% for script in scripts %}
+<script src="{{ script }}" type="text/javascript"></script>
+{% endfor %}
+<!--
+OpenCart is open source software and you are free to remove the powered by OpenCart if you want, but its generally accepted practise to make a small donation.
+Please donate via PayPal to donate@opencart.com
+//-->
+
+            {% if (module_ts_messengers_widget_status is defined and module_ts_messengers_widget_status) %}
+                <div class="ts-mw-button" id="ts-mw-id">
+                    {% if (module_ts_messengers_widget_settings['animation_3'] is not empty) %}
+                        <div class="ts-mw-pulse"></div>
+                    {% endif %}
+                    {% if (module_ts_messengers_widget_settings['main_tips'] is defined and module_ts_messengers_widget_settings['main_tips'] == '1') %}
+                        <div class="ts-mw-tips">
+                            <div class="ts-mw-tips-text">{{ tip_text }}</div>
+                            {% if (manager_image is defined and manager_image != '' and manager_text is defined and manager_text != '') %}
+                            <div class="ts-mw-tips-manager">
+                                {% if (manager_image is defined and manager_image != '') %}
+                                    <img src="{{ manager_image }}" alt="{{ manager_text }}">
+                                {% endif %}
+                                <span>{{ manager_text }}</span>
+                            </div>
+                            {% endif %}
+                            <span class="ts-mw-tips-close" onclick="hidetips();">×</span>
+                            <script>function setCookie(e,t,o){var i=new Date;i.setTime(i.getTime()+24*o*60*60*1e3);var n="expires="+i.toUTCString();document.cookie=e+"="+t+";"+n+";path=/"}function getCookies(e){for(var t=e+"=",o=document.cookie.split(";"),i=0;i<o.length;i++){for(var n=o[i];" "==n.charAt(0);)n=n.substring(1);if(0==n.indexOf(t))return n.substring(t.length,n.length)}return""}function hidetips(){$(".ts-mw-tips").remove(),setCookie("ts_tips_cookie","1","1")}$(document).ready(function(){""!=getCookies("ts_tips_cookie")&&$(".ts-mw-tips").remove()});</script>
+                        </div>
+                    {% endif %}
+                    <div class="ts-mw-icon{% if (module_ts_messengers_widget_settings['animation_1'] is not empty) %}{{ ' mw-animation' }}{% endif %}{% if (module_ts_messengers_widget_settings['animation_2'] is not empty) %}{{ ' mw-animation-2' }}{% endif %}">
+                        {% if (module_ts_messengers_widget_settings['animation_2'] is not empty) %}
+                            {% for messenger in messengers %}
+                                <div class="slides"><img src="{{ messenger['icon'] }}" alt="{{ messenger['link_text'] }}"></div>
+                            {% endfor %}
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                        {% else %}
+                            <i class="{{ module_ts_messengers_widget_settings['main_icon'] }}" aria-hidden="true"></i>
+                        {% endif %}
+                    </div>
+                    <div class="ts-mw-block{% if (module_ts_messengers_widget_settings['no_bg'] is not empty) %} mw-no-bg {% if (module_ts_messengers_widget_settings['tips'] is not empty) %} mw-tips tips-{{ module_ts_messengers_widget_settings['position'] }}{% endif %}{% endif %}">
+                        <ul class="ts-mw-list">
+                            {% for messenger in messengers %}
+                                {% if (messenger['field'] == 'callback') %}
+                                    <li class="ts-mw-li ts-callback"><a href="javascript:void(0);" {{ messenger['link'] }}><span class="callback-icon"><img src="{{ messenger['icon'] }}" alt="{{ messenger['link_text'] }}"></span><span class="ts-link-text">{{ messenger['link_text'] }}</span></a></li>
+                                {% elseif (messenger['field'] == 'tg') %}
+                                    <li class="ts-mw-li ts-telegram"><a href="http://t.me/{{ messenger['link'] }}" rel="nofollow" target="_blank"><span class="tg-icon"><img src="{{ messenger['icon'] }}" alt="{{ messenger['link_text'] }}"></span><span class="ts-link-text">{{ messenger['link_text'] }}</span></a></li>
+                                {% elseif (messenger['field'] == 'viber') %}
+                                    <li class="ts-mw-li ts-viber"><a href="viber://chat?number=%2B{{ messenger['link'] }}" rel="nofollow" target="_blank"><span class="viber-icon"><img src="{{ messenger['icon'] }}" alt="{{ messenger['link_text'] }}"></span><span class="ts-link-text">{{ messenger['link_text'] }}</span></a></li>
+                                {% elseif (messenger['field'] == 'viber_b') %}
+                                    <li class="ts-mw-li ts-viber-b"><a href="viber://pa?chatURI={{ messenger['link'] }}" rel="nofollow" target="_blank"><span class="viber-icon"><img src="{{ messenger['icon'] }}" alt="{{ messenger['link_text'] }}"></span><span class="ts-link-text">{{ messenger['link_text'] }}</span></a></li>
+                                {% elseif (messenger['field'] == 'viber_group') %}
+                                    <li class="ts-mw-li ts-viber-g"><a href="https://invite.viber.com/{{ messenger['link'] }}" rel="nofollow" target="_blank"><span class="viber-icon"><img src="{{ messenger['icon'] }}" alt="{{ messenger['link_text'] }}"></span><span class="ts-link-text">{{ messenger['link_text'] }}</span></a></li>
+                                {% elseif (messenger['field'] == 'whatsapp') %}
+                                    <li class="ts-mw-li ts-whatsapp"><a href="https://api.whatsapp.com/send?phone={{ messenger['link'] }}" rel="nofollow" target="_blank"><span class="whatsapp-icon"><img src="{{ messenger['icon'] }}" alt="{{ messenger['link_text'] }}"></span><span class="ts-link-text">{{ messenger['link_text'] }}</span></a></li>
+                                {% elseif (messenger['field'] == 'messenger') %}
+                                    <li class="ts-mw-li ts-messenger"><a href="https://m.me/{{ messenger['link'] }}" rel="nofollow" target="_blank"><span class="messenger-icon"><img src="{{ messenger['icon'] }}" alt="{{ messenger['link_text'] }}"></span><span class="ts-link-text">{{ messenger['link_text'] }}</span></a></li>
+                                {% elseif (messenger['field'] == 'skype') %}
+                                    <li class="ts-mw-li ts-skype"><a href="skype:{{ messenger['link'] }}?chat" rel="nofollow" target="_blank"><span class="skype-icon"><img src="{{ messenger['icon'] }}" alt="{{ messenger['link_text'] }}"></span><span class="ts-link-text">{{ messenger['link_text'] }}</span></a></li>
+                                {% elseif (messenger['field'] == 'mail') %}
+                                    <li class="ts-mw-li ts-mail"><a href="mailto:{{ messenger['link'] }}" rel="nofollow" target="_blank"><span class="mail-icon"><img src="{{ messenger['icon'] }}" alt="{{ messenger['link_text'] }}"></span><span class="ts-link-text">{{ messenger['link_text'] }}</span></a></li>
+                                {% elseif (messenger['field'] == 'vk') %}
+                                    <li class="ts-mw-li ts-vk"><a href="https://vk.me/{{ messenger['link'] }}" rel="nofollow" target="_blank"><span class="vk-icon"><img src="{{ messenger['icon'] }}" alt="{{ messenger['link_text'] }}"></span><span class="ts-link-text">{{ messenger['link_text'] }}</span></a></li>
+                                {% elseif (messenger['field'] == 'instagram') %}
+                                    <li class="ts-mw-li ts-instagram"><a href="https://www.instagram.com/{{ messenger['link'] }}" rel="nofollow" target="_blank"><span class="instagram-icon"><img src="{{ messenger['icon'] }}" alt="{{ messenger['link_text'] }}"></span><span class="ts-link-text">{{ messenger['link_text'] }}</span></a></li>
+                                {% elseif (messenger['field'] == 'faq') %}
+                                    <li class="ts-mw-li ts-faq"><a href="{{ messenger['link'] }}" rel="nofollow" target="_blank"><span class="faq-icon"><img src="{{ messenger['icon'] }}" alt="{{ messenger['link_text'] }}"></span><span class="ts-link-text">{{ messenger['link_text'] }}</span></a></li>
+                                {% elseif (messenger['field'] == 'jivosite') %}
+                                    <li class="ts-mw-li ts-jivosite"><a href="javascript:jivo_api.open();return false;"><span class="jivosite-icon"><img src="{{ messenger['icon'] }}" alt="{{ messenger['link_text'] }}"></span><span class="ts-link-text">{{ messenger['link_text'] }}</span></a></li>
+                                {% elseif (messenger['field'] == 'ydialog') %}
+                                    <li class="ts-mw-li ts-ydialog"><a onclick="$('.ya-chat-button *')[0].click(),$('.ya-chat-widget').attr('style', 'display: block !important');"><span class="ydialog-icon"><img src="{{ messenger['icon'] }}" alt="{{ messenger['link_text'] }}"></span><span class="ts-link-text">{{ messenger['link_text'] }}</span></a></li>
+                                {% elseif (messenger['field'] == 'talkme') %}
+                                    <li class="ts-mw-li ts-talkme"><a onclick="TalkMe('openSupport'); return false;"><span class="talkme-icon"><img src="{{ messenger['icon'] }}" alt="{{ messenger['link_text'] }}"></span><span class="ts-link-text">{{ messenger['link_text'] }}</span></a></li>
+                                {% else %}
+                                    <li class="ts-mw-li ts-phone"><a href="tel:{{ messenger.link|replace({" " : "", "-" : "", "(" : "", ")" : ""}) }}"><span class="callback-icon"><img src="{{ messenger['icon'] }}" alt="{{ messenger['link_text'] }}"></span><span class="ts-link-text">{{ messenger['link_text'] }}</span></a></li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% if (module_ts_messengers_widget_settings['fogging'] is not empty) %}
+                <div class="ts-mw-substrate"></div>
+            {% endif %}
+<script>
+$('.ts-mw-icon,.ts-mw-li a,.ts-mw-substrate').on('click',function(){$('#ts-mw-id').toggleClass('open');$('.ts-mw-substrate').toggleClass('active');});
+{% if (module_ts_messengers_widget_settings['main_tips_type'] == 'delay' is not empty) %}
+$('.ts-mw-tips').delay({{ module_ts_messengers_widget_settings['delay_time'] }}).queue(function(show){$(this).css({'opacity':'1','visibility':'visible'});show();});
+{% endif %}
+{% if (module_ts_messengers_widget_settings['animation_2'] is not empty) %}
+$(document).ready(function(){var a=-1;setInterval(function(){var e=$(".ts-mw-icon div"),s=e.length-1;a<s?a++:a=0,e.removeClass("active").eq(a).addClass("active")},{{ module_ts_messengers_widget_settings['slide_speed'] }}),$(".slides").first().addClass("active")});
+{% endif %}
+{% if (module_ts_messengers_widget_data['ts_jivosite']['link'] is defined and module_ts_messengers_widget_data['ts_jivosite']['link'] and module_ts_messengers_widget_data['ts_jivosite']['link_status'] is defined and module_ts_messengers_widget_data['ts_jivosite']['link_status'] == 'on') %}
+$(document).ready(function() {
+    var n = document.getElementsByTagName('script')[0],
+    s = document.createElement('script');
+    s.async = true;
+    s.charset = 'UTF-8';
+    s.src = '//code.jivosite.com/widget/{{ module_ts_messengers_widget_data['ts_jivosite']['link'] }}';
+    n.parentNode.insertBefore(s, n);
+});
+{% endif %}
+{% if (module_ts_messengers_widget_data['ts_ydialog']['link'] is defined and module_ts_messengers_widget_data['ts_ydialog']['link'] and module_ts_messengers_widget_data['ts_ydialog']['link_status'] is defined and module_ts_messengers_widget_data['ts_ydialog']['link_status'] == 'on') %}
+(function () {
+window['yandexChatWidgetCallback'] = function() {
+    try {
+        window.yandexChatWidget = new Ya.ChatWidget({
+            guid: '{{ module_ts_messengers_widget_data['ts_ydialog']['link'] }}',
+            buttonText: false,
+            title: 'Чат',
+            theme: 'light',
+            collapsedDesktop: 'never',
+            collapsedTouch: 'always'
+        });
+    } catch(e) { }
+};
+var n = document.getElementsByTagName('script')[0],
+    s = document.createElement('script');
+s.async = true;
+s.charset = 'UTF-8';
+s.src = 'https://chat.s3.yandex.net/widget.js';
+n.parentNode.insertBefore(s, n);
+})();
+function hideyd() {
+    $('.ya-chat-widget').attr('style', 'display: none !important');
+    $('.ya-chat-header__close').on('click', function () {
+        $('.ya-chat-widget').attr('style', 'display: none !important');
+    });
+}
+setTimeout(function() {hideyd();}, 500);
+{% endif %}
+{% if (module_ts_messengers_widget_data['ts_talkme']['link'] is defined and module_ts_messengers_widget_data['ts_talkme']['link'] and module_ts_messengers_widget_data['ts_talkme']['link_status'] is defined and module_ts_messengers_widget_data['ts_talkme']['link_status'] == 'on') %}
+$(document).ready(function() {
+    (function(d, w, m) {
+		window.supportAPIMethod = m;
+		var s = d.createElement('script');
+		s.type ='text/javascript'; s.id = 'supportScript'; s.charset = 'utf-8';
+		s.async = true;
+		var id = '{{ module_ts_messengers_widget_data['ts_talkme']['link'] }}';
+		s.src = 'https://lcab.talk-me.ru/support/support.js?h='+id;
+		var sc = d.getElementsByTagName('script')[0];
+		w[m] = w[m] || function l() { (w[m].q = w[m].q || []).push(arguments); };
+		if (sc) sc.parentNode.insertBefore(s, sc);
+		else d.documentElement.firstChild.appendChild(s);
+	})(document, window, 'TalkMe');
+});
+{% endif %}
+</script>
+            {% endif %}
+            
+
+				{% if buyoneclick_status_product or buyoneclick_status_category or buyoneclick_status_module %}
+					<div id="boc_order" class="modal fade">
+					</div>
+					<div id="boc_success" class="modal fade">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-body">
+									<div class="text-center">{{ buyoneclick_success_field }}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<script type="text/javascript">
+						$('body').on('click', '.boc_order_btn', function(event) {
+							$.ajax({
+								url: 'index.php?route=extension/module/buyoneclick/common/buyoneclick/info',
+								type: 'post',
+								data: $('#product input[type=\'text\'], #product input[type=\'hidden\'], #product input[type=\'radio\']:checked, #product input[type=\'checkbox\']:checked, #product select, #product textarea'),
+								dataType: 'json',
+								beforeSend: function() {
+									$(event.target).button('loading');
+									$('#boc_order').empty();
+									$('#boc_order').append('<div class="lds-rolling"><div></div></div>');
+								},
+								complete: function() {
+									$(event.target).button('reset');
+								},
+								success: function(json) {
+									$('.alert, .text-danger').remove();
+									$('.form-group').removeClass('has-error');
+									if (json['error']) {
+										if (json['error']['option']) {
+											for (i in json['error']['option']) {
+												var element = $('#input-option' + i.replace('_', '-'));
+												if (element.parent().hasClass('input-group')) {
+													element.parent().after('<div class="text-danger">' + json['error']['option'][i] + '</div>');
+												} else {
+													element.after('<div class="text-danger">' + json['error']['option'][i] + '</div>');
+												}
+											}
+										}
+
+										if (json['error']['recurring']) {
+											$('select[name=\'recurring_id\']').after('<div class="text-danger">' + json['error']['recurring'] + '</div>');
+										}
+
+										// Highlight any found errors
+										$('.text-danger').parent().addClass('has-error');
+									} else {
+										$("#boc_order").modal('show');
+										$('#boc_order').empty();
+										$('#boc_order').html(json['success']);
+										{% if buyoneclick_exan_status %} valueData(); {% endif %}
+									}
+								},
+								error: function(xhr, ajaxOptions, thrownError) {
+									console.log(thrownError + " | " + xhr.statusText + " | " + xhr.responseText);
+								}
+							});
+						});
+						$('body').on('click', '.boc_order_category_btn', function(event) {
+							var for_post = {};
+							for_post.product_id = $(this).attr('data-product_id');
+							$.ajax({
+								url: 'index.php?route=extension/module/buyoneclick/common/buyoneclick/info',
+								type: 'post',
+								data: for_post,
+								dataType: 'json',
+								beforeSend: function() {
+									$(event.target).button('loading');
+								},
+								complete: function() {
+									$(event.target).button('reset');
+								},
+								success: function(json) {
+									$('.alert, .text-danger').remove();
+									$('.form-group').removeClass('has-error');
+									if (json['redirect']) {
+										location = json['redirect'];
+									} else {
+										// console.log(json);
+										$("#boc_order").modal('show');
+										$('#boc_order').empty();
+										$('#boc_order').html(json['success']);
+										{% if buyoneclick_exan_status %} valueData(); {% endif %}
+									}
+								},
+								error: function(xhr, ajaxOptions, thrownError) {
+									console.log(thrownError + " | " + xhr.statusText + " | " + xhr.responseText);
+								}
+							});
+						});
+					</script>
+				{% endif %}
+			
+
+				{% if config_counters %}
+				{{ config_counters }}
+				{% endif %}
+			
+{% if (microdatapro_main_flag is not defined) %}{{ microdatapro }} {% set microdatapro_main_flag = 1 %}{% endif %} {# microdatapro 8.1 - 2 - extra #}
+{% if (microdatapro_main_flag is not defined) %}{{ microdatapro }}{% endif %} {# microdatapro 8.1 - 3 - extra #}
+</body></html>
