@@ -1,0 +1,22 @@
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <rect id="rec" x="0" y="0" width="100" height="100"></rect>
+    </defs>
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-420.000000, -330.000000)">
+            <g transform="translate(390.000000, 300.000000)">
+                <g transform="translate(30.000000, 30.000000)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#rec"></use>
+                    </mask>
+                    <use fill="#EDEDED" xlink:href="#rec"></use>
+                    <g id="icons/user" mask="url(#mask-2)" fill="#C2C2C2" fill-rule="nonzero">
+                        <g transform="translate(5.333333, 11.555556)">
+                            <path d="M14.2222222,0 C10.2916676,0 7.11111111,3.18055644 7.11111111,7.11111111 C7.11111111,11.0416676 10.2916676,14.2222222 14.2222222,14.2222222 C18.1527787,14.2222222 21.3333333,11.0416676 21.3333333,7.11111111 C21.3333333,3.18055644 18.1527787,0 14.2222222,0 Z M14.2222222,17.7777778 C3.37500089,17.7777778 0,24.8888889 0,24.8888889 L0,28.4444444 L28.4444444,28.4444444 L28.4444444,24.8888889 C28.4444444,24.8888889 25.0694453,17.7777778 14.2222222,17.7777778 Z"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
