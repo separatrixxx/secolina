@@ -1,0 +1,62 @@
+<div class="panel panel-default">
+  <div class="panel-heading"><b>{{ heading_title }}</b></div>
+  <div class="panel-body">
+    <h5 style="margin-top: 0px;" id="heading-poll-{{ poll_id }}"><b>{{ question }}</b></h5>
+    {% if (answered or not active) %} 
+    {% for option in options %} 
+    <i>{{ option['title'] }}</i>
+    <div class="progress" style="margin-bottom: 5px;">
+      <div class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: {{ option['percent'] }}%;">{{ option['percent'] }}%</div>
+    </div>
+    {% endfor %} 
+    {% else %} 
+    <form action="" method="post" enctype="multipart/form-data" class="form-horizontal" id="poll-form-{{ poll_id }}">
+      <input type="hidden" name="poll_id" value="{{ poll_id }}" />
+      {% for option in options %} 
+      <input type="radio" name="poll_option_id" value="{{ option['poll_option_id'] }}" />&nbsp;{{ option['title'] }}<br />
+      {% endfor %} 
+      <div class="buttons">
+        <div class="text-center"><button type="button" id="button-vote-{{ poll_id }}" class="btn btn-primary">{{ button_vote }}</button></div>
+      </div>
+    </form>
+    {% endif %} 
+  </div>
+  {% if (not get_poll) %} 
+  <div class="text-center" style="padding-bottom: 10px;"><a href="{{ results }}"><b>{{ text_view_results }}</b></a></div>
+  {% endif %} 
+</div>
+<script type="text/javascript"><!--
+$('#button-vote-{{ poll_id }}').on('click', function() {
+	var querystring = $('#poll-form-{{ poll_id }}').serialize();
+
+	$.ajax({
+		url: 'index.php?route=extension/module/pollplus/vote&get_poll={{ get_poll }}',
+		type: 'post',
+		dataType: 'json',
+		data: querystring,
+		beforeSend: function() {
+			$('#button-vote-{{ poll_id }}').button('loading');
+		},
+		complete: function() {
+			$('#button-vote-{{ poll_id }}').button('reset');
+		},
+		success: function(json) {
+			$('.alert-danger').remove();
+
+			if (json['error']) {
+				$('#heading-poll-{{ poll_id }}').before('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> ' + json['error']['warning_{{ poll_id }}'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+			}
+
+			if (json['success']) {
+				if (json['success']['get_poll']) {
+					location = 'index.php?route=information/pollplus&poll_id=' + json['success']['get_poll'];
+				} else {
+					$('#heading-poll-{{ poll_id }}').after(json['success']['results_{{ poll_id }}']);
+
+					$('#poll-form-{{ poll_id }}').remove();
+				}
+			}
+		}
+	});
+});
+//--></script>

@@ -1,0 +1,60 @@
+{% if heading_title %}
+<h3 class="content-title">{{ heading_title }}</h3>
+{% endif %}
+{% set class=12/column %}
+{% if column == 5 %}
+{% set class='5ths' %}
+{% endif %}
+<div class="row">
+  {% for category in categories %}
+  <div class="col-lg-{{ class }} col-md-{{ class }} col-sm-6 col-6">
+    <div class="ftr-cat ftr-cat__main">
+      <a href="{{ category.href }}"><img src="{{ category.thumb }}" alt="{{ category.name }}" title="{{ category.name }}"></a>
+	  <span class="ftr-cat__name">{{ category.name }}</span>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% if column==5 %}
+<style>
+	.col-xs-5ths,
+	.col-sm-5ths,
+	.col-md-5ths,
+	.col-lg-5ths {
+		position: relative;
+		min-height: 1px;
+		padding-right: 10px;
+		padding-left: 10px;
+	}
+	.col-xs-5ths {
+		-webkit-box-flex: 0;
+		-ms-flex: 0 0 20%;
+		flex: 0 0 20%;
+		max-width: 20%;
+	}	
+	@media (min-width: 768px) {
+		.col-sm-5ths {
+			-webkit-box-flex: 0;
+			-ms-flex: 0 0 20%;
+			flex: 0 0 20%;
+			max-width: 20%;
+		}
+	}
+	@media (min-width: 992px) {
+		.col-md-5ths {
+			-webkit-box-flex: 0;
+			-ms-flex: 0 0 20%;
+			flex: 0 0 20%;
+			max-width: 20%;
+		}
+	}
+	@media (min-width: 1200px) {
+		.col-lg-5ths {
+			-webkit-box-flex: 0;
+			-ms-flex: 0 0 20%;
+			flex: 0 0 20%;
+			max-width: 20%;
+		}
+	}
+</style>
+{% endif %}

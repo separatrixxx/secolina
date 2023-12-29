@@ -1,0 +1,2388 @@
+{{ header }}
+{{ column_left }}
+<div id="content">
+	<div class="page-header">
+		<div class="container-fluid">
+			{% if success %}
+				<div class="alert alert-success">
+					{{ success }}
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+				</div> 
+			{% endif %}
+			<div class="pull-right">
+				<button type="button" form="form-module-config" onclick="$('input[name=\'button_type\']').val('refresh');$('#form-module-config').submit()" data-toggle="tooltip" title="{{ button_refresh }}" class="btn btn-primary"><i class="fa fa-refresh"></i></button>
+				<button type="button" onclick="$('input[name=\'button_type\']').val('save');$('#form-module-config').submit()" form="form-module-config" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+				<a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+			</div>
+			<h1>{{ heading_title }}</h1>
+			<ul class="breadcrumb">
+			{% for breadcrumb in breadcrumbs %}
+				<li><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>
+			{% endfor %}
+			</ul>
+		</div>
+	</div>
+	<div class="container-fluid">
+		{% if error_warning %}
+			<div class="alert alert-danger">
+				<i class="fa fa-exclamation-circle"></i> <?php echo $error_warning; ?>
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+			</div>
+		{% endif %}
+		<ul id="tabs" class="nav nav-tabs">
+			<li class="active"><a href="#common-setting" data-toggle="tab">{{ text_tab_common_set }}</a></li>
+			<li><a href="#sections-setting" data-toggle="tab">{{ text_tab_sections_set }}</a></li>
+			<li><a href="#preset-setting" data-toggle="tab">{{ text_tab_preset_set }}</a></li>
+			<li><a href="#attr-excl-setting" data-toggle="tab">{{ text_tab_excl_attr_set }}</a></li>
+			<li><a href="#toolkit" data-toggle="tab">{{ text_tab_toolkit }}</a></li>
+		</ul>
+		<div class="panel panel-default">
+			<form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-module-config" class="tab-content form-horizontal">
+				<div class="tab-pane active" id="common-setting">
+					<!--General settings-->
+					<div class="panel-heading">
+						<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_general_settings }}</h3>
+					</div>
+					<div class="panel-body">
+						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+							<label for="configurator_settings[config_clear_url]"><span data-toggle="tooltip" title="{{ help_clear_url }}">{{ text_clear_url }}</span></label>
+							<input type="text" class="form-control" name="configurator_settings[config_clear_url]" value="{{ configurator_settings['config_clear_url'] }}" placeholder="configurator"/>
+							<label for="configurator_settings[config_meta_title]">{{ text_meta_title }}</label>
+							<input type="text" class="form-control" name="configurator_settings[config_meta_title]" value="{{ configurator_settings['config_meta_title'] }}"/>
+							<br />
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+							<label for="configurator_settings[config_meta_desc]">{{ text_meta_desc }}</label>
+							<input type="text" class="form-control" name="configurator_settings[config_meta_desc]" value="{{ configurator_settings['config_meta_desc'] }}"/>
+							<label for="configurator_settings[config_meta_keyword]">{{ text_meta_keys }}</label>
+							<input type="text" class="form-control" name="configurator_settings[config_meta_keyword]" value="{{ configurator_settings['config_meta_keyword'] }}"/>
+							<br />
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+							<label for="configurator_settings[config_heading_title]">{{ text_h_title }}</label>
+							<input type="text" class="form-control" name="configurator_settings[config_heading_title]" value="{{ configurator_settings['config_heading_title'] }}"/>
+							<label for="configurator_settings[config_text_cost]">{{ text_text_cost }}</label>
+							<input type="text" class="form-control" name="configurator_settings[config_text_cost]" value="{{ configurator_settings['config_text_cost'] }}"/>
+							<br />
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+							<label for="configurator_settings[config_m_side_cols]">{{ text_m_side_cols_title }}</label>
+							<select name="configurator_settings[config_m_side_cols]" class="form-control">			
+								<option {{ configurator_settings['config_m_side_cols'] == 'show' ? 'selected ' }}value="show">{{ text_m_s_cols_show }}</option>
+								<option {{ configurator_settings['config_m_side_cols'] == 'prsts_only' ? 'selected ' }}value="prsts_only">{{ text_m_s_cols_p_only }}</option>
+								<option {{ configurator_settings['config_m_side_cols'] == 'hide' ? 'selected ' }}value="hide">{{ text_m_s_cols_hide }}</option>
+							</select>
+							<label for="configurator_settings[config_gen_txt_pos]">{{ text_gen_txt_pos_title }}</label>
+							<select name="configurator_settings[config_gen_txt_pos]" class="form-control">			
+								<option {{ configurator_settings['config_gen_txt_pos'] == 'bef' ? 'selected ' }}value="bef">{{ text_gen_txt_pos_bef }}</option>
+								<option {{ configurator_settings['config_gen_txt_pos'] == 'aft' ? 'selected ' }}value="aft">{{ text_gen_txt_pos_aft }}</option>
+							</select>
+							<br />
+						</div>
+						<div class="clearfix"></div>
+						<div class="col-lg-2 col-xs-12"></div>
+						<div class="col-lg-8 col-xs-12">
+							<label for="configurator_settings[config_general_text]">{{ text_general_desc }}</label>
+							<textarea class="form-control summernote" data-toggle="summernote" data-lang="{{ editor_lang }}" name="configurator_settings[config_general_text]" style="resize: vertical; min-height: 108px;">{{ configurator_settings['config_general_text']|raw }}</textarea>
+							<br />
+						</div>
+						<div class="col-lg-2 col-xs-12"></div>
+					</div>
+					<!--Sections settings-->
+					<div class="panel-heading">
+						<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_sections_settings }}</h3>
+					</div>
+					<div class="panel-body">
+						<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+							<label for="configurator_settings[config_sctns_grid]">{{ text_sctns_grid }}</label>
+							<select name="configurator_settings[config_sctns_grid]" class="form-control">			
+								<option {{ configurator_settings['config_sctns_grid'] == 'cell-1' ? 'selected ' }}value="list-1">1 {{ text_grid_list }}</option>
+								<option {{ configurator_settings['config_sctns_grid'] == 'cell-2' ? 'selected ' }}value="list-2">2 {{ text_grid_list }}</option>
+								<option {{ configurator_settings['config_sctns_grid'] == 'cell-2' ? 'selected ' }}value="cell-2">2 {{ text_grid_cell }}</option>
+								<option {{ configurator_settings['config_sctns_grid'] == 'cell-3' ? 'selected ' }}value="cell-3">3 {{ text_grid_cell }}</option>
+								<option {{ configurator_settings['config_sctns_grid'] == 'cell-4' ? 'selected ' }}value="cell-4">4 {{ text_grid_cell }}</option>
+							</select>
+							<label style="width: 100%;">{{ text_img_size }}</label>
+							<div style="padding: 0;width: 49%;float:left;">
+								<input type="number" placeholder="width (50-187)" min="50" max="187" class="form-control testInt" name="configurator_settings[config_w_img]" value="{{ configurator_settings['config_w_img'] }}"/>
+							</div>
+							<div style="padding: 0;width: 49%;float:right;">
+								<input type="number" placeholder="height (50-374)" min="50" max="374" class="form-control testInt" name="configurator_settings[config_h_img]" value="{{ configurator_settings['config_h_img'] }}"/>
+							</div>
+							<label for="configurator_settings[config_desc_trim]">{{ text_desc_trim }}</label>
+							<input placeholder="{{ text_desc_trim_ph }}" type="number" step="5" class="form-control testInt" name="configurator_settings[config_desc_trim]" value="{{ configurator_settings['config_desc_trim'] }}"/>
+							<br />
+						</div>
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+							<label for="add-group-input" style="width: 100%;" data-toggle="tooltip" data-original-title="{{ help_group }}">{{ text_group_add }}</label>
+							<div class="input-group">
+								<input id="add-group-input" placeholder="{{ text_add_group }}" type="text" class="form-control" name="add-group-input" value=""/>
+								<span class="input-group-btn">
+									<button onclick="addGroup();return false;" class="btn btn-primary" style="margin: 0 0 0 5px;"><i class="fa fa-plus"></i></button>
+								</span>
+							</div>
+							<label for="configurator_settings[config_groups][]">{{ text_group_list }}</label>
+							<div id="group-list" class="form-control well well-sm" style="height: 108px !important; overflow-y:auto; margin: 0;">
+							{% for group_id, group_name in configurator_settings['config_groups'] %}
+								<div id="category-group-{{ group_id }}"><i style="cursor: pointer;" onclick="deleteGroup({{ group_id }})" class="fa fa-minus-circle"></i>
+									{{ group_name }}
+									<input type="hidden" name="configurator_settings[config_groups][]" value="{{ group_name }}">
+								</div>
+							{% endfor %}
+							</div>
+							<br />
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+							<label for="configurator_settings[config_another_img]">{{ text_another_img }}</label>
+							<select name="configurator_settings[config_another_img]" class="form-control">			
+								<option {{ configurator_settings['config_another_img'] == '0' ? 'selected ' }}value="0">{{ text_no }}</option>
+								<option {{ configurator_settings['config_another_img'] == '1' ? 'selected ' }}value="1">{{ text_yes }}</option>
+							</select>
+							<label for="configurator_settings[config_prd_title_a]">{{ text_prd_title_a }}</label>
+							<select name="configurator_settings[config_prd_title_a]" class="form-control">			
+								<option {{ configurator_settings['config_prd_title_a'] == '0' ? 'selected ' }}value="0">{{ text_no }}</option>
+								<option {{ configurator_settings['config_prd_title_a'] == '1' ? 'selected ' }}value="1">{{ text_yes }}</option>
+							</select>
+							<label for="configurator_settings[config_prd_load]">{{ text_prd_load }}</label>
+							<select name="configurator_settings[config_prd_load]" class="form-control">			
+								<option {{ configurator_settings['config_prd_load'] == '25' ? 'selected ' }}value="25">25</option>
+								<option {{ configurator_settings['config_prd_load'] == '50' ? 'selected ' }}value="50">50</option>
+								<option {{ configurator_settings['config_prd_load'] == '75' ? 'selected ' }}value="75">75</option>
+								<option {{ configurator_settings['config_prd_load'] == '100' ? 'selected ' }}value="100">100</option>
+							</select>
+							<br />
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+							<br />
+						</div>
+					</div>
+					<!--Presets settings-->
+					<div class="panel-heading">
+						<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_presets_settings }}</h3>
+					</div>
+					<div class="panel-body">
+						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+							<label for="configurator_settings[config_p_pos]">{{ text_p_pos }}</label>
+							<select name="configurator_settings[config_p_pos]" class="form-control">			
+								<option {{ configurator_settings['config_p_pos'] == 'lc_bef' ? 'selected ' }}value="lc_bef">{{ text_p_pos_lc_bef }}</option>
+								<option {{ configurator_settings['config_p_pos'] == 'lc_aft' ? 'selected ' }}value="lc_aft">{{ text_p_pos_lc_aft }}</option>
+								<option {{ configurator_settings['config_p_pos'] == 'rc_bef' ? 'selected ' }}value="rc_bef">{{ text_p_pos_rc_bef }}</option>
+								<option {{ configurator_settings['config_p_pos'] == 'rc_aft' ? 'selected ' }}value="rc_aft">{{ text_p_pos_rc_aft }}</option>
+								<option {{ configurator_settings['config_p_pos'] == 'cntr_bef' ? 'selected ' }}value="cntr_bef">{{ text_p_pos_cntr_bef }}</option>
+								<option {{ configurator_settings['config_p_pos'] == 'cntr_aft' ? 'selected ' }}value="cntr_aft">{{ text_p_pos_cntr_aft }}</option>
+							</select>
+							<br />
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+							<label for="configurator_settings[config_prsts_grid]">{{ text_prsts_grid }}</label>
+							<select name="configurator_settings[config_prsts_grid]" class="form-control">			
+								<option {{ configurator_settings['config_prsts_grid'] == 'list-1' ? 'selected ' }}value="list-1">1 {{ text_grid_list }}</option>
+								<option {{ configurator_settings['config_prsts_grid'] == 'list-2' ? 'selected ' }}value="list-2">2 {{ text_grid_list }}</option>
+								<option {{ configurator_settings['config_prsts_grid'] == 'list-3' ? 'selected ' }}value="list-3">3 {{ text_grid_list }}</option>
+								<option {{ configurator_settings['config_prsts_grid'] == 'list-4' ? 'selected ' }}value="list-4">4 {{ text_grid_list }}</option>
+								<option {{ configurator_settings['config_prsts_grid'] == 'cell-1' ? 'selected ' }}value="cell-1">1 {{ text_grid_cell }}</option>
+								<option {{ configurator_settings['config_prsts_grid'] == 'cell-2' ? 'selected ' }}value="cell-2">2 {{ text_grid_cell }}</option>
+								<option {{ configurator_settings['config_prsts_grid'] == 'cell-3' ? 'selected ' }}value="cell-3">3 {{ text_grid_cell }}</option>
+								<option {{ configurator_settings['config_prsts_grid'] == 'cell-4' ? 'selected ' }}value="cell-4">4 {{ text_grid_cell }}</option>
+							</select>
+							<br />
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+							<label for="configurator_settings[config_p_title]">{{ text_p_title }}</label>
+							<input type="text" class="form-control" name="configurator_settings[config_p_title]" value="{{ configurator_settings['config_p_title'] }}"/>
+							<br />
+						</div>				
+						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+							<label for="configurator_settings[config_p_scroll_top]">{{ text_p_s_top }}</label>
+							<select name="configurator_settings[config_p_scroll_top]" class="form-control">			
+								<option {{ configurator_settings['config_p_scroll_top'] == '0' ? 'selected ' }}value="0">{{ text_no }}</option>
+								<option {{ configurator_settings['config_p_scroll_top'] == '1' ? 'selected ' }}value="1">{{ text_yes }}</option>
+							</select>
+							<br />
+						</div>
+					</div>
+					<!--Print settings-->
+					<div class="panel-heading">
+						<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_print_settings }}</h3>
+					</div>
+					<div class="panel-body">
+						<div class="col-lg-1 col-md-12 col-sm-12">
+							<label for="configurator_settings[config_prt_logo]">{{ text_prt_logo }}</label>
+							<div class="text-center">
+								<a href="" id="img-prt-logo" data-toggle="image" data-original-title="" title="">
+									<img src="{{ prt_logo_img_tumb }}" alt="" title="" data-placeholder="{{ prt_logo_no_img }}" class="img-thumbnail">
+								</a>
+								<input type="hidden" name="configurator_settings[config_prt_logo]" value="{{ configurator_settings['config_prt_logo'] }}" id="input-prt-logo">
+							</div>
+							<br />
+						</div>
+						<div class="col-lg-2 col-md-12 col-sm-12">
+							<label for="configurator_settings[config_prt_title]">{{ text_prt_title }}</label>
+							<input type="text" class="form-control" name="configurator_settings[config_prt_title]" value="{{ configurator_settings['config_prt_title'] }}"/>
+							<label for="configurator_settings[config_prt_tbl_title]">{{ text_prt_tbl_title }}</label>
+							<input type="text" class="form-control" name="configurator_settings[config_prt_tbl_title]" value="{{ configurator_settings['config_prt_tbl_title'] }}"/>							
+							<label for="configurator_settings[config_prt_notice]">{{ text_prt_notice }}</label>
+							<input type="text" class="form-control" name="configurator_settings[config_prt_notice]" value="{{ configurator_settings['config_prt_notice'] }}"/>
+							<br />
+						</div>			
+						<div class="col-lg-3 col-md-4 col-sm-12">
+							<label for="configurator_settings[config_prt_contcs]">{{ text_prt_contcs }}</label>
+							<textarea class="form-control" name="configurator_settings[config_prt_contcs]" style="resize: vertical; min-height: 110px;">{{ configurator_settings['config_prt_contcs'] }}</textarea>
+							<br />
+						</div>					
+						<div class="col-lg-3 col-md-4 col-sm-12">
+							<label for="configurator_settings[config_prt_qr_code]">{{ text_prt_qr_code }}</label>
+							<textarea class="form-control" name="configurator_settings[config_prt_qr_code]" onchange="textLimiter(this, 300)" style="resize: vertical; min-height: 110px;">{{ configurator_settings['config_prt_qr_code'] }}</textarea>
+							<br />
+						</div>		
+						<div class="col-lg-3 col-md-4 col-sm-12">
+							<label for="configurator_settings[config_prt_text]">{{ text_prt_text }}</label>
+							<textarea class="form-control" name="configurator_settings[config_prt_text]" style="resize: vertical; min-height: 110px;">{{ configurator_settings['config_prt_text'] }}</textarea>
+							<br />
+						</div>	
+					</div>
+					<!--License -->
+					<div class="panel-heading">
+						<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_license_settings }}</h3>
+					</div>
+					<div class="panel-body">			
+						<div class="col-md-3 col-sm-12">
+							<label for="configurator_settings[license_key]">{{ text_license_input }}</label>
+							<input id="input-license" type="text" class="form-control" name="configurator_settings[license_key]" onchange="checkLicense()" value="{{ configurator_settings['license_key'] }}"/>
+							<br />
+						</div>
+						<div class="col-md-6 col-sm-12">
+							<div class="panel panel-default"style="border-top: 1px solid #e8e8e8;">
+								<div class="panel-heading"><h5 class="panel-title" style="font-size: 12px;"><b>{{ text_license_info_ttl }}</b></h5></div>
+								<div class="panel-body" style="min-height:84px !important;text-align: justify;max-height: 84px;overflow-y: auto;">{{ text_license_info }}</div>
+							</div>
+							<br />
+						</div>			
+						<div class="col-md-3 col-sm-12">
+							<div class="panel panel-default" style="border-top: 1px solid #e8e8e8;">
+								<div class="panel-heading"><h5 class="panel-title" style="font-size: 12px;"><b>{{ text_license_cntcs_ttl }}</b></h5></div>
+								<div class="panel-body" style="min-height:84px !important;">{{ text_license_cntcs }}</div>
+							</div>
+							<br />
+						</div>			
+					</div>
+				</div>
+				<div class="tab-pane" id="sections-setting">
+					<div class="panel-heading">
+						<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit_sections }}</h3>
+					</div>
+					<div class="panel-body">
+						<table class="table table-striped content-table" id="sections-table">
+							<tr class="text-center">
+								<td class="col-auto" style="min-width:40px;"><input type="checkbox" onchange="checkAll($(this), 'section')" data-toggle="tooltip" data-original-title="{{ text_check_all }}" class="check-sections"></td>
+								<td class="col-auto"><i class="fa fa-asterisk text-danger" style="font-size:10px;vertical-align:middle;margin-top:-5px;"></i></td>
+								<td class="col-auto">{{ entry_qtychoice }}</td>
+								<td class="col-sm-3">{{ entry_section }}</td>
+								<td class="col-sm-2">{{ entry_group }}</td>
+								<td class="col-auto">{{ entry_image }}</td>
+								<td class="col-sm-5">{{ entry_description }}</td>
+								<td class="col-sm-2">{{ entry_status }}</td>
+								<td class="col-auto">{{ entry_sort_order }}</td>
+								<td class="col-auto text-right" style="min-width:50px;">
+									<button type="button" onclick="hideAll('section')" data-toggle="tooltip" data-original-title="{{ text_close_all }}" class="toggleItem btn btn-primary btn-sm"><i class="fa fa-eye-slash"></i></button>	
+								</td>
+							</tr>
+
+						{% set s_max_id = 0 %}
+					
+						{% if sections is empty %}
+							<tr id="no-data-sections"><td colspan="9" class="text-center"><h4 style="margin:0;">{{ text_no_data }}</h4></td></tr>
+						{% else %}
+							{% for s_id, section in sections %}
+								{% if s_max_id < s_id %}
+									{% set s_max_id = s_id %}
+								{% endif %}
+
+							<tr class="row-header" id="s-id-{{ s_id }}" data-section-id="{{ s_id }}">
+								<td class="text-center">
+									<input type="checkbox" class="check-section">
+									<input type="hidden" name="sections[{{ s_id }}][id]" value="{{ s_id }}">
+								</td>
+								<td>
+									<select name="sections[{{ s_id }}][required]" class="form-control">
+									{% if section['required'] %}
+										<option selected value="1">{{ text_yes }}</option>
+										<option value="0">{{ text_no }}</option>
+									{% else %}
+										<option value="1">{{ text_yes }}</option>
+										<option selected value="0">{{ text_no }}</option>
+									{% endif %}
+									</select>
+								</td>
+								<td>
+									<select name="sections[{{ s_id }}][qtychoice]" class="form-control">
+									{% if section['qtychoice'] %}
+										<option selected value="1">{{ text_yes }}</option>
+										<option value="0">{{ text_no }}</option>
+									{% else %}
+										<option value="1">{{ text_yes }}</option>
+										<option selected value="0">{{ text_no }}</option>
+									{% endif %}
+									</select>
+								</td>
+								<td class="section-name"><input type="text" name="sections[{{ s_id }}][name]" class="form-control" value="{{ section['name'] }}"></td>
+								<td>									
+									<select name="sections[{{ s_id }}][group]" class="form-control select-group">
+									{% if configurator_settings['config_groups'] == 0 %}
+										<option selected value="-1">{{ text_no_group }}</option>
+									{% else %}
+										<option value="-1">{{ text_no_group }}</option>
+										{% for group_id, group_name in configurator_settings['config_groups'] %}
+										
+										<option {{ section['group'] == group_id ? 'selected ' }}value="{{ group_id }}">{{ group_name }}</option>
+										
+										{% endfor %}
+									{% endif %}
+									</select>
+								</td>
+								<td class="text-center">
+									<a href="" id="section-thumb-img{{ s_id }}" data-toggle="image" data-original-title="" title="">
+										<img src="{{ section['img_tumb'] }}" alt="" title="" data-placeholder="{{ section_no_img }}" class="img-thumbnail">
+									</a>
+									<input type="hidden" name="sections[{{ s_id }}][img_path]" value="{{ section['img_path'] }}" id="section-input-img{{ s_id }}">
+								</td>
+								<td><textarea class="form-control text-desc" name="sections[{{ s_id }}][description]" onchange="textLimiter(this, 500)">{{ section['description'] }}</textarea></td>
+								<td>
+									<select name="sections[{{ s_id }}][status]" class="form-control">
+									{% if section['status'] %}
+										<option selected value="1">{{ text_on }}</option>
+										<option value="0">{{ text_off }}</option>
+									{% else %}
+										<option value="1">{{ text_on }}</option>
+										<option selected value="0">{{ text_off }}</option>
+									{% endif %}
+									</select>
+								</td>
+								<td><input type="number" name="sections[{{ s_id }}][sort_order]" class="form-control testInt" value="{{ section['sort_order'] is defined ? section['sort_order'] : 0 }}"></td>
+								<td class="text-right">				   
+									<button type="button" onclick="collapseRow($(this), 'section-{{ s_id }}')" data-toggle="tooltip" title="{{ text_show_hide }}" class="toggleItem btn btn-primary btn-sm">
+										<i class="fa fa-eye"></i>
+									</button>		
+								</td>
+							</tr>
+							<tr class="row-body">
+								<td colspan="10">
+									<div id="section-{{ s_id }}" class="section-wrap" style="display: none;">
+										<label class="col-xs-2 control-label" for="search-category">
+											<span data-toggle="tooltip" title="" data-original-title="{{ help_autocomplete }}">{{ entry_including_ctgrs }}</span>
+										</label>
+										<div class="col-xs-10 inc-ctgrs-wrap">
+											<input type="text" name="sections[{{ s_id }}][included_categories]" data-id='{{ s_id }}' value="" placeholder="{{ entry_categories }}" class="form-control inputs category-search" autocomplete="off">
+											<div id="inc-categories-div-{{ s_id }}" class="well well-sm ctgrs" style="height: 150px; overflow: auto;">
+											{% if section['included_categories'] is not empty %}
+												{% for inc_id, inc_name in section['included_categories'] %}
+												<div id="inc-category-{{ inc_id }}" data-inc-category="{{ inc_id }}" class="inc-category">
+													<div class="inc-ctgr-name">{{ inc_name }}</div>
+													<div class="inc-ctgr-btns">
+														<div class="btn btn-sm btn-danger" onclick="deleteIncCategory('{{ inc_id }}')"><i class="fa fa-times"></i> {{ text_del_cat }}</div>
+														<div class="btn btn-sm btn-danger" onclick="removeRelatedExclusions('{{ inc_id }}', 'category')"><i class="fa fa-times"></i> {{ text_excl_del_cat }}</div>
+														<div class="btn btn-sm btn-danger" onclick="removeRelatedExclusions('{{ inc_id }}', 'product')"><i class="fa fa-times"></i> {{ text_excl_del_prod }}</div>
+														<input type="hidden" name="sections[{{ s_id }}][included_categories][{{ inc_id }}]" value= "{{ inc_name }}"/>
+													</div>
+												</div>
+												{% endfor %}
+											{% endif %}
+											</div>
+										</div>
+										<div class="col-xs-12 excl-btns text-center">
+										{% if section['included_categories']|length %}
+											<button type="button" onclick="exclusionEdit('{{ s_id }}', 'category')" class="section-excl-btn col-lg-2 col-md-3 col-sm-4 col-xs-4 btn btn-primary btn-sm">
+												<i class="fa fa-ban"></i> {{ text_exclusion_cat }}
+											</button>										
+											<button type="button" onclick="exclusionEdit('{{ s_id }}', 'product')" class="section-excl-btn col-lg-2 col-md-3 col-sm-4 col-xs-4 btn btn-primary btn-sm">
+												<i class="fa fa-ban"></i> {{ text_exclusion_prod }}
+											</button>
+										{% else %}
+											<div class="help-excl-open"><i class="fa fa-exclamation-circle"></i> {{ help_excl_open }}</div>
+										{% endif %}
+										</div>
+									</div>
+								</td>
+							</tr>								
+							{% endfor %}
+						{% endif %}
+							<tr id="sections-button-place">
+								<td colspan="10" class="text-right">
+									<button onclick="addSectionRow(); return false;" data-toggle="tooltip" title="{{ text_section_add }}" class="btn btn-primary"><i class="fa fa-plus"></i></button>
+									<button onclick="deleteSectionRow(); return false;" data-toggle="tooltip" title="{{ text_section_remove }}" class="btn btn-danger"><i class="fa fa-minus"></i></button>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div class="tab-pane" id="preset-setting">
+					<div class="panel-heading">
+						<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit_presets }}</h3>
+					</div>
+					<div class="panel-body">
+						<table class='table table-striped content-table' id='presets-table'>
+							<tr class="text-center">
+								<td class="col-auto" style="min-width:40px;"><input type="checkbox" onchange="checkAll($(this), 'preset')" data-toggle="tooltip" data-original-title="{{ text_check_all }}" class="check-presets"></td>
+								<td class="col-sm-2">{{ entry_preset }}</td>
+								<td class="col-auto">{{ entry_image }}</td>
+								<td class="col-sm-4">{{ entry_description }}</td>
+								<td class="col-sm-2">{{ entry_status }}</td>
+								<td class="col-sm-2">{{ entry_preset_cost }}</td>
+								<td class="col-sm-1">{{ entry_sort_order }}</td>
+								<td class="col-auto text-right" style="min-width:50px;">
+									<button type="button" onclick="hideAll('preset')" data-toggle="tooltip" data-original-title="{{ text_close_all }}" class="toggleItem btn btn-primary btn-sm"><i class="fa fa-eye-slash"></i></button>	
+								</td>
+							</tr>
+
+						{% set p_max_id = 0 %}
+						
+						{% if presets is empty %}
+							<tr id="no-data-presets"><td colspan="7" class="text-center"><h4 style="margin:0;">{{ text_no_data }}</h4></td></tr>
+						{% else %}
+							{% for p_id, preset in presets %}
+								{% if p_max_id < p_id %}
+									{% set p_max_id = p_id %}
+								{% endif %}
+					
+							<tr class="row-header" id="p-id-{{ p_id }}">
+								<td class="text-center">
+									<input type="checkbox" class="check-preset">
+									<input type="hidden" name="presets[{{ p_id }}][id]" value="{{ p_id }}">
+								</td>
+								<td><input type="text" name="presets[{{ p_id }}][name]" class="form-control" value="{{ preset['name'] }}"></td>
+								<td class="text-center">
+									<a href="" id="preset-thumb-img{{ p_id }}" data-toggle="image" data-original-title="" title="">
+										<img src="{{ preset['img_tumb'] }}" alt="" title="" data-placeholder="{{ preset_no_img }}" class="img-thumbnail">
+									</a>
+									<input type="hidden" name="presets[{{ p_id }}][img_path]" value="{{ preset['img_path'] }}" id="preset-input-img{{ p_id }}">
+								</td>
+								<td><textarea name="presets[{{ p_id }}][description]" onchange="textLimiter(this, 500)" class="form-control text-desc">{{ preset['description'] }}</textarea></td>
+								<td>
+									<select name="presets[{{ p_id }}][status]" class="form-control">	
+									{% if preset['status'] %}
+										<option selected value="1">{{ text_on }}</option>
+										<option value="0">{{ text_off }}</option>
+									{% else %}
+										<option value="1">{{ text_on }}</option>
+										<option selected value="0">{{ text_off }}</option>
+									{% endif %}
+									</select>
+								</td>
+								<td><input type="text" class="preset-cost form-control text-center" value="-" disabled="disabled"></td>
+								<td><input type="number" name="presets[{{ p_id }}][sort_order]" class="form-control testInt" value="{{ preset['sort_order'] is defined ? preset['sort_order'] : 0 }}"></td>
+								<td class="text-right">
+									<button type="button" onclick="collapseRow($(this), 'preset-{{ p_id }}')" data-toggle="tooltip" title="{{ text_show_hide }}" class="toggleItem btn btn-primary btn-sm"><i class="fa fa-eye"></i></button>
+								</td>
+							</tr>
+							<tr class="row-body">
+								<td colspan="8">
+									<div id="preset-{{ p_id }}" class="preset-wrap" style="display: none;" data-preset-id="{{ p_id }}">
+									{% for p_s_id, section in sections %}
+										{% set name_path = 'presets[' ~ p_id ~ '][p_sections][' ~ p_s_id ~ ']' %}
+										
+										{% if preset['p_sections'][p_s_id] is defined %}
+											{% set this_p_section = preset['p_sections'][p_s_id] %}
+											{% 
+												set p_section = {
+													'p_p_id': this_p_section['p_p_id'] is defined ? this_p_section['p_p_id'] : '',
+													'p_p_name': this_p_section['p_p_name'] is defined ? this_p_section['p_p_name'] : '',
+													'p_p_count': this_p_section['p_p_count'] is defined ? this_p_section['p_p_count'] : '',
+													'p_p_quantity': this_p_section['p_p_quantity'] is defined ? this_p_section['p_p_quantity'] : '',
+													'p_p_price': this_p_section['p_p_price'] is defined ? this_p_section['p_p_price'] : '',
+													'p_p_discount': this_p_section['p_p_discount'] is defined ? this_p_section['p_p_discount'] : '',
+													'p_p_special': this_p_section['p_p_special'] is defined ? this_p_section['p_p_special'] : '',
+													'p_p_options': this_p_section['p_p_options'] is defined ? this_p_section['p_p_options'] : ''
+												}
+											%}
+										{% else %}
+											{% 
+												set p_section = {
+													'p_p_id': '',
+													'p_p_name': '',
+													'p_p_count': '',
+													'p_p_quantity': '',
+													'p_p_price': '',
+													'p_p_discount': '',
+													'p_p_special': '',
+													'p_p_options': ''
+												}
+											%}
+										{% endif %}
+										<div class="preset-section col-sm-12" id="p-s-id-{{ p_id }}-{{ p_s_id }}" data-section-id="{{ p_s_id }}">
+											<div class="col-xs-3 control-label well well-sm text-center">
+												<span>
+												{% if sections[p_s_id]['name'] is defined and sections[p_s_id]['name']|trim is not empty %}
+													{{ sections[p_s_id]['name']|trim }}
+												{% else %}
+													{{ '-' }}
+												{% endif %}
+												</span>
+											</div>
+											<div class="col-xs-3">
+												<input placeholder="{{ text_p_ph_in_prod }}" type="text" value="{{ p_section['p_p_name'] }}" class="product-name form-control" style="width:calc(100% - 74px);margin-right:5px;display:inline-block;">
+												<input type="hidden" name="{{ name_path }}[p_p_id]" value="{{ p_section['p_p_id'] }}" class="product-id">										
+												{% if p_section['p_p_id'] is empty %}
+													<button type="button" onclick="deleteProductRpeset('{{ p_id }}', '{{ p_s_id }}')" data-toggle="tooltip" title="{{ text_prod_remove }}" class="btn-remove btn btn-sm btn-danger" disabled="disabled"><i class="fa fa-times"></i></button>
+													<button type="button" onclick="window.open($(this).data('path-edit'), '_blank')" data-toggle="tooltip" title="{{ text_go_to_prod }}" data-path-edit="" class="btn-edit btn btn-sm btn-primary" disabled="disabled"><i class="fa fa-pencil"></i></button>
+												{% else %}
+													<button type="button" onclick="deleteProductRpeset('{{ p_id }}', '{{ p_s_id }}')" data-toggle="tooltip" title="{{ text_prod_remove }}" class="btn-remove btn btn-sm btn-danger"><i class="fa fa-times"></i></button>
+													<button type="button" onclick="window.open($(this).data('path-edit'), '_blank')" data-toggle="tooltip" title="{{ text_go_to_prod }}" data-path-edit="{{ p_section['p_p_path_edit'] }}" class="btn-edit btn btn-sm btn-primary"><i class="fa fa-pencil"></i></button>
+												{% endif %}
+											</div>			
+											<div class="col-xs-2 control-label well well-sm text-center">
+												<span class="quantity-info" data-quantity-info="{{ p_section['p_p_quantity'] }}">-</span>
+											</div>
+											<div class="col-xs-1">
+												<input type="number" placeholder="{{ text_p_ph_in_count }}" min="{{ p_section['p_p_minimum'] is not empty ? p_section['p_p_minimum'] : 1 }}" max="{{ p_section['p_p_quantity'] }}" name="{{ name_path }}[p_p_count]" value="{{ p_section['p_p_count'] }}" onchange="checkPreset('{{ p_id }}')" class="product-count form-control testInt" style="line-height:35px;padding-right:0;">
+											</div>
+											<div class="col-xs-2 control-label well well-sm text-center">
+												<span class="price-info" data-price-info="{{ p_section['p_p_price'] }}" data-discount-info="{{ p_section['p_p_discount'] }}" data-special-info="{{ p_section['p_p_special'] }}">-</span>
+											</div>								
+										{% if p_section['p_p_options'] is empty %}
+											<div class="col-xs-1 options-btn text-center">
+												<button type="button" onclick="collapseRow($(this), 'options-{{ p_id ~ '-' ~ p_s_id }}')" data-toggle="tooltip" title="{{ text_show_hide }}" class="toggleItem btn btn-primary btn-sm" disabled="disabled"><i class="fa fa-eye-slash"></i> {{ text_options }}</button>
+											</div>
+										{% else %}	
+											<div class="col-xs-1 options-btn text-center">
+												<button type="button" onclick="collapseRow($(this), 'options-{{ p_id ~ '-' ~ p_s_id }}')" data-toggle="tooltip" title="{{ text_show_hide }}" class="toggleItem btn btn-primary btn-sm"><i class="fa fa-eye"></i> {{ text_options }}</button>
+											</div>
+											<div id="options-{{ p_id ~ '-' ~ p_s_id }}" class="options-block col-xs-12" style="display: none;">
+												<div class="col-lg-4 col-xs-3"></div>
+												<div class="options col-lg-4 col-xs-6">
+													<h4 class="text-center">{{ text_options }}</h4>
+													<div class="opt-note text-center">(<span class="text-danger"><b> * </b></span> - {{ text_opt_required }})</div>
+												{% for opt_id, opt in p_section['p_p_options'] %}
+													{% if opt['type'] == 'radio' or opt['type'] == 'image' %}
+														<div class="opt-form-group">
+															<label class="option-label">{{ opt['name'] ~ (opt['required'] ? '<span class="text-danger"><b> * </b></span>') }}</label>
+															<div id="input-option{{ opt_id }}">
+															{% for p_opt_id, p_opt_val in opt['product_option_value'] %}
+																{% if p_opt_val['price'] %}
+																	{% set opt_price = p_opt_val['price_prefix'] ~ p_opt_val['price']|round(currency_d_place) %}
+																	{% set p_opt_val_name = p_opt_val['name'] ~ ' (' ~ currency_smbl_left ~ opt_price ~ currency_smbl_right ~ ')' %}
+																{% else %}
+																	{% set opt_price = false %}
+																	{% set p_opt_val_name = p_opt_val['name'] %}
+																{% endif %}
+																<div class="radio">
+																	<label>
+																		<input type="radio" name="{{ name_path }}[p_p_option][{{ opt_id }}]" value="{{ p_opt_id }}" data-opt-id="{{ opt_id }}" data-opt-price="{{ opt_price }}" data-required="{{ opt['required'] }}" onchange="checkPreset('{{ p_id }}')" {{ opt['value'] == p_opt_val['product_option_value_id'] ? 'checked="checked"' }}/>
+																	{% if p_opt_val['image'] and opt['type'] == 'image' %}
+																		<img src="{{ p_opt_val['image'] }}" alt="{{ p_opt_val_name }}" class="img-thumbnail"> 
+																	{% endif %}	
+																	{{ p_opt_val_name }}
+																	</label>
+																</div>
+															{% endfor %}
+															</div>
+														</div>
+													{% endif %}
+													{% if opt['type'] == 'checkbox' %}
+														<div class="opt-form-group">
+															<label class="option-label">{{ opt['name'] ~ (opt['required'] ? '<span class="text-danger"><b> * </b></span>') }}</label>
+															<div id="input-option{{ opt_id }}">
+															{% for p_opt_id, p_opt_val in opt['product_option_value'] %}
+																{% if p_opt_val['price'] %}
+																	{% set opt_price = p_opt_val['price_prefix'] ~ p_opt_val['price']|round(currency_d_place) %}
+																	{% set p_opt_val_name = p_opt_val['name'] ~ ' (' ~ currency_smbl_left ~ opt_price ~ currency_smbl_right ~ ')' %}
+																{% else %}
+																	{% set opt_price = false %}
+																	{% set p_opt_val_name = p_opt_val['name'] %}
+																{% endif %}
+																
+																{% set checked = '' %}
+																{% if opt['value'] is not empty %}
+																	{% for opt_val in opt['value'] %}
+																		{% if p_opt_val['product_option_value_id'] == opt_val %}
+																			{% set checked = 'checked="checked"' %}
+																		{% endif %}
+																	{% endfor %}
+																{% endif %}
+																<div class="checkbox">
+																	<label>
+																		<input type="checkbox" name="{{ name_path }}[p_p_option][{{ opt_id }}][{{ p_opt_id }}]" value="{{ p_opt_id }}" data-opt-id="{{ opt_id }}" data-opt-price="{{ opt_price }}" data-required="{{ opt['required'] }}" onchange="checkPreset('{{ p_id }}')" {{ checked }}/>
+																		{{ p_opt_val_name }}
+																	</label>
+																</div>
+															{% endfor %}
+															</div>
+														</div>
+													{% endif %}
+													{% if opt['type'] == 'select' %}
+														<div class="opt-form-group">
+															<label class="option-label">{{ opt['name'] ~ (opt['required'] ? '<span class="text-danger"><b> * </b></span>') }}</label>
+															<select name="{{ name_path }}[p_p_option][{{ opt_id }}]" id="input-option{{ opt_id }}" class="form-control select" data-opt-id="{{ opt_id }}" data-required="{{ opt['required'] }}" onchange="checkPreset('{{ p_id }}')">
+																<option value="">{{ text_opt_select }}</option>
+															{% for p_opt_id, p_opt_val in opt['product_option_value'] %}
+																{% if p_opt_val['price'] %}
+																	{% set opt_price = p_opt_val['price_prefix'] ~ p_opt_val['price']|round(currency_d_place) %}
+																	{% set p_opt_val_name = p_opt_val['name'] ~ ' (' ~ currency_smbl_left ~ opt_price ~ currency_smbl_right ~ ')' %}
+																{% else %}
+																	{% set opt_price = false %}
+																	{% set p_opt_val_name = p_opt_val['name'] %}
+																{% endif %}
+																<option value="{{ p_opt_id }}" data-opt-price="{{ opt_price }}" {{ opt['value'] == p_opt_val['product_option_value_id'] ? 'selected="selected"' }}>{{ p_opt_val_name }}</option>
+															{% endfor %}
+															</select>
+														</div>
+													{% endif %}
+													{% if opt['type'] == 'text' %}
+														<div class="opt-form-group">
+															<label class="option-label">{{ opt['name'] ~ (opt['required'] ? '<span class="text-danger"><b> * </b></span>') }}</label>
+															<input type="text" name="{{ name_path }}[p_p_option][{{ opt_id }}]" value="{{ opt['value'] }}" placeholder="{{ opt['name'] }}" id="input-option{{ opt_id }}" class="form-control text" data-opt-id="{{ opt_id }}" data-required="{{ opt['required'] }}" onchange="checkPreset('{{ p_id }}')"/>
+														</div>
+													{% endif %}
+													{% if opt['type'] == 'textarea' %}
+														<div class="opt-form-group">
+															<label class="option-label">{{ opt['name'] ~ (opt['required'] ? '<span class="text-danger"><b> * </b></span>') }}</label>
+															<textarea type="text" name="{{ name_path }}[p_p_option][{{ opt_id }}]" rows="5" placeholder="{{ opt['name'] }}" id="input-option{{ opt_id }}" class="form-control textarea" data-opt-id="{{ opt_id }}" data-required="{{ opt['required'] }}" onchange="checkPreset('{{ p_id }}')">{{ opt['value'] }}</textarea>
+														</div>
+													{% endif %}
+													{% if opt['type'] == 'date' %}
+														<div class="opt-form-group">
+															<label class="option-label">{{ opt['name'] ~ (opt['required'] ? '<span class="text-danger"><b> * </b></span>') }}</label>
+															<input type="text" name="{{ name_path }}[p_p_option][{{ opt_id }}]" value="{{ opt['value'] }}" placeholder="{{ text_opt_f_date }}" id="input-option{{ opt_id }}" class="form-control date" data-opt-id="{{ opt_id }}" data-required="{{ opt['required'] }}" onchange="checkPreset('{{ p_id }}')"/>
+														</div>
+													{% endif %}
+													{% if opt['type'] == 'time' %}
+														<div class="opt-form-group">
+															<label class="option-label">{{ opt['name'] ~ (opt['required'] ? '<span class="text-danger"><b> * </b></span>') }}</label>
+															<input type="text" name="{{ name_path }}[p_p_option][{{ opt_id }}]" value="{{ opt['value'] }}" placeholder="{{ text_opt_f_time }}" id="input-option{{ opt_id }}" class="form-control time" data-opt-id="{{ opt_id }}" data-required="{{ opt['required'] }}" onchange="checkPreset('{{ p_id }}')"/>
+														</div>
+													{% endif %}
+													{% if opt['type'] == 'datetime' %}
+														<div class="opt-form-group">
+															<label class="option-label">{{ opt['name'] ~ (opt['required'] ? '<span class="text-danger"><b> * </b></span>') }}</label>
+															<input type="text" name="{{ name_path }}[p_p_option][{{ opt_id }}]" value="{{ opt['value'] }}" placeholder="{{ text_opt_f_datetime }}" id="input-option{{ opt_id }}" class="form-control datetime" data-opt-id="{{ opt_id }}" data-required="{{ opt['required'] }}" onchange="checkPreset('{{ p_id }}')"/>
+														</div>
+													{% endif %}
+													
+												{% endfor %}	
+												</div>
+												<div class="col-lg-4 col-xs-3"></div>
+											</div>								
+											
+										{% endif %}
+										</div>
+										
+									{% endfor %}
+									</div>
+								</td>
+							</tr>
+							{% endfor %}
+						{% endif %}
+							<tr id="presets-button-place">
+								<td colspan="8" class="text-right">
+									<button onclick="addPresetRow(); return false;" data-toggle="tooltip" title="{{ text_preset_add }}" class="btn btn-primary"><i class="fa fa-plus"></i></button>
+									<button onclick="deleteRowPreset(); return false;" data-toggle="tooltip" title="{{ text_preset_remove }}" class="btn btn-danger"><i class="fa fa-minus"></i></button>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div class="tab-pane" id="attr-excl-setting">
+					<div class="panel-heading">
+						<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit_excl_attr }}</h3>
+					</div>
+					<div class="panel-body">
+						<div class="panel-group" id="attr-excl-table">
+						{% if attribute_groups is empty %}
+							<div class="row"><div class="col-xs-12 text-center"><h4 style="margin:0;">{{ text_no_attr_data }}</h4></div></div>
+						{% else %}
+							{% for attr_group in attribute_groups %}
+								{% set attr_count = attr_group['attributes'] is not empty ? attr_group['attributes']|length : 0 %}
+							<div class="panel panel-attr-group">
+								<div class="panel-heading">
+									<div class="row">
+										<div class="col-sm-10 col-xs-12 attr-group-title">
+											<h4 class="panel-title">{{ attr_group['name'] }}</h4>
+										</div>
+										<div class="col-sm-1 col-xs-9 count">
+											{{ attr_count }} <i class="fa fa-level-down"></i>
+										</div>
+										<div class="col-sm-1 col-xs-3 attr-group-btn text-right">
+											<button type="button" onclick="collapseRow($(this), 'attr-group-{{ attr_group['attribute_group_id'] }}')" data-toggle="tooltip" title="" class="toggleItem btn btn-primary btn-sm" data-original-title="{{ text_show_hide }}"{% if not attr_count %} disabled{% endif %}><i class="fa fa-eye"></i></button>
+										</div>
+									</div>
+								</div>
+								<div id="attr-group-{{ attr_group['attribute_group_id'] }}" class="panel-body" style="display: none;">
+								{% if attr_count %}
+									{% for attr in attr_group['attributes'] %}
+										<table id="attr-{{ attr['attribute_id'] }}" class="table panel-attr" data-attr-id="{{ attr['attribute_id'] }}"><tbody>
+											<tr>
+												<td class="count">
+													<i class="fa fa-ban text-danger"></i> <span>{{ attr['count'] }}</span>
+												</td>
+												<td class="attr-title">
+													<h5 class="panel-title">{{ attr['name'] }}</h5>
+												</td>
+												<td class="btns text-right">
+													<button type="button" onclick="exclusionEdit('{{ attr['attribute_id'] }}', 'attribute')" class="btn btn-primary btn-sm">
+														<i class="fa fa-ban"></i> {{ text_excl_attr_edit }}
+													</button>
+													<button type="button" onclick="removeRelatedExclusions('{{ attr['attribute_id'] }}', 'attribute')" class="btn btn-danger btn-sm">
+														<i class="fa fa-times"></i> {{ text_excl_attr_del }}
+													</button>
+												</td>
+											</tr>
+										</tbody></table>
+									{% endfor %}
+								{% endif %}
+								</div>
+							</div>
+							{% endfor %}
+						{% endif %}
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane" id="toolkit">
+					<div class="panel-heading">
+						<h3 class="panel-title"><i class="fa fa-wrench"></i> {{ text_use_toolkit }}</h3>
+					</div>
+					<div class="panel-body">
+						<div class="col-lg-2 col-md-1 col-xs-12"></div>
+						<div class="col-lg-8 col-md-10 col-sm-12">
+							<div class="alert alert-notice text-center" role="alert"><b>{{ text_toolkit_notice }}</b></div>
+						</div>
+						<div class="col-lg-2 col-md-1 col-xs-12"></div>
+						<div class="clearfix"></div>
+						<div class="col-lg-2 col-md-1 col-xs-12"></div>
+						<div class="col-lg-8 col-md-10 col-sm-12">
+							<label for="tk-dbo-select">{{ text_tk_op_db_title }}</label>
+							<div class="input-group">
+								<select id="tk-dbo-select" class="form-control">			
+									<option value="del_excl_extinct_prod">{{ text_del_excl_extinct_prod }}</option>
+									<option value="del_excl_extinct_ctgrs">{{ text_del_excl_extinct_ctgrs }}</option>
+									<option value="del_excl_extinct_attr_var">{{ text_del_excl_extinct_attr_var }}</option>
+									<option value="del_excl_attr_extinct_lang">{{ text_del_excl_attr_extinct_lang }}</option>
+									<option value="create_missing_tables">{{ text_create_missing_tables }}</option>
+								</select>
+								<span class="input-group-btn">
+									<button onclick="performDBOTool();return false;" class="btn btn-primary" style="margin: 0 0 0 5px;"><i class="fa fa-cogs" style="margin: 0 5px 0 0;"></i> {{ text_perform }}</button>
+								</span>
+							</div>
+							<br />
+						</div>
+						<div class="col-lg-2 col-md-1 col-xs-12"></div>
+						<div class="clearfix"></div>
+						<div class="col-lg-2 col-md-1 col-xs-12"></div>
+						<div class="col-lg-8 col-md-10 col-sm-12">
+							<label for="configurator_settings[config_custom_css]">{{ text_tk_cstm_css_title }}</label>
+							<textarea id="custom-css" class="form-control" name="configurator_settings[config_custom_css]" style="resize: vertical; min-height: 216px;">{{ configurator_settings['config_custom_css']|raw }}</textarea>
+							<br />
+						</div>
+						<div class="col-lg-2 col-md-1 col-xs-12"></div>
+						<div class="clearfix"></div>
+						<div class="col-lg-2 col-md-1 col-xs-12"></div>
+							<div class="col-lg-8 col-md-10 col-sm-12">
+							<label for="configurator_settings[config_custom_js]">{{ text_tk_cstm_js_title }}</label>
+							<textarea id="custom-css" class="form-control" name="configurator_settings[config_custom_js]" style="resize: vertical; min-height: 216px;">{{ configurator_settings['config_custom_js']|raw }}</textarea>
+							<br />
+						</div>
+						<div class="col-lg-2 col-md-1 col-xs-12"></div>
+					</div>
+				</div>
+				<input type="hidden" name="button_type" value="save">
+			</form>
+		</div>
+		<div class="modal fade" id="modal-exclusion" tabindex="-1">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+						<h4 class="modal-title text-center">{{ text_exclusion_title }}</h4>
+					</div>
+					<div class="modal-body">
+					...
+					</div>
+					<div class="modal-footer">
+						<!--<button type="button" class="btn btn-default" data-dismiss="modal">{{ text_close }}</button>-->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+<script type="text/javascript"><!--
+	var lastS_ID = {{ s_max_id }} + 1;
+	var errors = {};
+
+	function addSectionRow() {
+		$('#no-data-sections').remove();
+		var html = '';
+		
+		html += '<tr class="row-header" id="s-id-'+lastS_ID+'" data-section-id="'+lastS_ID+'">';
+		html += 	'<td class="text-center">';
+		html += 		'<input type="checkbox" class="check-section">';
+		html += 		'<input type="hidden" name="sections['+lastS_ID+'][id]" value="'+lastS_ID+'">';
+		html += 	'</td>';
+		html +=		'<td>';
+		html +=		 	'<select class="form-control" name="sections['+lastS_ID+'][required]">';
+		html +=		 		'<option value="1">{{ text_yes }}</option>';
+		html +=		 		'<option selected value="0">{{ text_no }}</option>';
+		html +=			'</select>';
+		html +=		'</td>';		
+		html +=		'<td>';
+		html +=		 	'<select class="form-control" name="sections['+lastS_ID+'][qtychoice]">';
+		html +=		 		'<option value="1">{{ text_yes }}</option>';
+		html +=		 		'<option selected value="0">{{ text_no }}</option>';
+		html +=			'</select>';
+		html +=		'</td>';
+		html += 	'<td><input type="text" class="form-control" name="sections['+lastS_ID+'][name]"></td>';
+		html += 	'<td>';									
+		html += 		'<select name="sections['+lastS_ID+'][group]" class="form-control select-group">';
+		{% if configurator_settings['config_groups']|length == 0 %}
+		html += 			'<option selected value="-1">{{ text_no_group }}</option>';
+		{% else %}
+		html += 			'<option selected value="-1">{{ text_no_group }}</option>';
+			{% for group_id, group_name in configurator_settings['config_groups'] %}
+		html += 			'<option value="{{ group_id }}">{{ group_name }}</option>';
+			{% endfor %}
+		{% endif %}
+		html += 		'</select>';
+		html += 	'</td>';
+		html += 	'<td class="text-center">';
+		html += 		'<a href="" id="section-thumb-img'+lastS_ID+'" data-toggle="image" data-original-title="" title="">';
+		html += 			'<img src="{{ section_no_img }}" alt="" title="" data-placeholder="{{ section_no_img }}" class="img-thumbnail">';
+		html += 		'</a>';
+		html += 		'<input type="hidden" name="sections['+lastS_ID+'][img_path]" value="" id="section-input-img'+lastS_ID+'">';
+		html += 	'</td>';
+		html +=		'<td>';
+		html +=		 	'<textarea class="form-control text-desc" name="sections['+lastS_ID+'][description]"></textarea>';
+		html +=		'</td>';
+		html +=		'<td>';
+		html +=			'<select class="form-control" name="sections['+lastS_ID+'][status]">';
+		html +=				'<option value="1">{{ text_on }}</option>';
+		html +=				'<option value="0">{{ text_off }}</option>';
+		html +=			'</select>';
+		html +=		'</td>';
+		html +=		'<td><input type="number" name="sections['+lastS_ID+'][sort_order]" class="form-control testInt" value="'+lastS_ID+'"></td>';
+		html +=		'<td class="text-right">';
+		html +=			'<button type="button" onclick="collapseRow($(this), \'section-'+lastS_ID+'\')" title="" class="toggleItem btn btn-primary btn-sm"><i class="fa fa-eye"></i></button>';
+		html +=		'</td>';
+		html += '</tr>';
+		html += '<tr class="row-body">';
+		html +=		'<td colspan="10">';
+		html +=			'<div id="section-'+lastS_ID+'" class="section-wrap">';
+		html +=				'<label class="col-sm-2 control-label" for="search-category">';
+		html +=					'<span data-toggle="tooltip" title="" data-original-title="{{ help_autocomplete }}">{{ entry_including_ctgrs }}</span>';
+		html +=				'</label>';
+		html +=				'<div class="col-sm-10 inc-ctgrs-wrap">';
+		html +=					'<input type="text" name="sections['+lastS_ID+'][included_categories]" data-id="'+lastS_ID+'" value="" placeholder="{{ entry_categories }}" class="form-control inputs category-search" autocomplete="off">';
+		html +=					'<div id="inc-categories-div-'+lastS_ID+'" class="well well-sm ctgrs" style="height: 150px; overflow: auto;"></div>';
+		html +=				'</div>';
+		html +=				'<div class="excl-btns text-center">';
+		html +=					'<div class="help-excl-open"><i class="fa fa-exclamation-circle"></i> {{ help_excl_open }}</div>';
+		html +=				'</div>';
+		html +=			'</div>';
+		html +=		'</td>';
+		html +=	'</tr>';
+		
+		$('#sections-button-place').before(html); 
+		addAutocomplete($('#section-'+lastS_ID+' input.category-search'));
+		
+		lastS_ID++;
+	}
+
+
+	function deleteSectionRow() {
+		$('#sections-table .row-header .check-section:checked').each(function() {
+			var rowHeader = $(this).parent().parent();
+			var rowBody = rowHeader.next();
+			rowHeader.detach();
+			rowBody.detach();
+			lastS_ID--;
+			
+			$('#presets-table .row-body .preset-wrap .preset-section[data-section-id="'+rowHeader.data('section-id')+'"]').detach();
+		});
+	}
+
+	
+	$('#sections-table .row-body input.category-search').each(function() {
+		addAutocomplete($(this));
+	});
+	
+	function addAutocomplete(input) {
+		var id = input.data('id');
+		var section = $('#section-'+id);
+		var ctgrsDiv = section.find('#inc-categories-div-'+id);
+		
+		input.autocomplete({
+			'source': function(request, response) {
+				$.ajax({
+					url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+					dataType: 'json',
+					success: function(json) {
+						response($.map(json, function(data) {
+							return {
+								label: data['name'],
+								value: data['category_id']
+							}
+						}));
+					}, 
+					error: function(data) {
+						console.log(JSON.stringify(data));
+					}
+				});
+			},
+			'select': function(inc_categoty) {
+				input.val('');
+				if(ctgrsDiv.find('#inc-category-' + inc_categoty['value']).length > 0) return;
+					
+				var html =	'<div id="inc-category-' + inc_categoty['value'] + '" data-inc-category="' + inc_categoty['value'] + '" class="inc-category">';
+				html +=			'<div class="inc-ctgr-name">' + inc_categoty['label'] + '</div>';
+				html +=			'<div class="inc-ctgr-btns">';
+				html +=				' <div class="btn btn-sm btn-danger" onclick="deleteIncCategory(\'' + inc_categoty['value'] + '\')"><i class="fa fa-times"></i> {{ text_del_cat }}</div>';
+				html +=				' <div class="btn btn-sm btn-danger" onclick="removeRelatedExclusions(\'' + inc_categoty['value'] + '\', \'category\')"><i class="fa fa-times"></i> {{ text_excl_del_cat }}</div>';
+				html += 			' <div class="btn btn-sm btn-danger" onclick="removeRelatedExclusions(\'' + inc_categoty['value'] + '\', \'product\')"><i class="fa fa-times"></i> {{ text_excl_del_prod }}</div>';
+				html +=				'<input type="hidden" name="sections[' + id + '][included_categories][' + inc_categoty['value'] + ']" value= "' + inc_categoty['label'] + '"/>';
+				html +=			'</div>';
+				html +=		'</div>';
+				
+				ctgrsDiv.append(html);
+			}
+		});
+	}
+	
+	
+	function deleteIncCategory(incCatId) {
+		if(confirm('{{ text_del_cat_qst }}')) {
+			$('#inc-category-'+incCatId).detach();
+		}
+	}
+
+	
+	function addGroup() {
+		var addInput = $('#add-group-input');
+		var groupList = $('#group-list');
+		var id = 0;
+
+		groupList.children('div').each(function() {
+			id++;
+		});
+		
+		if(addInput.val().length > 2)	{
+			var groupName = addInput.val();
+			var html = '';
+
+			html += '<div id="category-group-'+id+'"><i style="cursor: pointer;" onclick="deleteGroup('+id+')" class="fa fa-minus-circle"></i>';
+			html += 	' ' + groupName;
+			html += 	'<input type="hidden" name="configurator_settings[config_groups][]" value="'+ groupName +'">';
+			html += '</div>';
+				
+			groupList.append(html);
+			addInput.val('');
+			
+			$('#sections-table tr > td > .select-group').append('<option value="'+id+'">'+groupName+'</option>');
+		}else{
+			alert('{{ error_group }}');
+		}
+	}
+	
+	
+	function deleteGroup(id) {
+		$('#category-group-' + id).detach();
+		$('#sections-table tr > td > .select-group > option[value="'+id+'"]').detach();
+	}
+
+	
+/*Exclusions*/
+
+	var modalExclusion = $('#modal-exclusion');
+	var modalHeader = modalExclusion.find('.modal-header');
+	var modalBody = modalExclusion.find('.modal-body');
+	var modalFooter = modalExclusion.find('.modal-footer');
+
+
+	function exclusionEdit(id, exclType) {
+		var targetIds;
+
+		if(exclType == 'category' || exclType == 'product') {
+			var incListId = [];
+		
+			$('#inc-categories-div-'+id).children('div').each(function(e) {
+				incListId[e] = $(this).data('inc-category');
+			});
+			
+			if(!incListId.length) {
+				alert('{{ help_cat_disabled }}');
+				$('#section-'+id).find('.excl-btns').slideUp(300);
+				return;
+			}
+			
+			targetIds = incListId.join(',');
+			
+			var modalTitle = ((exclType == 'category')? '{{ text_excl_cat_title }}' : '{{ text_excl_prod_title }}')+' {{ help_autosave }}';
+			
+			modalHeader.children(':not(.close):not(.modal-title)').remove();
+			modalHeader.find('.modal-title').html(modalTitle);
+		}else if(exclType == 'attribute') {
+			targetIds = id;
+			
+			var attrGroupName = $('#attr-'+id).parents('.panel-attr-group').find('.attr-group-title').text();
+			var attrName = $('#attr-'+id).find('.panel-title').text();
+			var modalTitle = '{{ text_excl_attr_title }} <b>"'+attrName+'" ['+attrGroupName+']</b> {{ help_autosave }}';
+		
+			modalHeader.children(':not(.close):not(.modal-title)').remove();
+			modalHeader.find('.modal-title').html(modalTitle);
+		}
+		
+		modalBody.html('<div class="text-center" style="padding: 15px;"><h3><i class="fa fa-circle-o-notch fa-spin" style="font-size: 18px;vertical-align: text-top;margin: 5px 5px 0;color: #1e91cf;"></i> {{ text_loading }}</h3></div>');
+		modalExclusion.modal('show');
+		
+		setTimeout(function () {
+			$.ajax({
+				url: 'index.php?route=extension/module/configurator/getExclusions&user_token={{ user_token }}',
+				data: {
+					'excl_type': exclType,
+					'target_ids': targetIds
+				},
+				type: 'POST',
+				dataType: 'json',
+				success: function (data) {
+					if(exclType == 'category' || exclType == 'product') {
+						insertExclusionsSection(data, exclType, targetIds);
+					}else if(exclType == 'attribute') {
+						insertExclusionsAttr(data, targetIds);
+					}
+					
+					var correctionHeight = modalHeader.outerHeight(true) + modalFooter.outerHeight(true) + 13;
+					modalBody.css({'max-height': 'calc(100% - '+correctionHeight+'px)'});
+				},
+				error: function (error) {
+					console.log(JSON.stringify(error));
+				}
+			});
+		}, 500);
+	}
+
+	
+	function insertExclusionsAttr(data, id) {
+		var html = '<table id="attr-add-panel" class="table" data-excl-id="" data-attr-id="'+id+'" data-excl-attr-id=""><tbody>';
+		html += 	'<tr>';
+		html += 		'<td class="col-auto{% if languages|length <= 1 %} hidden{% endif %}">';
+		html += 			'<select id="select-attr-lang" onchange="languageSelector($(this))" class="form-control" style="width:auto;">';
+		html += 				'<option value="all" selected>{{ text_all_lang }}</option>';
+		{% for lang in languages %}
+			{% if lang['status'] %}
+		html += 				'<option value="{{ lang['language_id'] }}">{{ lang['name'] }}</option>';					
+			{% endif %}
+		{% endfor %}
+		html += 			'</select>';
+		html += 		'</td>';
+		html += 		'<td class="col-xs-12">';
+		{% for lang in languages %}
+			{% if lang['status'] %}
+		html += 			'<table class="table data-attr-excl" data-attr-lang-id="{{ lang['language_id'] }}"><tbody>';
+		html += 				'<tr>';
+		html += 					'<td class="col-auto flag text-center">' + getLanguageFlagImage('{{ lang['language_id'] }}') + '</td>';
+		html += 					'<td class="col-xs-4">';
+		html += 						'<input type="text" value="" class="attr-value attr-input form-control" placeholder="{{ text_ph_attr_val }}" autocomplete="off">';
+		html += 						'<button type="button" onclick="clearValuesAddPanel(\'attr-value\')" data-toggle="tooltip" title="" class="btn btn-sm btn-danger" data-original-title="{{ text_cleen }}"><i class="fa fa-close"></i></button>';
+		html += 					'</td>';
+		html += 					'<td class="col-auto separator text-center">';
+		html += 						'<i class="fa fa-ban text-danger"></i>';
+		html += 					'</td>';
+		html += 					'<td class="col-xs-4">';
+		html += 						'<input type="text" value="" class="excl-attr attr-input form-control" placeholder="{{ text_ph_excl_attr_name }}" autocomplete="off">';
+		html += 						'<button type="button" onclick="clearValuesAddPanel(\'excl-attr\')" data-toggle="tooltip" title="" class="btn btn-sm btn-danger" data-original-title="{{ text_cleen }}"><i class="fa fa-close"></i></button>';	
+		html += 					'</td>';
+		html += 					'<td class="col-xs-4">';
+		html += 						'<input type="text" value="" class="excl-attr-value attr-input form-control" placeholder="{{ text_ph_excl_attr_val }}" autocomplete="off" disabled>';
+		html += 						'<button type="button" onclick="clearValuesAddPanel(\'excl-attr-value\')" data-toggle="tooltip" title="" class="btn btn-sm btn-danger" data-original-title="{{ text_cleen }}"><i class="fa fa-close"></i></button>';
+		html += 					'</td>';
+		html += 				'</tr>';
+		html += 			'</tbody></table>';
+			{% endif %}
+		{% endfor %}
+		html += 		'</td>';
+		html += 		'<td class="col-auto text-right">';
+		html += 			'<button id="add-attr-excl-btn" type="button" onclick="addAttrExclusion()" class="btn btn-sm btn-primary" data-toggle="tooltip" title="" data-original-title="{{ text_edit }}/{{ text_exclusion_add }}" disabled><i class="fa fa-plus" style="font-size: 12px;"></i></button>';
+		html += 		'</td>';
+		html += 	'</tr>';
+		html += '</tbody></table>';
+		
+		modalHeader.append(html);
+		
+		html = '<table id="table-attr-excl" class="table content-table"><tbody>';
+		html += 	htmlAttrExclRows(data);
+		html += '</tbody></table>';
+			
+		modalBody.html(html);
+		
+		$('.data-attr-excl').each(function(e) {
+			var langId = $(this).data('attr-lang-id');
+
+			addExclAutocompleteForAttr($(this).find('input.attr-value'), 'attr_value', id, langId);
+			addExclAutocompleteForAttr($(this).find('input.excl-attr'), 'excl_attr', id, langId);
+			addExclAutocompleteForAttr($(this).find('input.excl-attr-value'), 'excl_attr_value', id, langId);
+		});
+	}
+	
+	
+	function htmlAttrExclRows(data) {
+		var langIdSelected = $('#select-attr-lang').val();
+		var html = '';
+
+		$.each(data, function (exclId, excl) {
+			html += '<tr id="attr-excl-'+exclId+'" class="row attr-excl-row">';
+			html += 	'<td class="col-xs-1 text-center count">ID'+exclId+'</td>';
+			html += 	'<td class="col-xs-11">';
+
+			$.each(excl, function (queue, exclData) {
+				var langId = exclData.lang_id;
+				var classHidden = (langIdSelected == langId || langIdSelected == 'all')? '' : ' hidden';
+				var attrValue = (exclData.attr_value)? exclData.attr_value : '<span class="text-danger"><i class="fa fa-ellipsis-h"></i></span>';
+				var exclAttr = (exclData.excl_attr)? exclData.excl_attr : '<span class="text-danger"><i class="fa fa-ellipsis-h"></i></span>';
+				var exclAttrValue = (exclData.excl_attr_value)? exclData.excl_attr_value : '<span class="text-danger"><i class="fa fa-ellipsis-h"></i></span>';
+
+				exclData.attr_value = exclData.attr_value.replace(/\u0022/g, '~~').replace(/\u0027/g, '``').replace(/\u0026/g, '%%%');
+				exclData.excl_attr_value = exclData.excl_attr_value.replace(/\u0022/g, '~~').replace(/\u0027/g, '``').replace(/\u0026/g, '%%%');
+
+				html +=		'<table class="table attr-excl-col'+classHidden+'" data-attr-lang-id="'+langId+'" data-excl-this-lang=\''+JSON.stringify(exclData)+'\'><tbody>';
+				html +=			'<tr>';
+				html += 			'<td class="col-auto flag text-center">' + getLanguageFlagImage(langId) + '</td>';
+				html += 			'<td class="col-xs-4 text-center attr-value">'+attrValue+'</td>';
+				html += 			'<td class="col-auto separator text-center"><i class="fa fa-ban text-danger"></i></td>';
+				html += 			'<td class="col-xs-4 text-center excl-attr" data-toggle="tooltip" data-original-title="'+exclData.excl_g_name+'"><b>'+exclAttr+'</b></td>';
+				html += 			'<td class="col-xs-4 text-center excl-attr-value">'+exclAttrValue+'</td>';
+				html +=			'</tr>';
+				html += 	'</tbody></table>';
+			});
+			
+			html += 	'</td>';
+			html += 	'<td class="text-center"><button type="button" onclick="editAttrExclusion(\''+exclId+'\')" class="toggleItem btn btn-primary btn-sm" data-toggle="tooltip" title="{{ text_edit }}"><i class="fa fa-pencil" style="font-size: 12px;"></i></button></td>';
+			html += 	'<td class="text-center"><button type="button" onclick="removeAttrExclusion(\''+exclId+'\')" class="toggleItem btn btn-danger btn-sm" data-toggle="tooltip" title="{{ text_remove }}"><i class="fa fa-close" style="font-size: 12px;"></i></button></td>';
+			html += '</tr>';
+		});
+	
+		return html;
+	}
+	
+	
+	function languageSelector(select) {
+		var langId = select.val();
+		
+		$('.data-attr-excl').each(function(e) {	
+			if(langId == $(this).data('attr-lang-id') || langId == 'all') {
+				$(this).removeClass('hidden');
+			}else{
+				$(this).addClass('hidden');
+			}
+		});		
+		
+		$('.attr-excl-col').each(function(e) {	
+			if(langId == $(this).data('attr-lang-id') || langId == 'all') {
+				$(this).removeClass('hidden');
+			}else{
+				$(this).addClass('hidden');
+			}
+		});
+		
+		var correctionHeight = modalHeader.outerHeight(true) + modalFooter.outerHeight(true) + 13;
+		modalBody.css({'max-height': 'calc(100% - '+correctionHeight+'px)'});
+	}
+	
+	
+	function getLanguageFlagImage(langId) {
+		var flagArr = {};
+		{% for lang in languages %}
+			{% if lang['status'] %}
+		flagArr[{{ lang['language_id'] }}] = '<img src="{{ 'language/' ~ lang['code'] ~ '/' ~ lang['code'] ~ '.png' }}" title="{{ lang['name'] }}">';
+			{% endif %}
+		{% endfor %}
+		return (flagArr[langId])? flagArr[langId] : '';
+	}	
+	
+	
+	function updateAttrExclQty(attrIdList) {
+		$.ajax({
+			url: 'index.php?route=extension/module/configurator/getCountExclusionsOfAttributes&user_token={{ user_token }}',
+			type: 'POST',
+			data: {
+				'attr_id_list': ((attrIdList !== undefined)? attrIdList : '') 
+			},
+			dataType: 'json',
+			success: function (data) {
+				$('#attr-excl-table').find('.panel-attr').each(function(e) {
+					var attrId = $(this).data('attr-id');
+					var newCount = parseInt((data[attrId] !== undefined)? data[attrId] : 0);
+					
+					$(this).find('.count > span').text(newCount);
+				});
+			},
+			error: function (error) {
+				console.log(JSON.stringify(error));
+			}
+		});
+	}
+	
+	
+	function clearValuesAddPanel(target) {
+		if(target == 'excl-id' || target == 'all'){
+			$('#attr-add-panel').data('excl-id', '');
+		}
+		if(target == 'attr-value' || target == 'all'){
+			$('input.attr-value').val('').removeClass('selected');
+		}
+		if(target == 'excl-attr' || target == 'all') {
+			$('#attr-add-panel').data('excl-attr-id', '');
+			$('input.excl-attr').val('').prop('disabled', false).removeClass('selected');
+			$('input.excl-attr-value').val('').prop('disabled', true);
+		}
+		if(target == 'excl-attr-value' || target == 'all') {
+			$('input.excl-attr-value').val('').removeClass('selected');
+		}
+		
+		checkAttrInputData();
+	}
+	
+	
+	function editAttrExclusion(exclId) {
+		var attrRow = $('#attr-excl-'+exclId);
+		var addPanel = $('#attr-add-panel');
+		
+		if(!attrRow.hasClass('selected')) {
+			$('.attr-excl-row').removeClass('selected');
+
+			attrRow.addClass('selected').find('.attr-excl-col').each(function(e) {	
+				var langId = $(this).data('attr-lang-id');
+				var exclData = $(this).data('excl-this-lang');
+
+				$('.data-attr-excl[data-attr-lang-id="'+langId+'"]').find('input.attr-value')
+					.val(exclData.attr_value.replace(/~~/g, '"').replace(/``/g, "'").replace(/%%%/g, '&'));
+					
+				$('.data-attr-excl[data-attr-lang-id="'+langId+'"]').find('input.excl-attr')
+					.val(exclData.excl_attr+((exclData.excl_g_name)? ' ['+exclData.excl_g_name+']' : ''));
+					
+				$('.data-attr-excl[data-attr-lang-id="'+langId+'"]').find('input.excl-attr-value')
+					.val(exclData.excl_attr_value.replace(/~~/g, '"').replace(/``/g, "'").replace(/%%%/g, '&'));
+				
+				if(!e) addPanel.data('excl-attr-id', exclData.excl_attr_id);
+			});
+			
+			addPanel.data('excl-id', exclId);
+			checkAttrInputData();
+		}else{
+			clearValuesAddPanel('all');
+			attrRow.removeClass('selected');
+		}
+	}
+	
+	
+	function checkAttrInputData() {
+		var addPanel = $('#attr-add-panel');
+
+		addPanel.find('input.attr-input').each(function(e) {	
+			if(!$(this).val().trim()) {
+				$(this).addClass('error');
+			}else{
+				$(this).removeClass('error');
+			}
+		});
+		
+		if(!$('input.excl-attr.error').length && parseInt(addPanel.data('excl-attr-id'))) {
+			$('input.excl-attr').prop('disabled', true);
+			$('input.excl-attr-value').prop('disabled', false);
+		}else{
+			$('input.excl-attr').prop('disabled', false);
+			$('input.excl-attr-value').prop('disabled', true);
+		}
+		
+		$('input.attr-input.error:disabled').removeClass('error');
+
+		var errorVal = $('input.attr-input.error').length;
+
+		if(parseInt(addPanel.data('excl-id'))) {
+			$('#add-attr-excl-btn').prop('disabled', ((errorVal)? true : false))
+				.addClass('btn-success').removeClass('btn-primary')
+				.find('.fa')
+				.addClass('fa-refresh').removeClass('fa-plus');
+		}else{
+			$('#add-attr-excl-btn').prop('disabled', ((errorVal)? true : false))
+				.addClass('btn-primary').removeClass('btn-success')
+				.find('.fa')
+				.addClass('fa-plus').removeClass('fa-refresh');
+		}
+	}
+	
+	
+	function addAttrExclusion() {
+		var exclData = {};
+		
+		exclData.excl_id = parseInt($('#attr-add-panel').data('excl-id'));
+		exclData.attr_id =  parseInt($('#attr-add-panel').data('attr-id'));
+		exclData.excl_attr_id = parseInt($('#attr-add-panel').data('excl-attr-id'));
+		exclData.excl_val_data = {};
+			
+		$('.data-attr-excl').each(function(e) {	
+			exclData.excl_val_data[e] = {
+				'lang_id': parseInt($(this).data('attr-lang-id')),
+				'attr_value': $(this).find('input.attr-value').val(),
+				'excl_attr_value': $(this).find('input.excl-attr-value').val()
+			};
+		});
+		
+		actionOnExclusions('attribute', 'add', exclData).success(function (response) {
+			if(response !== null && typeof response === 'object') {
+				if(exclData.excl_id) {
+					$('#attr-excl-'+exclData.excl_id).replaceWith(htmlAttrExclRows(response));
+					clearValuesAddPanel('all');
+				}else{
+					var tableAttrExcl = $('#table-attr-excl > tbody');
+					
+					tableAttrExcl.append(htmlAttrExclRows(response));
+					modalBody.scrollTop(tableAttrExcl.outerHeight(false) - modalBody.outerHeight(false));
+					
+					clearValuesAddPanel('excl-attr-value');
+					updateAttrExclQty();
+				}
+			}
+		});
+	}
+	
+	
+	function removeAttrExclusion(exclId) {
+		actionOnExclusions('attribute', 'delete', {'target_id': exclId}).success(function (response) {
+			if(response) {
+				$('#attr-excl-'+exclId).remove();
+				updateAttrExclQty();
+			}
+		});
+	}
+	
+	
+	function addExclAutocompleteForAttr(input, targetData, attrId, langId) {
+		var dataAllLang = {};
+		var lastVal = '';
+		
+		input.on('input', function () {
+			if(input.val().trim() == '*') {
+				if(targetData == 'excl_attr_value') $('input.excl-attr-value').val('*');
+				if(targetData == 'attr_value') $('input.attr-value').val('*');
+				lastVal = '*';
+				$('.dropdown-menu').hide();
+				checkAttrInputData();
+				return;
+			}
+			if(lastVal == '*' && !input.val().trim()) {
+				if(targetData == 'excl_attr_value') $('input.excl-attr-value').val('');
+				if(targetData == 'attr_value') $('input.attr-value').val('');
+				lastVal = '';
+				$('.dropdown-menu').hide();
+				checkAttrInputData();
+				return;
+			}
+		}).autocomplete({
+			'source': function(request, response) {
+				if(input.val() == '*') return;
+				
+				var attrData = {
+					'lang_id': langId,
+					'attr_id': attrId, 
+					'attr_value': '', 
+					'excl_attr_id': (targetData == 'excl_attr_value')? $('#attr-add-panel').data('excl-attr-id') : '',
+					'excl_attr_value': ''
+				};
+
+				$.ajax({
+					url: 'index.php?route=extension/module/configurator/autocompleteForAttrExclusion&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request.substr(0, 155)) + '&target_data=' + encodeURIComponent(targetData) + '&attr_data=' + encodeURIComponent(JSON.stringify(attrData)),
+					dataType: 'json',
+					success: function(json) {
+						dataAllLang = json;
+						
+						response($.map(json, function(attr) {
+							if(attr['language_id'] == langId) {
+								if(targetData == 'attr_value' || targetData == 'excl_attr_value') {
+									return {
+										label: attr['text'],
+										value: attr['product_id'],
+										attr_id: attr['attribute_id']
+									}
+								}else if(targetData == 'excl_attr') {
+									return {
+										label: attr['name'] + ' ['+attr['group_name']+']',
+										value: attr['name'],
+										attr_id: attr['attribute_id']
+									}
+								}
+							}
+						}));
+					}, 
+					error: function(data) {
+						console.log(JSON.stringify(data));
+					}
+				});
+				
+				checkAttrInputData();
+			},
+			'select': function(item) {
+				if(targetData == 'attr_value' || targetData == 'excl_attr_value') {
+					$.each(dataAllLang, function (i, attr) {
+						if(attr['product_id'] == item['value']) {
+							var inpSelector = (targetData == 'attr_value')? 'input.attr-value' : 'input.excl-attr-value';
+							
+							$('.data-attr-excl[data-attr-lang-id="'+attr['language_id']+'"]').find(inpSelector)
+								.val(attr['text'])
+								.addClass('selected');	
+						}
+					});
+				}else if(targetData == 'excl_attr') {		
+					$.each(dataAllLang, function (i, attr) {
+						if(attr['attribute_id'] == item['attr_id']) {
+							var attrNameValue = attr['name'] + ' ['+attr['group_name']+']';
+							
+							$('.data-attr-excl[data-attr-lang-id="'+attr['language_id']+'"]').find('input.excl-attr')
+								.val(attrNameValue)
+								.prop('disabled', true)
+								.addClass('selected');	
+						}
+					});
+					
+					$('#attr-add-panel').data('excl-attr-id', item['attr_id']);
+					$('input.excl-attr-value').val('');				
+				}
+				
+				checkAttrInputData();
+			}
+		});
+	}
+	
+	
+	function insertExclusionsSection (data, exclType, incIdList) {
+		var html = '<table class="table table-striped content-table"><tbody>';
+		var incIdArr = incIdList.split(',');
+
+		$.each(data, function (i, val) {
+			var id = val[exclType+'_id'];
+			var itemName = val.name;
+			var info = '';
+			var exclAll = false;
+			var exclItems = '';
+			var exclCount = 0;
+			
+			if(exclType == 'category') {
+				for(itemNum in incIdArr) {
+					if(incIdArr[itemNum] == id) info = '<span style="color:#1e91cf">{{ text_excl_this_inc }}</span>';
+				}
+			}else if(exclType == 'product') {
+				info = val.category_name;	
+			}
+
+			$.each(val.exclusions, function (n, exclusion) {
+				if(exclusion.id == -1) {
+					exclAll = true;
+				}else{
+					exclItems += 	'<div data-item-id="'+exclusion.id+'" data-item-name="'+exclusion.name+'">';
+					exclItems += 		'<i style="cursor: pointer;" onclick="removeExclItem($(this).parent(), \''+exclType+'\')" class="fa fa-minus-circle"></i> ' + exclusion.name;
+					exclItems += 	'</div>';
+					exclCount++;
+				}
+			});	
+
+			html += '<tr id="target-'+id+'" class="row panel-heading">';
+			html += 	'<td class="col-xs-1 text-center count"><i class="fa fa-ban text-danger"></i> '+exclCount+'</td>';
+			html += 	'<td class="col-xs-8"><b>'+itemName+'</b></td>';
+			html += 	'<td class="col-xs-3 text-center">'+info+'</td>';
+			
+			if(exclAll) {	
+				html += '<td class="text-center"><button type="button" onclick="exclItemBlocker($(this), \''+id+'\', \''+exclType+'\')" class="toggleItem btn btn-danger btn-sm" data-blocked="yes" data-toggle="tooltip" title="{{ text_excl_block }}"><i class="fa fa-ban" style="font-size: 12px;"></i></button></td>';
+			}else{
+				html += '<td class="text-center"><button type="button" onclick="exclItemBlocker($(this), \''+id+'\', \''+exclType+'\')" class="toggleItem btn btn-success btn-sm" data-blocked="no" data-toggle="tooltip" title="{{ text_excl_block }}"><i class="fa fa-circle" style="font-size: 12px;"></i></button></td>';
+			}
+			
+			html += 	'<td class="text-center"><button type="button" onclick="showHideExclPanel ($(this))" class="toggleItem btn btn-primary btn-sm" data-toggle="tooltip" title="{{ text_show_hide }}"><i class="fa fa-plus" style="font-size: 12px;"></i></button></td>';
+			html += '</tr>';
+			html += '<tr class="inner hidden" data-inner-id="'+id+'">';
+			html += 	'<td class="col-xs-12" colspan="6">';
+			html += 		'<input data-id="'+id+'" placeholder="{{ text_exclusion_add }}" type="text" class="item-add form-control" name="" value="">';
+			html += 		'<div id="exclusions-div-'+id+'" class="exclusions form-control well well-sm" style="height: 150px;margin:5px auto 0;overflow: auto;background-color: #ffe5e5;">';
+			html +=				exclItems;
+			html += 		'</div>';
+			html += 	'</td>';
+			html += '</tr>';
+		});	
+		
+		html += '</tbody></table>';
+		
+		modalBody.html(html);
+		
+		$('#modal-exclusion .modal-body input.item-add').each(function() {
+			addExclAutocompleteForSection($(this), exclType);
+		});	
+	}
+	
+	
+	function addExclAutocompleteForSection(input, exclType) {
+		var id = input.data('id');
+		var itemsInner = input.next();
+		
+		input.autocomplete({
+			'source': function(request, response) {
+				$.ajax({
+					url: 'index.php?route=catalog/'+exclType+'/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+					dataType: 'json',
+					success: function(json) {
+						response($.map(json, function(data) {
+							return {
+								label: data['name'],
+								value: data[exclType+'_id']
+							}
+						}));
+					}, 
+					error: function(data) {
+						console.log(JSON.stringify(data));
+					}
+				});
+			},
+			'select': function(item) {
+				input.val('');
+				if(itemsInner.find('div[data-item-id="'+item['value']+'"]').length > 0) return;
+				
+				actionOnExclusions(exclType, 'add', {'target_id': id, 'excl_id': item['value']});
+				
+				var html = '';
+				html += '<div data-item-id="'+item['value']+'" data-item-name="'+item['label']+'">';
+				html += 	'<i style="cursor: pointer;" onclick="removeExclItem($(this).parent(),\''+exclType+'\')" class="fa fa-minus-circle"></i> ' + item['label'];
+				html += '</div>';
+				
+				itemsInner.append(html);
+				exclusionsCounter(id, true);
+			}
+		});
+	}
+
+	
+	function actionOnExclusions(exclType, event, exclData) {
+		return $.ajax({
+			url: 'index.php?route=extension/module/configurator/actionOnExclusions&user_token={{ user_token }}',
+			data: {
+				'excl_type': exclType,
+				'event': event,
+				'excl_data': exclData
+			},
+			type: 'POST',
+			dataType: 'json',
+			success: function(completed) {
+				switch(completed) {
+					case false:
+						alert('{{ error_operation }}');
+						break;
+					case 'error_permission':
+						alert('{{ error_permission }}');
+						break;
+					case 'attr_excl_exists':
+						alert('{{ text_attr_excl_exists }}');
+						break;
+				}
+			},
+			error: function (error) {
+				console.log(JSON.stringify(error));
+			}
+		});
+	}
+	
+	
+	function removeRelatedExclusions(relIdList, type) {
+		switch(type) {
+			case 'category':
+				var answer = confirm('{{ text_excl_del_cat_qst }}');
+				break;				
+			case 'product':
+				var answer = confirm('{{ text_excl_del_prod_qst }}');
+				break;				
+			case 'attribute':
+				var answer = confirm('{{ text_excl_del_attr_qst }}');
+				break;
+			default:
+				var answer = false;
+				break;		
+		}
+	
+		if(answer) {
+			$.ajax({
+				url: 'index.php?route=extension/module/configurator/removeRelatedExclusions&user_token={{ user_token }}',
+				data: {
+					'rel_id_list': relIdList,
+					'type': type
+				},
+				type: 'POST',
+				dataType: 'json',
+				success: function(completed) {
+					switch(completed) {
+						default:
+						case true:
+							if(type == 'attribute') updateAttrExclQty();
+							alert('{{ text_edit_complete }}');
+							break;	
+						case false:
+							alert('{{ error_operation }}');
+							break;							
+						case 'error_permission':
+							alert('{{ error_permission }}');
+							break;						
+					}
+				},
+				error: function (error) {
+					console.log(JSON.stringify(error));
+				}
+			});
+		}
+	}
+	
+	
+	function removeExclItem(el, exclType) {	
+		var targetId = el.parents('.inner').data('inner-id');
+		
+		actionOnExclusions(exclType, 'delete', {'target_id': targetId, 'excl_id': el.data('item-id')});
+		
+		el.remove();
+		exclusionsCounter(targetId, false);
+	}
+	
+	
+	function exclItemBlocker(thisEl, targetId, exclType) {
+		if(thisEl.data('blocked') == 'no') {
+			thisEl.data('blocked', 'yes')
+				.html('<i class="fa fa-ban" style="font-size: 12px;"></i>')
+				.removeClass('btn-success')
+				.addClass('btn-danger');
+			
+			actionOnExclusions(exclType, 'add', {'target_id': targetId, 'excl_id': '-1'});
+		}else{
+			thisEl.data('blocked', 'no')
+				.html('<i class="fa fa-circle" style="font-size: 12px;"></i>')
+				.removeClass('btn-danger')
+				.addClass('btn-success');
+			
+			actionOnExclusions(exclType, 'delete', {'target_id': targetId, 'excl_id': '-1'});
+		}
+	}
+	
+	
+	function exclusionsCounter(targetId, change) {
+		var exclSection = $('#target-'+targetId);
+		var count = parseInt(exclSection.children('.count').text()) + ((change)? 1 : -1);
+
+		exclSection.children('.count').html('<i class="fa fa-ban text-danger"></i> '+count);
+	}
+	
+	
+	function showHideExclPanel(thisEl) {
+		var targetEl = thisEl.parent().parent().next();
+		if(targetEl.is(':hidden')) {
+			thisEl.find('.fa').removeClass('fa-plus').addClass('fa-minus');
+			targetEl.removeClass('hidden');
+		}else{
+			thisEl.find('.fa').removeClass('fa-minus').addClass('fa-plus');
+			targetEl.addClass('hidden');
+		}
+	}	
+	
+	
+/*Preset configuration*/
+
+	var lastP_ID = {{ p_max_id }} + 1;
+
+	function addPresetRow() {
+		$('#no-data-presets').remove();
+		var html = '';
+		
+		html += '<tr class="row-header" id="p-id-'+lastP_ID+'">';
+		html += 	'<td class="text-center">';
+		html += 		'<input type="checkbox" class="check-preset">';
+		html += 		'<input type="hidden" name="presets['+lastP_ID+'][id]" value="'+lastP_ID+'">';
+		html += 	'</td>';
+		html += 	'<td><input type="text" class="form-control" name="presets['+lastP_ID+'][name]"></td>';
+		html += 	'<td class="text-center">';
+		html += 		'<a href="" id="preset-thumb-img'+lastP_ID+'" data-toggle="image" data-original-title="" title="">';
+		html += 			'<img src="{{ preset_no_img }}" alt="" title="" data-placeholder="{{ preset_no_img }}" class="img-thumbnail">';
+		html += 		'</a>';
+		html += 		'<input type="hidden" name="presets['+lastP_ID+'][img_path]" value="" id="preset-input-img'+lastP_ID+'">';
+		html += 	'</td>';
+		html +=		'<td>';
+		html +=		 	'<textarea class="form-control text-desc" name="presets['+lastP_ID+'][description]"></textarea>';
+		html +=		'</td>';
+		html +=		'<td>';
+		html +=		 	'<select class="form-control" name="presets['+lastP_ID+'][status]">';
+		html +=		 		'<option value="1">{{ text_on }}</option>';
+		html +=		 		'<option value="0">{{ text_off }}</option>';
+		html +=			'</select>';
+		html +=		'</td>';
+		html += 	'<td><input type="text" class="preset-cost form-control text-center" value="-" disabled ></td>';
+		html +=		'<td><input type="number" name="presets['+lastP_ID+'][sort_order]" class="form-control testInt" value="'+lastP_ID+'"></td>';
+		html +=		'<td class="text-right">';
+		html +=			'<button type="button" onclick="collapseRow($(this), \'preset-'+lastP_ID+'\')" title="" class="toggleItem btn btn-primary btn-sm"><i class="fa fa-eye"></i></button>';
+		html +=		'</td>';
+		html += '</tr>';
+		html += '<tr class="row-body">';
+		html +=		'<td colspan="8">';
+		html +=			'<div id="preset-'+lastP_ID+'" class="preset-wrap" data-preset-id="'+lastP_ID+'">';
+		
+		$('#sections-table tr.row-header').each(function () {
+			var sectionId = $(this).data('section-id');
+			var sectionName = $(this).find('.section-name > input').val();
+		
+			html +=			'<div class="preset-section col-sm-12" id="p-s-id-'+lastP_ID+'-'+sectionId+'" data-section-id="'+sectionId+'">';
+			html +=				'<div class="col-xs-3 control-label well well-sm text-center">';
+			html +=					'<span>'+((sectionName && sectionName.trim())? sectionName : '-')+'</span>';
+			html +=				'</div>';
+			html +=				'<div class="col-xs-3">';
+			html +=					'<input placeholder="{{ text_p_ph_in_prod }}" type="text" value="" class="product-name form-control" style="width:calc(100% - 74px);margin-right:5px;display:inline-block;">';
+			html +=					'<input type="hidden" name="presets['+lastP_ID+'][p_sections]['+sectionId+'][p_p_id]" value="" class="product-id">';			
+			html +=					'<button type="button" onclick="deleteProductRpeset(\''+lastP_ID+'\', \''+sectionId+'\')" class="btn-remove btn btn-sm btn-danger" disabled="disabled"><i class="fa fa-times"></i></button>&nbsp;';
+			html +=					'<button type="button" onclick="window.open($(this).data(\'path-edit\'), \'_blank\')" data-path-edit="" title="" class="btn-edit btn btn-sm btn-primary" disabled="disabled"><i class="fa fa-pencil"></i></button>';	
+			html +=				'</div>';	
+			html +=				'<div class="col-xs-2 control-label well well-sm text-center">';
+			html +=					'<span class="quantity-info" data-quantity-info="">-</span>';
+			html +=				'</div>';
+			html +=				'<div class="col-xs-1">';
+			html +=					'<input type="number" placeholder="{{ text_p_ph_in_count }}" min="0" max="" name="presets['+lastP_ID+'][p_sections]['+sectionId+'][p_p_count]" value="0" onchange="checkPreset(\''+lastP_ID+'\')" class="product-count form-control testInt" style="line-height:35px;padding-right:0;">';
+			html +=				'</div>';
+			html +=				'<div class="col-xs-2 control-label well well-sm text-center">';
+			html +=					'<span class="price-info" data-price-info="" data-discount-info="" data-special-info="">-</span>';
+			html +=				'</div>';
+			html +=				'<div class="col-xs-1 options-btn text-center">';
+			html +=					'<button type="button" onclick="collapseRow($(this), \'options-'+lastP_ID+'-'+sectionId+'\')" title="" class="toggleItem btn btn-primary btn-sm" disabled="disabled"><i class="fa fa-eye-slash"></i> {{ text_options }}</button>';
+			html +=				'</div>';
+			html +=			'</div>';
+		});
+		
+		html +=			'</div>';
+		html +=		'</td>';
+		html +=	'</tr>';
+		
+		$('#presets-button-place').before(html);
+		$('#preset-'+lastP_ID+' .preset-section').each(function () {
+			addAutocompletePreset($(this));
+		});
+		
+		lastP_ID++;
+	}
+
+
+	function deleteRowPreset() {
+		$('#presets-table .row-header .check-preset:checked').each(function() {
+			var rowHeader = $(this).parent().parent();
+			var rowBody = rowHeader.next();
+			rowHeader.detach();
+			rowBody.detach();
+			lastP_ID--;
+		});
+	}
+	
+	
+	function deleteProductRpeset(p_id, p_s_id) {
+		$('#p-s-id-'+p_id+'-'+p_s_id).find('.product-name, .product-id').val('');
+		checkPreset(p_id);
+		$('.dropdown-menu, .tooltip').hide();
+	}
+	
+	
+	function addAutocompletePreset(pSection) {
+		var sId = pSection.data('section-id');
+		var incCategoriesArr = [];
+			
+		$('#s-id-'+sId).next().find('.inc-ctgrs-wrap > .ctgrs > div').each(function () {
+			incCategoriesArr.push($(this).data('inc-category'));
+		});
+		
+		if(!incCategoriesArr.length) return;
+
+		var presetId = pSection.parent().data('preset-id');
+		var inputName = pSection.find('input.product-name');
+		var inputProdId = pSection.find('input.product-id');
+		var inputCount = pSection.find('input.product-count');
+		var quantityInfo = pSection.find('span.quantity-info');
+		var priceInfo = pSection.find('span.price-info');
+		var btnRemove = pSection.find('.btn-remove');
+		var btnEdit = pSection.find('.btn-edit');
+		var btnOptToggle = pSection.find('.toggleItem');
+		
+		inputName.autocomplete({
+			'source': function(request, response) {
+				var addedProductsArr = [];
+		
+				$('#preset-'+presetId).find('input.product-id').each(function () {
+					if($(this).val()) addedProductsArr.push($(this).val());
+				});
+				
+				$.ajax({
+					url: 'index.php?route=extension/module/configurator/autocompleteForPresets&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request) + '&inc_ctgr_id_list=' + encodeURIComponent(incCategoriesArr.join(',')) + '&added_prdct_id_list=' + encodeURIComponent(addedProductsArr.join(',')),
+					dataType: 'json',
+					success: function(json) {
+						response($.map(json, function(data) {
+							return {
+								path_edit: data['path_edit'],
+								label: data['name'],
+								value: data['product_id'],
+								quantity: data['quantity'],
+								minimum: data['minimum'],
+								price: data['price'],
+								discount: data['discount'],
+								special: data['special'],
+								options: data['options'],
+							};
+						}));
+					}, 
+					error: function(data) {
+						console.log(JSON.stringify(data));
+					}
+				});
+				checkPreset(presetId);
+			},
+			'select': function(p_product) {
+				if(inputProdId.val() == p_product['value']) return;
+				
+				var min = (parseInt(p_product['minimum']))? p_product['minimum'] : '1';
+				
+				inputName.val(p_product['label']);
+				inputProdId.val(p_product['value']);
+				inputCount.val(min).attr('min', min).attr('max', p_product['quantity']);
+				quantityInfo.data('quantity-info', p_product['quantity']);
+				priceInfo.data('price-info', p_product['price']).data('discount-info', p_product['discount']).data('special-info', p_product['special']);
+				btnRemove.prop('disabled', false);	
+				btnEdit.data('path-edit', p_product['path_edit']).prop('disabled', false);	
+					
+				var html = '';
+				$.each(p_product['options'], function (optId, opt) {
+					if(opt.type == 'radio' || opt.type == 'image') {
+						html += '<div class="opt-form-group">';
+						html += 	'<label class="option-label">'+opt.name+((parseInt(opt.required))? '<span class="text-danger"><b> * </b></span>' : '')+'</label>';
+						html += 	'<div id="input-option'+optId+'">';
+						for(pOptId in opt.product_option_value){
+							var pOptVal = opt.product_option_value[pOptId];
+							if((pOptVal.price)) {
+								var optPrice = parseFloat(pOptVal.price_prefix + pOptVal.price);
+								var pOptValName = pOptVal.name + ' ('+pOptVal.price_prefix + priceFormat(pOptVal.price, false)+')';
+							}else{
+								var optPrice = false;
+								var pOptValName = pOptVal.name;
+							}
+							
+							html += 	'<div class="radio"><label>';
+							html += 		'<input type="radio" name="presets['+presetId+'][p_sections]['+sId+'][p_p_option]['+optId+']" value="'+pOptId+'" data-opt-id="'+optId+'" data-opt-price="'+optPrice+'" data-required="'+opt.required+'" onchange="checkPreset('+presetId+')"/>';
+							if(pOptVal.image && opt.type == 'image') {
+								html += 	' <img src="'+pOptVal.image+'" alt="'+pOptValName+'" class="img-thumbnail"> ';
+							}
+							html += 		pOptValName;
+							html += 	'</label></div>';
+						}
+						html += 	'</div>';
+						html += '</div>';
+					}
+					if(opt.type == 'checkbox') {
+						html += '<div class="opt-form-group">';
+						html += 	'<label class="option-label">'+opt.name+((parseInt(opt.required))? '<span class="text-danger"><b> * </b></span>' : '')+'</label>';
+						html += 	'<div id="input-option'+optId+'">';
+						for(pOptId in opt.product_option_value){
+							var pOptVal = opt.product_option_value[pOptId];
+							if((pOptVal.price)) {
+								var optPrice = parseFloat(pOptVal.price_prefix + pOptVal.price);
+								var pOptValName = pOptVal.name + ' ('+pOptVal.price_prefix + priceFormat(pOptVal.price, false)+')';
+							}else{
+								var optPrice = false;
+								var pOptValName = pOptVal.name;
+							}
+							
+							html += 	'<div class="checkbox"><label>';
+							html += 		'<input type="checkbox" name="presets['+presetId+'][p_sections]['+sId+'][p_p_option]['+optId+']['+pOptId+']" value="'+pOptId+'" data-opt-id="'+optId+'" data-opt-price="'+optPrice+'" data-required="'+opt.required+'" onchange="checkPreset('+presetId+')"/>';
+							html += 		pOptValName;
+							html += 	'</label></div>';
+						}
+						html += 	'</div>';
+						html += '</div>';
+					}	
+					if(opt.type == 'select') {
+						html += '<div class="opt-form-group">';
+						html += 	'<label class="option-label" for="input-option'+optId+'">'+opt.name+((parseInt(opt.required))? '<span class="text-danger"><b> * </b></span>' : '')+'</label>';
+						html += 	'<select name="presets['+presetId+'][p_sections]['+sId+'][p_p_option]['+optId+']" id="input-option'+optId+'" class="form-control select" data-opt-id="'+optId+'" data-required="'+opt.required+'" onchange="checkPreset('+presetId+')">';
+						html += 		'<option value="">{{ text_opt_select }}</option>';
+						for(pOptId in opt.product_option_value){
+							var pOptVal = opt.product_option_value[pOptId];
+							if((pOptVal.price)) {
+								var optPrice = parseFloat(pOptVal.price_prefix + pOptVal.price);
+								var pOptValName = pOptVal.name + ' ('+pOptVal.price_prefix + priceFormat(pOptVal.price, false)+')';
+							}else{
+								var optPrice = false;
+								var pOptValName = pOptVal.name;
+							}
+							
+							html += 	'<option value="'+pOptId+'" data-opt-price="'+optPrice+'">'+pOptValName+'</option>';
+						}
+						html += 	'</select>';
+						html += '</div>';
+					}									
+					if(opt.type == 'text') {
+						html += '<div class="opt-form-group">';
+						html += 	'<label class="option-label" for="input-option'+optId+'">'+opt.name+((parseInt(opt.required))? '<span class="text-danger"><b> * </b></span>' : '')+'</label>';
+						html += 	'<input type="text" name="presets['+presetId+'][p_sections]['+sId+'][p_p_option]['+optId+']" value="'+opt.value+'" placeholder="'+opt.name+'" id="input-option'+optId+'" class="form-control text" data-opt-id="'+optId+'" data-required="'+opt.required+'" onchange="checkPreset('+presetId+')"/>';
+						html += '</div>';
+					}															
+					if(opt.type == 'textarea') {
+						html += '<div class="opt-form-group">';
+						html += 	'<label class="option-label" for="input-option'+optId+'">'+opt.name+((parseInt(opt.required))? '<span class="text-danger"><b> * </b></span>' : '')+'</label>';
+						html += 	'<textarea name="presets['+presetId+'][p_sections]['+sId+'][p_p_option]['+optId+']" rows="5" placeholder="'+opt.name+'" id="input-option'+optId+'" class="form-control textarea" data-opt-id="'+optId+'" data-required="'+opt.required+'" onchange="checkPreset('+presetId+')" style="resize: vertical;">'+opt.value+'</textarea>';
+						html += '</div>';
+					}								
+					if(opt.type == 'date') {
+						html += '<div class="opt-form-group">';
+						html += 	'<label class="option-label" for="input-option'+optId+'">'+opt.name+((parseInt(opt.required))? '<span class="text-danger"><b> * </b></span>' : '')+'</label>';							
+						html += 	'<input type="text" name="presets['+presetId+'][p_sections]['+sId+'][p_p_option]['+optId+']" value="'+opt.value+'" placeholder="{{ text_opt_f_date }}" id="input-option'+optId+'" class="form-control date" data-opt-id="'+optId+'" data-required="'+opt.required+'" onchange="checkPreset('+presetId+')"/>';
+						html += '</div>';
+					}								
+					if(opt.type == 'time') {
+						html += '<div class="opt-form-group">';
+						html += 	'<label class="option-label" for="input-option'+optId+'">'+opt.name+((parseInt(opt.required))? '<span class="text-danger"><b> * </b></span>' : '')+'</label>';								
+						html += 	'<input type="text" name="presets['+presetId+'][p_sections]['+sId+'][p_p_option]['+optId+']" value="'+opt.value+'" placeholder="{{ text_opt_f_time }}" id="input-option'+optId+'" class="form-control time" data-opt-id="'+optId+'" data-required="'+opt.required+'" onchange="checkPreset('+presetId+')"/>';
+						html += '</div>';
+					}								
+					if(opt.type == 'datetime') {
+						html += '<div class="opt-form-group">';
+						html += 	'<label class="option-label" for="input-option'+optId+'">'+opt.name+((parseInt(opt.required))? '<span class="text-danger"><b> * </b></span>' : '')+'</label>';					
+						html += 	'<input type="text" name="presets['+presetId+'][p_sections]['+sId+'][p_p_option]['+optId+']" value="'+opt.value+'" placeholder="{{ text_opt_f_datetime }}" id="input-option'+optId+'" class="form-control datetime" data-opt-id="'+optId+'" data-required="'+opt.required+'" onchange="checkPreset('+presetId+')"/>';
+						html += '</div>';
+					}
+				});
+				
+				pSection.find('.options-block').remove();
+				
+				if(html != '') {
+					html = '<h4 class="text-center">{{ text_opt_exist }}</h4><div class="opt-note text-center">(<span class="text-danger"><b> * </b></span> - {{ text_opt_required }})</div>'+html;
+					html = '<div class="col-lg-4 col-xs-3"></div><div class="options col-lg-4 col-xs-6">'+html+'</div><div class="col-lg-4 col-xs-3"></div>';
+					html = '<div id="options-'+presetId+'-'+sId+'" class="options-block col-xs-12">' + html + '</div>';
+					
+					pSection.append(html);
+					btnOptToggle.prop('disabled', false);
+				}
+				
+				checkPreset(presetId);
+			}
+		});
+	}
+
+	
+	function checkPreset(presetId) {
+		var presetHeader = $('#p-id-'+presetId);
+		var presetWrap = $('#preset-'+presetId);
+		var presetCost = 0;
+		var presetErrors = {
+			options: 0,
+			quantity: 0,
+			count: 0,
+			minimum: 0
+		};
+
+		presetWrap.children('.preset-section').each(function () {
+			var pSection = $(this);
+			var sectionId = pSection.data('section-id');
+			var inputName = pSection.find('input.product-name');
+			var inputProdId = pSection.find('input.product-id');
+			var inputCount = pSection.find('input.product-count');
+			var quantityInfo = pSection.find('span.quantity-info');
+			var priceInfo = pSection.find('span.price-info');
+			var btnRemove = pSection.find('.btn-remove');
+			var btnEdit = pSection.find('.btn-edit');
+			var btnOptToggle = pSection.find('.toggleItem');
+			
+			if(!inputName.val() || !inputProdId.val()) {
+				inputProdId.val('');
+				inputCount.val('0').attr('min', '0').attr('max', '0');
+				quantityInfo.data('quantity-info', '').text('-');
+				priceInfo.data('price-info', '').data('discount-info', '').data('special-info', '').html('-');
+				btnRemove.prop('disabled', 'disabled');
+				btnEdit.prop('disabled', 'disabled');
+				btnOptToggle.prop('disabled', 'disabled').removeClass('btn-danger').addClass('btn-primary');
+				pSection.find('.options-block').remove();
+				return true;
+			}
+			
+			var checkboxArr = {};
+			var n = 0;
+			var optPrice = 0;
+			var optErrors = false;
+
+			pSection.find('.options').find('input, select, textarea').each(function () {
+				var optInput = $(this);
+				var optId = optInput.data('opt-id');
+				var optVal = optInput.val();
+
+				if(this.type == 'radio') {
+					if(optInput.is(':checked') && optInput.data('opt-price')) optPrice += parseFloat(optInput.data('opt-price'));
+					if(optInput.data('required') && !optInput.parents('#input-option'+optId).find('input:checked').length) {
+						optInput.addClass('error');
+						optErrors = true;
+					}else{
+						optInput.parents('#input-option'+optId).find('input').removeClass('error');
+					}
+				}
+
+				if(this.type == 'checkbox') {
+					if(optInput.is(':checked')) {
+						checkboxArr[n++] = optVal;
+						if(optInput.data('opt-price')) optPrice += parseFloat(optInput.data('opt-price'));
+					}
+					if(optInput.data('required') && !optInput.parents('#input-option'+optId).find('input:checked').length) {
+						optInput.addClass('error');
+						optErrors = true;
+					}else{
+						optInput.parents('#input-option'+optId).find('input').removeClass('error');
+					}
+				}
+				
+				if(this.type == 'text' || this.type == 'textarea' || this.type == 'select-one') {
+					if(optInput.data('required') && !optVal.trim()) {
+						optInput.addClass('error');
+						optErrors = true;
+					}else{
+						optInput.removeClass('error');
+						var optInputDataPrice = optInput.find('option:selected').data('opt-price');
+						if(this.type == 'select-one' && optInputDataPrice) {
+							optPrice += parseFloat(optInputDataPrice);
+						}
+					}
+					
+					if(optInput.hasClass('date')) {
+						var formatTest = /^\d\d\d\d\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/.test(optVal);
+						if(optInput.data('required') && !formatTest || optVal && !formatTest) {
+							optInput.addClass('error');
+							optErrors = true;
+						}else{
+							optInput.removeClass('error');
+						}
+					}
+					
+					if(optInput.hasClass('time')) {
+						var formatTest = /^[0-2][0-9]\:[0-5][0-9]$/.test(optVal);
+						if(optInput.data('required') && !formatTest || optVal && !formatTest) {
+							optInput.addClass('error');
+							optErrors = true;
+						}else{
+							optInput.removeClass('error');
+						}
+					}
+					
+					if(optInput.hasClass('datetime')) {
+						var formatTest = /^\d\d\d\d\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])\s[0-2][0-9]\:[0-5][0-9]$/.test(optVal);
+						if(optInput.data('required') && !formatTest || optVal && !formatTest) {
+							optInput.addClass('error');
+							optErrors = true;
+						}else{
+							optInput.removeClass('error');
+						}
+					}
+				}
+			});
+			
+			if(optErrors) {
+				btnOptToggle.removeClass('btn-primary').addClass('btn-danger');
+				++presetErrors.options;
+			}else{
+				btnOptToggle.removeClass('btn-danger').addClass('btn-primary'); 
+			}
+			
+			var min = parseInt(inputCount.attr('min'));
+			var count = (parseInt(inputCount.val()))? parseInt(inputCount.val()) : min;
+			var quantity = (quantityInfo.data('quantity-info'))? parseInt(quantityInfo.data('quantity-info')) : 0;
+			var price = (priceInfo.data('price-info'))? (parseFloat(priceInfo.data('price-info')) + optPrice) : 0;			
+			var special = (priceInfo.data('special-info'))? (parseFloat(priceInfo.data('special-info')) + optPrice) : 0;
+			
+			inputCount.val(count);
+			
+			if(quantity) {
+				if(min <= count && count <= quantity) {
+					quantityInfo.removeClass('text-danger').html('{{ text_p_available }}' + quantity + '{{ text_p_units }}');
+					inputCount.removeClass('error');
+				}else if(min <= count){
+					quantityInfo.addClass('text-danger').html('{{ text_p_available }}' + quantity + '{{ text_p_units }}<br />({{ text_p_count_lim_err }})');
+					inputCount.addClass('error');
+					++presetErrors.count;
+				}else{
+					quantityInfo.addClass('text-danger').html('{{ text_p_available }}' + quantity + '{{ text_p_units }}<br />({{ text_p_min_count }} ' + min + '{{ text_p_units }})');
+					inputCount.addClass('error');
+					++presetErrors.minimum;
+				}
+			}else{
+				quantityInfo.addClass('text-danger').html('{{ text_p_n_a }}');
+				++presetErrors.quantity;
+			}
+				
+			if(count && price) {		
+				if(special) {
+					var totalCost = count * special;		
+					priceInfo.html('{{ text_p_price }}<span class="text-danger">' + priceFormat(totalCost, true) + '</span> <span class="text-muted"><s>(' + priceFormat(count * price, true) + ')</s></span>');
+				}else{
+					if(priceInfo.data('discount-info')){
+						var discntArr = priceInfo.data('discount-info').split(',');
+						var maxDiscntCount = 0;
+						var discountText = '';
+						var nominalPrice = price;
+						
+						for(d_i in discntArr) {
+							var d_val = discntArr[d_i];
+							var prodDiscnt = d_val.split(':');
+							if(count >= prodDiscnt[0] && prodDiscnt[0] > maxDiscntCount) {
+								maxDiscntCount = prodDiscnt[0];
+								discountText = ' <span class="text-success">['+maxDiscntCount+'{{ text_p_units }}+]</span> <span class="text-muted"><s>(' + priceFormat(count * nominalPrice, true) + ')</s></span>';
+								price = (prodDiscnt[1])? parseFloat(prodDiscnt[1]) : 0;
+							}
+						}
+					}else{
+						var discountText = '';
+					}
+				
+					var totalCost = count * price;		
+					priceInfo.html('{{ text_p_price }}' + priceFormat(totalCost, true) + discountText); 
+				}
+				presetCost += totalCost;
+			}
+		});
+
+		if(presetErrors.options || presetErrors.quantity || presetErrors.count || presetErrors.minimum) {
+			presetHeader.find('.toggleItem').removeClass('btn-primary').addClass('btn-danger');
+		}else{
+			presetHeader.find('.toggleItem').removeClass('btn-danger').addClass('btn-primary');
+		}
+		
+		errors['pId-'+presetId] = presetErrors;
+		presetHeader.find('input.preset-cost').val((presetCost != 0)? priceFormat(presetCost, true) : '-');
+	}
+	
+	
+	$('#presets-table .row-body .preset-wrap').each(function() {
+		checkPreset($(this).data('preset-id'));
+		$(this).find('.preset-section').each(function() {
+			addAutocompletePreset($(this));
+		});
+	});	
+	
+	
+/*Toolkit*/	
+
+	function performDBOTool() {
+		var selectVal = $('#tk-dbo-select').val();
+		
+		if(confirm('{{ text_tk_confirm_action }}')) {
+			$.ajax({
+				url: 'index.php?route=extension/module/configurator/performToolkitOperations&user_token={{ user_token }}',
+				data: {
+					'operation_name': selectVal
+				},
+				type: 'POST',
+				dataType: 'json',
+				success: function(completed) {
+					switch(completed) {
+						default:
+						case true:
+							alert('{{ text_edit_complete }}'+((completed === true)? '' : '\n\n{{ text_tk_affected_val }}'+completed));
+							break;	
+						case 'not_found':
+							alert('{{ text_tk_not_found }}');
+							break;						
+						case false:
+							alert('{{ error_operation }}');
+							break;							
+						case 'error_permission':
+							alert('{{ error_permission }}');
+							break;						
+					}
+				},
+				error: function (error) {
+					console.log(JSON.stringify(error));
+				}
+			});
+		}
+	}
+
+
+/*Common function*/	
+
+	$('#form-module-config').submit(function() {
+		var alertCall = {
+			options: 0,
+			quantity: 0,
+			minimum: 0,
+			count: 0
+		};
+		
+		$('#presets-table .row-body .preset-wrap').each(function() {
+			checkPreset($(this).data('preset-id'));
+		});	
+
+		for(n in errors) {
+			var error = errors[n];
+			if(typeof error === "object" && !Array.isArray(error) && error !== null) {
+				for(key in error) {
+					if(error[key]){
+						switch(key) {
+							case 'options':
+								if(!alertCall.options) ++alertCall.options;
+							break;	
+							case 'quantity':
+								if(!alertCall.quantity) ++alertCall.quantity;
+							break;
+							case 'minimum':
+								if(!alertCall.minimum) ++alertCall.minimum;
+							break;
+							case 'count':
+								if(!alertCall.count) ++alertCall.count;
+							break;				
+						}
+					}
+				}
+			}
+		}
+		
+		if(alertCall.quantity) alert('{{ error_quantity }}');
+		if(alertCall.minimum) alert('{{ error_minimum }}');
+		if(alertCall.count) alert('{{ error_count }}');
+		if(alertCall.options) {
+			alert('{{ error_options }}');
+			return false;
+		}
+	});
+	
+	
+	$('#preset-setting').on('keyup', '.options .date', function () {
+		var input = $(this);
+		var dVal = input.val();
+		if(/^\d\d\d\d$/.test(dVal) || /^\d\d\d\d\-\d\d$/.test(dVal)) input.val(dVal+'-');
+		dVal.replace(/\-+\d\-+/, function(sim, ns, str) {
+			input.val(str.substring(0, ns+1)+'0'+str.substring(ns+1));
+		});
+	});
+	
+	
+	$('#preset-setting').on('keyup', '.options .time', function () {
+		var input = $(this);
+		var tVal = input.val();
+		if(/^\d\d$/.test(tVal)) input.val(tVal+':');
+		tVal.replace(/^\d\:+/, function(sim, ns, str) {
+			input.val(str.substring(0, ns)+'0'+str.substring(ns));
+		});
+	});
+	
+	
+	$('#preset-setting').on('keyup', '.options .datetime', function () {
+		var input = $(this);
+		var dtVal = input.val();
+		if(/^\d\d\d\d$/.test(dtVal) || /^\d\d\d\d\-\d\d$/.test(dtVal)) input.val(dtVal+'-');
+		if(/^\d\d\d\d\-\d\d\-\d\d$/.test(dtVal)) input.val(dtVal+' ');
+		if(/\-\d\d\s\d\d$/.test(dtVal)) input.val(dtVal+':');
+		dtVal.replace(/\-+\d\-+/, function(sim, ns, str) {
+			input.val(str.substring(0, ns+1)+'0'+str.substring(ns+1));
+		});
+		dtVal.replace(/\d\d\s\d\:$/, function(sim, ns, str) {
+			input.val(str.substring(0, ns+3)+'0'+str.substring(ns+3));
+		});
+	});
+	
+	
+	modalExclusion.find('.modal-content').on('click', function(e) {
+		if(e.target.className != $(this).attr('class')) return;
+		modalExclusion.modal('hide');
+	});
+	
+
+	function checkAll(thisEl, target) {
+		$('#'+target+'s-table .row-header input.check-'+target+'[type=checkbox]').prop('checked', thisEl.is(':checked'));
+	}
+	
+	
+	function hideAll(target) {
+		$('#'+target+'s-table .row-body .'+target+'-wrap').slideUp(300);
+	}
+
+
+	function collapseRow(thisEl, target) {
+		var targetEl = $('#'+target);
+		if(targetEl.is(':hidden')) {
+			thisEl.find('.fa').removeClass('fa-eye').addClass('fa-eye-slash');
+			targetEl.slideDown(400);
+		}else{
+			thisEl.find('.fa').removeClass('fa-eye-slash').addClass('fa-eye');
+			targetEl.slideUp(400);
+		}
+	}	
+
+	
+	$('.panel').on('change', '.testInt', function(event) {
+		var input = $(this);
+		var min = parseInt(input.attr('min'));
+		var max = parseInt(input.attr('max'));
+		
+		input.val(input.val().replace(/[^0-9]+/, ''));
+		if(min && min > parseInt(input.val())) input.val(min);
+		if(max && max < parseInt(input.val())) input.val(max);
+    });
+
+	
+	function textLimiter(input, max) {
+		var inpt = $(input);
+		var text = inpt.val();
+		if(text.length > max) {
+			inpt.val(text.substr(0, max));
+			alert('{{ text_text_limit }} ' + max + ' {{ text_text_limit_sbls }}');
+		}
+	}
+	
+	
+	function priceFormat(price, clean) {
+		price = parseFloat(price);
+		if(price == 0 && clean) return '';
+		
+		var round = {{ currency_d_place }};
+		var space = 0;
+
+		price = String(price.toFixed(round));
+
+		if(space) {
+			var charCount = price.length + 1 - space;
+			var priceStart = price.substring(charCount, 0);
+			var priceEnd = price.substring(price.length, charCount);
+
+			price = '{{ currency_smbl_left }}' + priceStart + ' ' + priceEnd + '{{ currency_smbl_right }}';
+		}else{
+			price = '{{ currency_smbl_left }}' + price + '{{ currency_smbl_right }}';
+		}
+
+		return price;
+	}
+
+	
+	function checkLicense() {
+		var input = $('#input-license');
+		var label = input.prev();
+		
+		if(input.val() == "") {
+			label.text('{{ text_license_input }} ({{ text_license_empty }})');
+			input.css({'border':'1px solid #c65c5c', 'background-color':'#ffe4e4'});
+			return;
+		}
+		
+		$.ajax({
+			url: 'index.php?route=extension/module/configurator/checkLicense&user_token={{ user_token }}',
+			data: { 'input_key': input.val() },
+			type: 'POST',
+			dataType: 'json',
+			success: function(response) {
+				if(response) {
+					label.text('{{ text_license_input }} ({{ text_license_valid }})');
+					input.css({'border':'1px solid #74c65c', 'background-color':'#e4ffe6'});
+				}else{
+					label.text('{{ text_license_input }} ({{ text_license_invalid }})');
+					input.css({'border':'1px solid #c65c5c', 'background-color':'#ffe4e4'});
+				}
+					
+			},
+			error: function (error) {
+				console.log(JSON.stringify(error));
+			}
+		});	
+	}
+	
+	checkLicense();
+	
+-->
+</script>
+</div>
+{{ footer }}

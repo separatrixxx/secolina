@@ -1,0 +1,23 @@
+{% if categories %} 
+<ul class="nav-sidebar__list">
+  {% for category in categories %}
+  {% if category.children %}
+  <li class="nav-sidebar__section has-submenu">
+    <a href="{{ category.href }}" class="sidebar-link parent-link"><img src="{{ category.image }}" alt="{{ category.name }}" title="{{ category.name }}" /><span>{{ category.name }}</span></a>
+    <div class="nav-sidebar__submenu">
+      <div class="submenu-title">{{ category.name }}</div>
+      <ul class="nav-sidebar__list">
+        {% for children in category.children|batch(category.children|length) %}
+        {% for child in children %}
+        <li class="nav-sidebar__children"><a href="{{ child.href }}" class="sidebar-link parent-link"><span>{{ child.name }}</span></a></li>
+        {% endfor %}
+        {% endfor %}
+      </ul>
+    </div>
+  </li>
+  {% else %}
+  <li class="nav-sidebar__section"><a href="{{ category.href }}" class="sidebar-link parent-link"><img src="{{ category.image }}" alt="{{ category.name }}" title="{{ category.name }}" /><span>{{ category.name }}</span></a></li>
+  {% endif %}
+  {% endfor %}
+</ul>
+{% endif %}

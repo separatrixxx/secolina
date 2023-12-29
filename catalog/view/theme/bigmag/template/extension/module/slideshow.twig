@@ -1,0 +1,30 @@
+<div class="swiper-viewport swiper-slideshow">
+  <div id="slideshow{{ module }}" class="swiper-container">
+    <div class="swiper-wrapper">
+	  {% for banner in banners %}
+      <div class="swiper-slide text-center">
+	    {% if banner.link %}
+	    <a href="{{ banner.link }}"><img src="{{ banner.image }}" alt="{{ banner.title }}" class="img-responsive" /></a>
+	    {% else %}
+	    <img src="{{ banner.image }}" alt="{{ banner.title }}" class="img-responsive" />
+	    {% endif %}
+	  </div>
+      {% endfor %}
+	</div>
+    <div class="swiper-pagination slideshow{{ module }}"></div>
+	<button type="button" class="slider-btn swiper-prev slider-btn--prev slider-center" aria-label="Previous"><svg viewBox="0 0 16 16" class="arrow-chevron"><path d="M9.057 8L5.53 4.471a.667.667 0 1 1 .942-.942l4 4c.26.26.26.682 0 .942l-4 4a.667.667 0 1 1-.942-.942L9.057 8z" fill="currentColor"></path></svg></button>
+	<button type="button" class="slider-btn swiper-next slider-btn--next slider-center" aria-label="Next"><svg viewBox="0 0 16 16" class="arrow-chevron"><path d="M9.057 8L5.53 4.471a.667.667 0 1 1 .942-.942l4 4c.26.26.26.682 0 .942l-4 4a.667.667 0 1 1-.942-.942L9.057 8z" fill="currentColor"></path></svg></button>
+  </div>  
+</div>
+<script><!--
+$('#slideshow{{ module }}').swiper({
+	mode: 'horizontal',
+	slidesPerView: 1,
+	pagination: '.slideshow{{ module }}',
+	paginationClickable: true,
+	nextButton: '.swiper-next',
+    prevButton: '.swiper-prev',
+	autoplay: 5000,
+    autoplayDisableOnInteraction: true
+});
+--></script>

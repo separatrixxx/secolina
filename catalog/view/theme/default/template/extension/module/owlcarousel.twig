@@ -1,0 +1,191 @@
+{% if modules|length > 1 %}
+    <ul class="nav nav-tabs" id="nav-owl-{{ module }}">
+    	{% set is_first_tab = 'true' %}
+        {% for m in modules %}
+            <li class="tab-o"><a href="#tab-owl-{{ m.module }}">{{ m.heading_title }}</a></li>
+            {% set is_first_tab = 'false' %}
+        {% endfor %} 
+    </ul>
+{% endif %} 
+
+{% if modules|length > 1 %}
+<div id="products-tabs-content" class="tab-content">
+{% endif %} 
+
+{% for m in modules %} 
+    {% set is_first_tab = 'true' %}
+
+    <div class="tab-pane" id="tab-owl-{{ m.module }}">
+        {% if m.show_title == '1' %} 
+            <h2 class="heading_title">{{ m.heading_title }}</h2>
+        {% endif %}
+        <div class="row product-layout {{ m.add_class_name }}">
+            <div id="owl-{{ m.module }}" class="owl-carousel">
+                {% for product in m.products %} 
+                    <div class="col-lg-12 item">
+                        <div class="product-thumb transition">
+                            {% if product.thumb %}
+                                <div class="image">
+                                    <a href="{{ product.href }}"><img {% if m.show_lazy_load == '1' %}data-{% endif %}src="{{ product.thumb }}" alt="{{ product.name }}" {% if m.show_lazy_load == '1' %}class="lazyOwl"{% endif %} /></a>
+                                </div>
+                                {% if m.show_wishlist == '1' %}
+                                    <button class="wish" type="button" data-toggle="tooltip" title="{{ button_wishlist }}" onclick="wishlist.add('{{ product.product_id }}');">
+                                    <svg width="24" height="24" viewBox="0 0 16 16" class="icon icon-heart" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"></path></svg>
+                                </button>
+                                {% endif %}
+
+                                {% if m.show_compare == '1' %}
+                                    <button class="comp" type="button" data-toggle="tooltip" title="{{ button_compare }}" onclick="compare.add('{{ product.product_id }}');">
+                                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                                </button>
+                                {% endif %}
+                            {% endif %}
+
+                            <div class="caption">
+                                {% if m.show_name  == '1' %}
+                                    <h3><a class="product-name" href="{{ product.href }}">{{ product.name }}</a></h3>
+                                {% endif %}
+
+                                {% if m.show_desc  == '1' %}
+                                    <p>{{ product.description }}</p>
+                                {% endif %} 
+
+                                <div class="button-group__flex">
+          <div class="rating">
+            {% for i in 1..5 %}
+            {% if product.rating < i %}
+            <span class="star-empty"></span>
+            {% else %}
+            <span class="star"></span>
+            {% endif %}
+            {% endfor %} 
+            <div class="reviews-count">{{ product.reviews }}</div>
+          </div>
+        </div>
+
+                                {% if m.show_price == '1' %}
+                                    {% if product.price %}
+                                        <p class="price-main">
+                                            {% if not product.special %}
+                                                {{ product.price }}
+                                            {% else %}
+                                                <span class="price-new">{{ product.special }}</span> <span class="price-old">{{ product.price }}</span>
+                                            {% endif %}
+                                            {% if product.tax %}
+                                                <span class="price-tax">{{ text_tax }} {{ product.tax }}</span>
+                                            {% endif %}
+                                        </p>
+                                    {% endif %}
+                                {% endif %}
+
+                                <div class="button-group__btn1">
+                                <div class="button-group__btn">
+                                {% if m.show_cart == '1' %}
+                                    <button type="button" data-toggle="tooltip" title="{{ button_cart }}" onclick="cart.add('{{ product.product_id }}');"><i class="fa fa-cart-plus cr-k"></i><span class="bt">{{ button_cart }}</span></button>
+                                {% endif %}
+                            </div>
+                            </div>
+
+                            </div>
+
+                            
+                            
+                            
+                        </div>
+                    </div>
+                {% endfor %} 
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                function random(owlSelector){
+                    owlSelector.children().sort(function(){
+                        return Math.round(Math.random()) - 0.5;
+                    }).each(function(){
+                        $(this).appendTo(owlSelector);
+                    });
+                }
+
+                var owl = $("#owl-{{ m.module }}");
+
+                owl.owlCarousel({
+                    items : {{ m.visible }},
+                    itemsDesktop : [1000, {{ m.visible_1000 }} ],
+                    itemsDesktop : [1000, {{ m.visible_1000 }} ],
+                    itemsDesktopSmall : [900, {{ m.visible_900}} ],
+                    itemsTablet: [600, {{ m.visible_600 }} ],
+                    itemsMobile : [479, {{ m.visible_479 }} ],
+
+                    {% if m.show_random_item == '1' %}
+                        beforeInit : function(elem){
+                            random(elem);
+                        },
+                    {% endif %} 
+
+                    {% if m.show_nav == '1' %} 
+                        navigation: true,
+                    {% endif %} 
+
+                    {% if m.slide_speed %} 
+                        slideSpeed: {{ m.slide_speed }},
+                    {% endif %} 
+
+                    {% if m.pagination_speed %}
+                        paginationSpeed: {{ m.pagination_speed }},
+                    {% endif %} 
+
+                    {% if m.autoscroll %}
+                        autoPlay: {{ m.autoscroll }},
+                    {% endif %} 
+
+                    {% if m.show_stop_on_hover == '1' %} 
+                        stopOnHover: true,
+                    {% endif %} 
+
+                    {% if m.rewind_speed %}
+                        rewindSpeed: {{ m.rewind_speed }},
+                    {% endif %} 
+
+                    {% if m.show_lazy_load == '1' %} 
+                        lazyLoad : true,
+                    {% endif %}
+
+                    {% if m.show_mouse_drag == '1' %} 
+                        mouseDrag: true,
+                    {% endif %}
+
+                    {% if m.show_touch_drag == '1' %} 
+                        touchDrag: true,
+                    {% endif %}
+
+                    {% if m.show_page == '1' %} 
+                        pagination: false,
+                    {% endif %}
+
+                    {% if m.show_per_page == '1' %} 
+                        scrollPerPage: true,
+                    {% endif %}
+
+                    {% if m.item_prev_next and m.show_per_page == '0' %} 
+                        slideItems: {{ m.item_prev_next }},
+                    {% endif %} 
+
+                    navigationText: ['<i class="fa fa-chevron-left fa-5x"></i>', '<i class="fa fa-chevron-right fa-5x"></i>']
+                });
+                {% if modules|length > 1 %}
+                    $('#nav-owl-{{ module }} a:first').tab('show');
+                    $('#nav-owl-{{ module }} a').click(function (e) {
+                        e.preventDefault();$(this).tab('show');
+                    })
+                {% endif %} 
+            });
+        </script>
+    </div>
+
+    {% set is_first_tab = 'false' %}
+{% endfor %} 
+
+{% if modules|length > 1 %}
+</div>
+{% endif %}

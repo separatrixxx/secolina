@@ -1,0 +1,19 @@
+<div class="brand-title brand-more">
+  <div class="brand-title-main">
+	<h3 class="content-title">{{ heading_title }}</h3>
+  </div>
+  <span class="brand-more-link">
+    <a href="{{ brands }}">{{ all_brands }}</a>
+  </span>
+</div>
+<div class="brand-module">
+  <div class="row">
+    {% for manufacturer in manufacturers %}
+    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+      <div class="brand-item">
+		<a href="{{ manufacturer.href }}" class="brand-link"><img src="{{ manufacturer.thumb }}" alt="{{ manufacturer.name }}" title="{{ manufacturer.name }}" class="img-responsive" /></a>     
+      </div>
+	</div>
+	{% endfor %}
+  </div>  
+</div>

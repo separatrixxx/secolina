@@ -1,0 +1,108 @@
+<footer>
+  <div class="container">
+    <div class="box-footer__contacts">
+      <div class="contacts-wrapper">
+        <div class="box-footer__phone">
+          <div class="phone-title">{{ text_footer_phone }}</div>
+          <div class="phone--link">
+            <span class="phone-link__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.87 17.87" width="18" height="18" id="phone" class="icon">
+                <path d="M5.11 13a16.84 16.84 0 0 0 7.55 4.66c2.33.67 4.11-.33 4.44-1.11a14.1 14.1 0 0 0 .78-2.66c.22-1.44-4.88-3.44-5.66-2-.22.33-.44 1.55-1.66.78a40.26 40.26 0 0 1-5.34-5.35c-.67-1.22.44-1.44.79-1.66C7.33 5 5.33-.11 4.01 0c-.35 0-2.23.67-2.68.78-.77.33-1.77 2.1-1.11 4.44A21.61 21.61 0 0 0 5.11 13z" fill="currentColor"></path>
+              </svg>
+            </span>
+            <a href="tel:{{ phone }}" class="link-phone call_phone_hoff">{{ telephone }}</a>
+          </div>
+          {% if open %}
+          <div class="footer-open">{{ open }}</div>
+          {% endif %}
+        </div>
+        {% if config_social %}
+        <div class="box-social">
+          <div class="social-title">{{ text_social_title }}</div>
+          <div class="social-block">
+            <ul class="social">
+              {% if config_instagram %}
+              <li><a href="{{ config_instagram }}" target="_blank" rel="nofollow noopener" title="Instagram" style="background: #f09433; background: -moz-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); background: -webkit-linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f09433', endColorstr='#bc1888',GradientType=1 );"><i class="fa fa-instagram"></i></a></li>
+              {% endif %}
+              {% if config_youtube %}
+              <li><a href="{{ config_youtube }}" target="_blank" rel="nofollow noopener" title="YouTube" style="background:#ff0000;"><i class="fa fa-youtube"></i></a></li>
+              {% endif %}
+              {% if config_vk %}
+              <li><a href="{{ config_vk }}" target="_blank" rel="nofollow noopener" title="ВКонтакте" style="background:#4a76a8;"><i class="fa fa-vk"></i></a></li>
+              {% endif %}
+              {% if config_twitter %}
+              <li><a href="{{ config_twitter }}" target="_blank" rel="nofollow noopener" title="Twitter" style="background:#1da1f2;"><i class="fa fa-twitter"></i></a></li>
+              {% endif %}
+              {% if config_facebook %}
+              <li><a href="{{ config_facebook }}" target="_blank" rel="nofollow noopener" title="Facebook" style="background:#3b5998;"><i class="fa fa-facebook"></i></a></li>
+              {% endif %}
+              {% if config_ok %}
+              <li><a href="{{ config_ok }}" target="_blank" rel="nofollow noopener" title="Одноклассники" style="background:#ee8208"><i class="fa fa-odnoklassniki"></i></a></li>
+              {% endif %}
+              {% if config_telegram %}
+              <li><a href="{{ config_telegram }}" target="_blank" rel="nofollow noopener" title="Телеграм" style="background:#3390ec"><i class="fa fa-telegram"></i></a></li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="footer-container">
+    <div class="container">
+      <div class="row">
+       
+      {% if informations %}
+<div class="col-sm-4">
+<div onclick="toggleList('informationList')" class="footer-title">{{ text_information }}</div>
+<ul id="informationList" style="display:none;" class="list-unstyled col-fot">
+{% for information in informations %}
+<li><a href="{{ information.href }}">{{ information.title }}</a></li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+<div class="col-sm-4">
+<div onclick="toggleList('serviceList')" class="footer-title">{{ text_service }}</div>
+<ul id="serviceList" style="display:none;" class="list-unstyled col-fot">
+<li><a href="{{ contact }}">{{ text_contact }}</a></li> <!-- Контакты -->
+<li><a href="{{ return }}">{{ text_return }}</a></li> <!-- Возврат товара -->
+<li><a href="{{ sitemap }}">{{ text_sitemap }}</a></li> <!-- Карта сайта -->
+</ul>
+</div>
+<div class="col-sm-3 hidden">
+<div onclick="toggleList('extraList')" class="footer-title">{{ text_extra }}</div>
+<ul id="extraList" style="display:none;" class="list-unstyled col-fot">
+<li><a href="{{ manufacturer }}">{{ text_manufacturer }}</a></li> <!-- Производители -->
+<li><a href="{{ voucher }}">{{ text_voucher }}</a></li> <!-- Подарочные сертификаты -->
+<li><a href="{{ special }}">{{ text_special }}</a></li> <!-- Акции -->
+</ul>
+</div>
+{% if config_account %}
+<div class="col-sm-4">
+<div onclick="toggleList('accountList')" class="footer-title">{{ text_account }}</div>
+<ul id="accountList" style="display:none;" class="list-unstyled col-fot">
+<li><a href="{{ account }}">{{ text_account }}</a></li> <!-- Личный Кабинет -->
+<li><a href="{{ order }}">{{ text_order }}</a></li> <!-- История заказов -->
+<li><a href="{{ newsletter }}">{{ text_newsletter }}</a></li> <!-- Рассылка -->
+<li><a href="{{ affiliate }}">{{ text_affiliate }}</a></li> <!-- Партнерская программа -->
+<li><a href="{{ wishlist }}">{{ text_wishlist }}</a></li> <!-- Избранное -->
+</ul>
+</div>
+{% endif %}
+
+
+      </div>
+      <div class="footer-bottom">
+        <p>{{ powered }}</p>
+      </div>
+    </div>
+  </div>
+</footer>
+{% for script in scripts %}
+<script src="{{ script }}"></script>
+{% endfor %}
+</div>
+</div>
+</body></html>

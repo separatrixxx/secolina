@@ -1,0 +1,120 @@
+{{ header }}{{ column_left }} 
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-pollplus" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %} 
+        <li><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>
+        {% endfor %} 
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if (error_warning) %} 
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }} 
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %} 
+    {% if (success) %} 
+    <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }} 
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %} 
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_form }}</h3>
+      </div>
+      <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-pollplus" class="form-horizontal">
+        <div class="panel-body">
+          <div class="tab-content">
+            <div class="form-group required">
+              <label class="col-sm-2 control-label">{{ entry_question }}</label>
+              <div class="col-sm-10">
+                {% for language in languages %} 
+                <div class="col-sm-10">
+                  <div class="input-group pull-left"><span class="input-group-addon"><img src="language/{{ language['code'] }}/{{ language['code'] }}.png" title="{{ language['name'] }}" /> </span>
+                    <input type="text" name="pollplus_description[{{ language['language_id'] }}][question]" value="{{ pollplus_description[language['language_id']] is defined ? pollplus_description[language['language_id']]['question'] : '' }}" placeholder="{{ entry_question }}" id="input-question{{ language['language_id'] }}" class="form-control" />
+                  </div>
+                  {% if (error_question[language['language_id']] is defined) %} 
+                  <div class="text-danger">{{ error_question[language['language_id']] }}</div>
+                  {% endif %} 
+                </div>
+                {% endfor %} 
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">{{ heading_options }}</h3>
+            </div>
+            <div class="panel-body">
+              <table id="options" class="table table-striped table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <td class="text-left">{{ entry_title }}</td>
+                    <td class="text-left">{{ entry_sort_order }}</td>
+                    <td style="width: 150px;"></td>
+                  </tr>
+                </thead>
+                <tbody>
+              {% set option_row = 0 %} 
+              {% for poll_option in poll_options %} 
+              <tr id="option-row{{ option_row }}">
+                <td class="text-left">{% for language in languages %} 
+                  <div class="input-group pull-left"><span class="input-group-addon"><img src="language/{{ language['code'] }}/{{ language['code'] }}.png" title="{{ language['name'] }}" /> </span>
+                    <input type="text" name="poll_option[{{ option_row }}][description][{{ language['language_id'] }}][title]" value="{{ poll_option['description'][language['language_id']] is defined ? poll_option['description'][language['language_id']]['title'] : '' }}" placeholder="{{ entry_title }}" class="form-control" />
+                  </div>
+                  {% if (error_title[option_row][language['language_id']] is defined) %} 
+                  <div class="text-danger">{{ error_title[option_row][language['language_id']] }}</div>
+                  {% endif %} 
+                  {% endfor %}</td>
+                <td class="text-right"><input type="text" name="poll_option[{{ option_row }}][sort_order]" value="{{ poll_option['sort_order'] }}" placeholder="{{ entry_sort_order }}" class="form-control" /></td>
+                <td class="text-left"><input type="hidden" name="poll_option[{{ option_row }}][poll_option_id]" value="{{ poll_option['poll_option_id'] }}" />
+                  <button type="button" onclick="$('#option-row{{ option_row }}, .tooltip').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>
+              </tr>
+              {% set option_row = option_row + 1 %} 
+              {% endfor %} 
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="text-left"><button type="button" onclick="addOption();" data-toggle="tooltip" title="{{ button_option_add }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+        <input type="hidden" name="module_id" value="{{ module_id }}" />
+      </form>
+    </div>
+  </div>
+</div>
+<script type="text/javascript"><!--
+var option_row = {{ option_row }};
+
+function addOption() {
+	html  = '<tr id="option-row' + option_row + '">';
+    html += '  <td class="text-left">';
+	{% for language in languages %} 
+	html += '    <div class="input-group">';
+	html += '      <span class="input-group-addon"><img src="language/{{ language['code'] }}/{{ language['code'] }}.png" title="{{ language['name'] }}" /></span><input type="text" name="poll_option[' + option_row + '][description][{{ language['language_id'] }}][title]" value="" placeholder="{{ entry_title }}" class="form-control" />';
+    html += '    </div>';
+	{% endfor %} 
+	html += '  </td>';
+	html += '  <td class="text-right"><input type="text" name="poll_option[' + option_row + '][sort_order]" value="" placeholder="{{ entry_sort_order }}" class="form-control" /></td>';
+	html += '  <td class="text-left"><input type="hidden" name="poll_option[' + option_row + '][poll_option_id]" value="" /><button type="button" onclick="$(\'#option-row' + option_row  + '\').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+	html += '</tr>';
+
+	$('#options tbody').append(html);
+
+	option_row++;
+}
+//--></script>
+{{ footer }}

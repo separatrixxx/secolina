@@ -1,0 +1,58 @@
+<div class="heading_title">{{ heading_title }}</div>
+<div class="row row-cols-xxl-5 row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-2">
+  {% for product in products %}
+  <div class="product-layout product-module col-6">
+    <div class="product-thumb">
+      {% if product.percent %}
+      <div class="price-absolute product-grid__absolute">
+        <span class="sticky-label percent-label">{{ "-" ~ product.percent ~ "%" }}</span>
+      </div>
+      {% endif %}
+      <div class="image">
+        <a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-responsive" /></a>              
+        {% if config_wishlist %}
+        <button type="button" class="btn wishlist-btn" title="{{ button_wishlist }}" onclick="wishlist.add('{{ product.product_id }}');"><svg width="24" height="24" viewBox="0 0 16 16" class="icon icon-heart" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"></path></svg></button>
+        {% endif %}
+      </div>
+      <div class="caption">
+        <a href="{{ product.href }}" class="product-name">{{ product.name }}</a>
+        <div class="button-group__flex">
+          <div class="rating">
+            {% for i in 1..5 %}
+            {% if product.rating < i %}
+            <span class="star-empty"></span>
+            {% else %}
+            <span class="star"></span>
+            {% endif %}
+            {% endfor %} 
+            <div class="reviews-count">{{ product.reviews }}</div>
+          </div>
+        </div>
+        {% if product.price and product.economy %}
+        <div class="price-stock">
+          <span class="economy-value">{{ text_sale }} {{ product.economy }}</span>
+        </div>
+        {% endif %}
+        <div class="card-action">
+          {% if product.price %}
+          <div class="price">
+            {% if not product.special %}
+            <span class="price-main">{{ product.price }}</span>
+            {% else %}                
+            <span class="price-old">{{ product.price }}</span>
+            <span class="price-main price-new">{{ product.special }}</span>               
+            {% endif %}
+            {% if product.tax %}
+            <span class="price-tax">{{ text_tax }} {{ product.tax }}</span>
+            {% endif %} 
+          </div>
+          {% endif %}
+          <div class="button-group__btn">
+            <button type="button" class="btn" onclick="cart.add('{{ product.product_id }}');">{{ button_cart }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>

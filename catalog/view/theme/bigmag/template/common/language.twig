@@ -1,0 +1,16 @@
+{% if languages|length > 1 %}
+<div class="toolbar-toggle language-block">
+  <form action="{{ action }}" method="post" enctype="multipart/form-data" class="form-language">
+    <div class="action-toggle">
+      <div class="select-lang">{{ text_language }}</div>
+      <div class="language-symbol">
+        {% for language in languages %}
+        <button class="language-select" type="button" name="{{ language.code }}"><img src="catalog/language/{{ language.code }}/{{ language.code }}.png" alt="{{ language.name }}" title="{{ language.name }}" data-toggle="tooltip" /> </button>
+        {% endfor %}
+      </div>
+    </div>
+    <input type="hidden" name="code" value="" />
+    <input type="hidden" name="redirect" value="{{ redirect }}" />
+  </form>
+</div>
+{% endif %}

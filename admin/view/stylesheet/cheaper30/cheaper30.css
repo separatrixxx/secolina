@@ -1,0 +1,272 @@
+.divsend {
+	background: #ffffff;
+	color: #4f4f4f;
+	margin-left: -25%;
+	left: 50%;
+	position: absolute;
+	text-align: left;
+	top: 25%;
+	width: 50%;
+	z-index: 99;
+	display: none;
+}
+.divsend .panel-title {
+	margin-top: 10px;
+}
+.divsend {
+	left: 50%;
+	margin-left: -22%;
+	position: absolute;
+	width: 44%;
+}
+.divsend.show {
+	z-index: 99;
+}
+.modal-bg {
+	background: #000000;
+	opacity: 0.40;
+	display: none;
+	position: fixed;
+	right: 0;
+	left: 0;
+	top: 0;
+	bottom: 0;
+}
+.modal-bg.opacity {
+	opacity: 0.1;
+}
+.saving {
+	clear: both;
+	color: green;
+	display: none;
+	padding-top: 5px;
+	text-align: left;
+}
+.bg_status > td {
+	opacity: 0.4;
+}
+.bg_status.on > td {
+	opacity: 1;
+}
+.bg_status > td strong {
+	font-weight: normal;
+}
+.bg_status.on > td strong {
+	font-weight: bold;
+}
+.bg_status.on > td {
+	background-color: #f5f5f5;
+	font-weight: bold;
+}
+.bg_status.on > td .form-control {
+	font-weight: normal;
+}
+.bg_status.on > td .normal {
+	font-weight: normal;
+}
+.panel-default {
+	border-color: #e8e8e8;
+	border-width: 1px;
+}
+.fields-text .nav-tabs {
+	margin-bottom: -1px;
+	border: 0 none;
+}
+.padding {
+	padding: 7px 0;
+}
+.fields-text .table thead td {
+	font-weight: normal;
+}
+.fields-text .table > tfoot > tr > td {
+	border: 0 none;
+}
+.text-danger {
+	font-size: 13px;
+	text-align: left;
+}
+#fields-value .input-group + .input-group {
+	margin-top: 5px;
+}
+.form-horizontal #fields-value .control-label {
+	display: block;
+	padding-top: 0;
+}
+#form-module .form-group {
+	padding-bottom: 7px;
+	padding-top: 7px;
+}
+#form-module .nav > li > a {
+	font-weight: normal;
+	padding: 7px 15px;
+}
+#form-module .nav-tabs {
+	background: #f5f5f5;
+}
+.loading {
+	position: relative;
+}
+.loading:after {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	content: " " !important;
+    display: block !important;
+	background: #ffffff url('loading.gif') center center no-repeat;
+	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=90);
+	-moz-opacity: 0.9;
+	-khtml-opacity: 0.9;
+	opacity: 0.3;
+	z-index: 2147483647;
+}
+.alert-info-fixed {
+	position: fixed;
+	max-width: 400px;
+	right: 25px;
+	bottom: 15px;
+	padding: 15px 15px 5px;
+}
+.alert-info-fixed .alert-info {
+	position: relative;
+	z-index: 9;
+}
+.alert-info-fixed .alert {
+    margin-bottom: 10px;
+}
+.alert-info-fixed:after {
+	background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    bottom: 0;
+    box-shadow: 4px 3px 9px rgba(0, 0, 0, 0.5);
+    content: " ";
+    left: 0;
+    opacity: 0.85;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 8;
+}
+.table-children {
+	padding: 0;
+}
+.table-children table {
+	margin-bottom:0;
+}
+.form-horizontal .text-center .control-label {
+	text-align: center;
+}
+.overf table {
+	margin-top: 15px;
+}
+.overf .container-fluid {
+	padding: 0;
+}
+.control-label .well {
+	font-weight: normal;
+}
+.button-default span {
+	width: 100%;
+}
+#form-module .form-group {
+	margin: 0;
+}
+#form-module .form-group > div .form-group {
+	margin: 0 -15px;
+}
+.bg-gray {
+	background: #F6F6F6;
+	padding: 15px 0 !important;
+}
+label.control-label#label-button span:after {
+    color: #ffffff;
+}
+.error-span {
+	margin-top: 15px;
+	font-size: 12px;
+	color: #dd3520;
+}
+.lightOnOff label {
+  display: block;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: -6px;
+  left: -3px;
+  cursor: pointer;
+  background: #fcfff4;
+  background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+  background: linear-gradient(to bottom, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+  border-radius: 50px;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+}
+.lightOnOff input[type=checkbox] {
+  visibility: hidden;
+}
+.lightOnOff input[type=checkbox]:checked + label {
+  left: 20px;
+}
+.lightOnOff.settings {
+	background: #bfbfbf;
+	border-radius: 3px;
+	left: auto;
+    margin: 15px 0;
+    position: relative;
+    right: auto;
+	width: 45px;
+	height: 13px;
+}
+.lightOnOff.settings label {
+  background: #fa0000;
+  background: -webkit-linear-gradient(top, #aaa 0%, #dfe5d7 40%, #b3bead 100%);
+  background: linear-gradient(to bottom, #aaa 0%, #dfe5d7 40%, #b3bead 100%);
+  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
+  height: 24px;
+  width: 24px;
+  top: -6px;
+}
+.lightOnOff.settings input[type=checkbox]:checked + label {
+  left: 30px;
+}
+.lightOnOff.settings input[type="checkbox"]:checked + label {
+	background: #fcfff4;
+	background: -webkit-linear-gradient(top, #197bb0 0%, #3b9dd2 40%, #197bb0 100%);
+	background: linear-gradient(to bottom, #197bb0 0%, #3b9dd2 40%, #197bb0 100%);
+}
+#tab-template .textarea.form-control {
+	min-height: 100px;
+}
+.form-horizontal .control-label.marg-top {
+	margin-top: 9px;
+}
+.marg-bottom {
+	margin-bottom: 10px;
+}
+.tab-content > form > div {
+	display: none;
+}
+.tab-content > form > div.active {
+	display: block;
+}
+#tab.nav > li > a {
+	cursor: pointer;
+}
+.pagination > li > a, .pagination > li > span {
+    padding: 5px 10px;
+}
+#tab-guest .input-group-sm > .form-control {
+	padding: 8px 9px;
+}
+.hide_cheaper {
+	display: none !important;
+}
+.vis_cheaper {
+	display: none !important;
+}
+.page-header .breadcrumb {
+	display: block;
+}

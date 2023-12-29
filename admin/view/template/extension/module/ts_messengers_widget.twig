@@ -1,0 +1,1127 @@
+{{ header }} 
+{{ column_left }}
+<div id="content">
+    <!-- header start -->
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="pull-right">
+                <button type="submit" form="form-messengers-widget" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-success"><i class="fas fa-check"></i></button>
+                <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fas fa-share"></i></a>
+            </div>
+            <h1>{{ heading_title }}</h1>
+            <ul class="breadcrumb">
+                {% for breadcrumb in breadcrumbs %}
+                    <li><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <!-- header end -->
+    <!-- content start -->
+    <div class="section">
+        <div class="container-fluid">
+            <!-- alert start -->
+            <div class="col-sm-12">
+                {% if (error_warning) %}
+                    <div class="alert alert-danger"><div class="alert-text"><i class="fas fa-exclamation"></i> {{ error_warning }}</div>
+                        <div class="alert-close"><button type="button" class="close" data-dismiss="alert">&times;</button></div>
+                    </div>
+                {% endif %}
+                {% if (success) %}
+                    <div class="alert alert-success"><div class="alert-text"><i class="fas fa-check"></i> {{ success }}</div>
+                        <div class="alert-close"><button type="button" class="close" data-dismiss="alert">&times;</button></div>
+                    </div>
+                {% endif %}
+            </div>
+            <!-- alert end -->
+            <!-- tabs start -->
+            <div class="col-sm-3">
+                <ul class="tabs">
+                    <li id="settings-1" class="current"><i class="fas fa-cog"></i>{{ tab_1 }}</li>
+                    <li id="settings-2"><i class="fas fa-eye"></i>{{ tab_2 }}</li>
+                    <li id="settings-6"><i class="far fa-comment-alt"></i>{{ tab_6 }}</li>
+                    <li id="settings-3"><i class="fas fa-link"></i>{{ tab_3 }}</li>
+                    <li id="customcss"><i class="fas fa-code"></i>{{ tab_4 }}</li>
+                    <li id="settings-5"><i class="fas fa-info-circle"></i>{{ tab_5 }}</li>
+                </ul>
+            </div>
+            <!-- tabs end -->
+            <!-- tabs content start -->
+            <div class="col-sm-9">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <!-- form start -->
+                        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-messengers-widget" class="form-horizontal">
+                            <!-- tab 1 content start -->
+                            <div class="box visible">
+                                <div class="form-group">
+                                    <label class="col-sm-1 control-label" for="input-status">{{ text_status }}</label>
+                                    <div class="col-sm-11">
+                                        <div class="toggle-button toggle-button--aava"><input id="toggleButton_status" type="checkbox" name="module_ts_messengers_widget_status" {% if (module_ts_messengers_widget_status) %}checked="checked"{% endif %}><label for="toggleButton_status" data-on-text="On" data-off-text="Off"></label><div class="toggle-button__icon"></div></div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <label class="control-label" for="input-type">{{ text_position }}</label>
+                                        <select name="module_ts_messengers_widget_settings[position]" id="input-status" class="form-control">
+                                            {% if (module_ts_messengers_widget_settings['position'] == 'right') %}
+                                                <option value="right" selected="selected">{{ text_right }}</option>
+                                            {% else %}
+                                                <option value="right">{{ text_right }}</option>
+                                            {% endif %}
+                                            {% if (module_ts_messengers_widget_settings['position'] == 'left') %}
+                                                <option value="left" selected="selected">{{ text_left }}</option>
+                                            {% else %}
+                                                <option value="left">{{ text_left }}</option>
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <label class="control-label" for="input-status">{{ text_padding }}</label>
+                                        <div>
+                                            <input type="text" name="module_ts_messengers_widget_settings[padding]" value="{{ module_ts_messengers_widget_settings['padding'] is defined ? module_ts_messengers_widget_settings['padding'] : '20' }}" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="control-label" for="input-status">{{ text_padding_bottom }}</label>
+                                        <div>
+                                            <input type="text" name="module_ts_messengers_widget_settings[padding_bottom]" value="{{ module_ts_messengers_widget_settings['padding_bottom'] is defined ? module_ts_messengers_widget_settings['padding_bottom'] : '20' }}" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <label class="control-label" for="input-status">{{ text_padding_mobile }}</label>
+                                        <div>
+                                            <input type="text" name="module_ts_messengers_widget_settings[padding_mobile]" value="{{ module_ts_messengers_widget_settings['padding_mobile'] is defined ? module_ts_messengers_widget_settings['padding_mobile'] : '20' }}" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="control-label" for="input-status">{{ text_padding_bottom_mobile }}</label>
+                                        <div>
+                                            <input type="text" name="module_ts_messengers_widget_settings[padding_bottom_mobile]" value="{{ module_ts_messengers_widget_settings['padding_bottom_mobile'] is defined ? module_ts_messengers_widget_settings['padding_bottom_mobile'] : '20' }}" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <label class="control-label" for="input-type">{{ text_hide }}</label>
+                                        <select name="module_ts_messengers_widget_settings[hide]" id="input-status" class="form-control">
+                                            {% if (module_ts_messengers_widget_settings['hide'] == '0') %}
+                                                <option value="0" selected="selected">{{ text_hide_0 }}</option>
+                                            {% else %}
+                                                <option value="0">{{ text_hide_0 }}</option>
+                                            {% endif %}
+                                            {% if (module_ts_messengers_widget_settings['hide'] == '1') %}
+                                                <option value="1" selected="selected">{{ text_hide_1 }}</option>
+                                            {% else %}
+                                                <option value="1">{{ text_hide_1 }}</option>
+                                            {% endif %}
+                                            {% if (module_ts_messengers_widget_settings['hide'] == '2') %}
+                                                <option value="2" selected="selected">{{ text_hide_2 }}</option>
+                                            {% else %}
+                                                <option value="2">{{ text_hide_2 }}</option>
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- tab 2 content start -->
+                            <div class="box">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="input-status">{{ text_icon }}</label>
+                                    <div class="col-sm-10">
+                                        <span class="main-icon" data-toggle="modal" data-target="#main_icon" style="background: {{ module_ts_messengers_widget_settings['back_color'] }};"><i class="{{ module_ts_messengers_widget_settings['main_icon'] }}" id="main-icon" style="color:{{ module_ts_messengers_widget_settings['icon_color'] }};"></i></span>
+                                        <input type="hidden" name="module_ts_messengers_widget_settings[main_icon]" id="main-icon-val" value="{{ module_ts_messengers_widget_settings['main_icon'] }}" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="input-status">{{ text_no_bg }}</label>
+                                    <div class="col-sm-4">
+                                        <div class="toggle-button toggle-button--aava"><input id="toggleButton_no_bg" type="checkbox" name="module_ts_messengers_widget_settings[no_bg]" {% if (module_ts_messengers_widget_settings['no_bg']) %}checked="checked"{% endif %}><label for="toggleButton_no_bg" data-on-text="On" data-off-text="Off"></label><div class="toggle-button__icon"></div></div>
+                                    </div>
+                                    <label class="col-sm-2 control-label" for="input-type">{{ text_tips }}</label>
+                                    <div class="col-sm-4">
+                                        <select name="module_ts_messengers_widget_settings[tips]" id="input-status" class="form-control">
+                                            {% if (module_ts_messengers_widget_settings['tips'] == '0') %}
+                                                <option value="0" selected="selected">{{ text_disabled }}</option>
+                                            {% else %}
+                                                <option value="0">{{ text_disabled }}</option>
+                                            {% endif %}
+                                            {% if (module_ts_messengers_widget_settings['tips'] == '1') %}
+                                                <option value="1" selected="selected">{{ text_enabled }}</option>
+                                            {% else %}
+                                                <option value="1">{{ text_enabled }}</option>
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="input-status">{{ text_back_color }}</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" name="module_ts_messengers_widget_settings[back_color]" value="{{ module_ts_messengers_widget_settings['back_color'] is defined ? module_ts_messengers_widget_settings['back_color'] : 'rgba(37, 167, 242, 1)' }}" class="form-control rgba" />
+                                    </div>
+                                    <label class="col-sm-2 control-label" for="input-status">{{ text_icon_color }}</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" name="module_ts_messengers_widget_settings[icon_color]" value="{{ module_ts_messengers_widget_settings['icon_color'] is defined ? module_ts_messengers_widget_settings['icon_color'] : 'rgba(255, 255, 255, 1)' }}" class="form-control rgba" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="input-status">{{ text_text_color }}</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" name="module_ts_messengers_widget_settings[text_color]" value="{{ module_ts_messengers_widget_settings['text_color'] is defined ? module_ts_messengers_widget_settings['text_color'] : 'rgba(0, 0, 0, 1)' }}" class="form-control rgba" />
+                                    </div>
+                                    <label class="col-sm-2 control-label" for="input-status">{{ text_text_hover_color }}</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" name="module_ts_messengers_widget_settings[text_hover_color]" value="{{ module_ts_messengers_widget_settings['text_hover_color'] is defined ? module_ts_messengers_widget_settings['text_hover_color'] : 'rgba(37, 167, 242, 1)' }}" class="form-control rgba" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="input-status">{{ text_fogging }}</label>
+                                    <div class="col-sm-4">
+                                        <div class="toggle-button toggle-button--aava"><input id="toggleButton_fogging" type="checkbox" name="module_ts_messengers_widget_settings[fogging]"{% if (module_ts_messengers_widget_settings['fogging']) %}checked="checked"{% endif %}><label for="toggleButton_fogging" data-on-text="On" data-off-text="Off"></label><div class="toggle-button__icon"></div></div>
+                                    </div>
+                                    <label class="col-sm-2 control-label" for="input-status">{{ text_fogging_color }}</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" name="module_ts_messengers_widget_settings[fogging_color]" value="{{ module_ts_messengers_widget_settings['fogging_color'] is defined ? module_ts_messengers_widget_settings['fogging_color'] : 'rgba(255, 255, 255, 1)' }}" class="form-control rgba" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-6">
+                                        <label class="control-label" for="input-status">{{ text_icon_size_desc }}</label>
+                                        <div>
+                                            <div class="icon-slide"><span class="main-icon slide_1" style="background: {{ module_ts_messengers_widget_settings['back_color'] }}; width: {{ module_ts_messengers_widget_settings['desc_size'] }}px; height: {{ module_ts_messengers_widget_settings['desc_size'] }}px;"><i class="{{ module_ts_messengers_widget_settings['main_icon'] }}" style="color:{{ module_ts_messengers_widget_settings['icon_color'] }};"></i></span></div>
+                                            <div class="slide_box"><input type="range" name="module_ts_messengers_widget_settings[desc_size]" min="40" max="70" value="{{ module_ts_messengers_widget_settings['desc_size'] is defined ? module_ts_messengers_widget_settings['desc_size'] : '55' }}" class="slider" id="width_1"></div>
+                                        </div>
+                                        <script>
+                                            var slideCol_1 = document.getElementById("width_1");
+                                            slideCol_1.oninput = function() {
+                                                $('.slide_1').width(slideCol_1.value).height(slideCol_1.value);
+                                            }
+                                        </script>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label class="control-label" for="input-status">{{ text_icon_size_mobile }}</label>
+                                        <div>
+                                            <span class="icon-slide"><span class="main-icon slide_2" style="background: {{ module_ts_messengers_widget_settings['back_color'] }}; width: {{ module_ts_messengers_widget_settings['mobile_size'] }}px; height: {{ module_ts_messengers_widget_settings['mobile_size'] }}px;"><i class="{{ module_ts_messengers_widget_settings['main_icon'] }}" style="color:{{ module_ts_messengers_widget_settings['icon_color'] }};"></i></span></span>
+                                            <span class="slide_box"><input type="range" name="module_ts_messengers_widget_settings[mobile_size]" min="40" max="70" value="{{ module_ts_messengers_widget_settings['mobile_size'] is defined ? module_ts_messengers_widget_settings['mobile_size'] : '55' }}" class="slider" id="width_2"></span>
+                                        </div>
+                                        <script>
+                                            var slideCol_2 = document.getElementById("width_2");
+                                            slideCol_2.oninput = function() {
+                                                $('.slide_2').width(slideCol_2.value).height(slideCol_2.value);
+                                            }
+                                        </script>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="input-status">{{ text_show_animation }}</label>
+                                    <div class="col-sm-1">
+                                        <div class="ts-mw-icon"><span class="callback-icon"><img id="show-animation" src="../image/catalog/ts-messengers/ts-phone.svg" alt=""></span></div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <select name="module_ts_messengers_widget_settings[show_animation]" id="input-show_animation" class="form-control">
+                                            {% if (module_ts_messengers_widget_settings['show_animation'] == '1') %}
+                                                <option value="1" selected="selected" data-type="show_animation">translate</option>
+                                            {% else %}
+                                                <option value="1">translate</option>
+                                            {% endif %}
+                                            {% if (module_ts_messengers_widget_settings['show_animation'] == '2') %}
+                                                <option value="2" selected="selected">scale</option>
+                                            {% else %}
+                                                <option value="2">scale</option>
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                    <script>
+                                        $('#input-show_animation').change(function() {
+                                            var val = $('#input-show_animation').val();
+                                            if (val == '1') {
+                                                $('#show-animation').removeClass('scale');
+                                                $('#show-animation').addClass('translate');
+                                            } else if (val == '2') {
+                                                $('#show-animation').removeClass('translate');
+                                                $('#show-animation').addClass('scale');
+                                            }
+                                        });
+                                        $('.panel-body #input-show_animation').trigger('change');
+                                    </script>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="input-status">{{ text_animation_1 }}</label>
+                                    <div class="col-sm-1"><span class="main-icon animation_1" style="background: {{ module_ts_messengers_widget_settings['back_color'] }};"><i class="{{ module_ts_messengers_widget_settings['main_icon'] }}" style="color:{{ module_ts_messengers_widget_settings['icon_color'] }};"></i></span></div>
+                                    <div class="col-sm-2">
+                                        <div class="toggle-button toggle-button--aava"><input id="toggleButton_animation_1" type="checkbox" name="module_ts_messengers_widget_settings[animation_1]" {% if (module_ts_messengers_widget_settings['animation_1']) %}checked="checked"{% endif %}><label for="toggleButton_animation_1" data-on-text="On" data-off-text="Off"></label><div class="toggle-button__icon"></div></div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="input-status">{{ text_animation_3 }}</label>
+                                    <div class="col-sm-1"><span class="main-icon animation_3" style="background: {{ module_ts_messengers_widget_settings['back_color'] }};"><i class="{{ module_ts_messengers_widget_settings['main_icon'] }}" style="color:{{ module_ts_messengers_widget_settings['icon_color'] }};"></i></span><div class="pulse"></div></div>
+                                    <style>.pulse:before, .pulse:after {border: 1px solid {{ module_ts_messengers_widget_settings['back_color'] }}}</style>
+                                    <div class="col-sm-2">
+                                        <div class="toggle-button toggle-button--aava"><input id="toggleButton_animation_3" type="checkbox" name="module_ts_messengers_widget_settings[animation_3]" {% if (module_ts_messengers_widget_settings['animation_3']) %}checked="checked"{% endif %}><label for="toggleButton_animation_3" data-on-text="On" data-off-text="Off"></label><div class="toggle-button__icon"></div></div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="input-status">{{ text_animation_2 }}</label>
+                                    <div class="col-sm-1">
+                                        <div class="ts-mw-icon">
+                                            <div class="slides"><span class="tg-icon"><img src="../image/catalog/ts-messengers/ts-telegram.svg" alt=""></span></div>
+                                            <div class="slides"><span class="viber-icon"><img src="../image/catalog/ts-messengers/ts-viber.svg" alt=""></span></div>
+                                            <div class="slides"><span class="whatsapp-icon"><img src="../image/catalog/ts-messengers/ts-whatsapp.svg" alt=""></span></div>
+                                            <div class="slides"><span class="messenger-icon"><img src="../image/catalog/ts-messengers/ts-fbmessenger.svg" alt=""></span></div>
+                                            <div class="slides"><span class="skype-icon"><img src="../image/catalog/ts-messengers/ts-skype.svg" alt=""></span></div>
+                                            <div class="slides"><span class="mail-icon"><img src="../image/catalog/ts-messengers/ts-mail.svg" alt=""></span></div>
+                                            <div class="slides"><span class="vk-icon"><img src="../image/catalog/ts-messengers/ts-vk.svg" alt=""></span></div>
+                                            <div class="slides"><span class="instagram-icon"><img src="../image/catalog/ts-messengers/ts-instagram.svg" alt=""></span></div>
+                                            <div class="slides"><span class="jivosite-icon"><img src="../image/catalog/ts-messengers/ts-jivosite.svg" alt=""></span></div>
+                                            <div class="slides"><span class="ydialog-icon"><img src="../image/catalog/ts-messengers/ts-ydialog.svg" alt=""></span></div>
+                                            <div class="slides"><span class="callback-icon"><img src="../image/catalog/ts-messengers/ts-phone.svg" alt=""></span></div>
+                                        </div>
+                                        <script>
+                                            $(document).ready(function() {
+                                                var count = -1;
+                                                function NextItem() {
+                                                    var boxes = $('.ts-mw-icon div');
+                                                    var boxLength = boxes.length - 1;
+                                                    count < boxLength ? count++ : count=0;
+                                                    boxes.removeClass('active').eq(count).addClass('active');
+                                                }
+                                                setInterval(NextItem, {{ module_ts_messengers_widget_settings['slide_speed'] }});
+                                                $('.slides').first().addClass('active');
+                                            });
+                                        </script>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="toggle-button toggle-button--aava"><input id="toggleButton_animation_2" type="checkbox" name="module_ts_messengers_widget_settings[animation_2]" {% if (module_ts_messengers_widget_settings['animation_2']) %}checked="checked"{% endif %}><label for="toggleButton_animation_2" data-on-text="On" data-off-text="Off"></label><div class="toggle-button__icon"></div></div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="control-label" for="input-status">{{ text_slide_speed }}</label>
+                                        <div>
+                                            <input type="text" name="module_ts_messengers_widget_settings[slide_speed]" value="{{ module_ts_messengers_widget_settings['slide_speed'] is defined ? module_ts_messengers_widget_settings['slide_speed'] : '3000' }}" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- tab 6 content start -->
+                            <div class="box">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label" for="input-type">{{ text_tips }}</label>
+                                    <div class="col-sm-3">
+                                        <select name="module_ts_messengers_widget_settings[main_tips]" id="input-status" class="form-control">
+                                            {% if (module_ts_messengers_widget_settings['main_tips'] == '0') %}
+                                                <option value="0" selected="selected">{{ text_disabled }}</option>
+                                            {% else %}
+                                                <option value="0">{{ text_disabled }}</option>
+                                            {% endif %}
+                                            {% if (module_ts_messengers_widget_settings['main_tips'] == '1') %}
+                                                <option value="1" selected="selected">{{ text_enabled }}</option>
+                                            {% else %}
+                                                <option value="1">{{ text_enabled }}</option>
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label" for="input-type">{{ text_tips_type }}</label>
+                                    <div class="col-sm-3">
+                                        <select name="module_ts_messengers_widget_settings[main_tips_type]" data-type="main_tips_type" id="input-status" class="form-control">
+                                            <option value="hover" {{ module_ts_messengers_widget_settings['main_tips_type'] == 'hover' ? 'selected="selected"' : '' }} id="hover">{{ text_hover }}</option>
+                                            <option value="delay" {{ module_ts_messengers_widget_settings['main_tips_type'] == 'delay' ? 'selected="selected"' : '' }} id="delay">{{ text_delay }}</option>
+                                        </select>
+                                    </div>
+                                    <label class="col-sm-3 control-label tips-delay" style="{{ module_ts_messengers_widget_settings['main_tips_type'] == 'hover' ? '' : 'display:none;' }}" for="input-status">{{ text_delay_time }}</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" style="{{ module_ts_messengers_widget_settings['main_tips_type'] == 'hover' ? '' : 'display:none;' }}" name="module_ts_messengers_widget_settings[delay_time]" value="{{ module_ts_messengers_widget_settings['delay_time'] is defined ? module_ts_messengers_widget_settings['delay_time'] : '5000' }}" class="form-control tips-delay" />
+                                    </div>
+                                    <script>$("select[data-type=main_tips_type]").change(function(){"delay"==$(this).val()?$(".tips-delay").show():$(".tips-delay").hide()}),$(function(){$("select[data-type=main_tips_type]").trigger("change")}),$(".panel-body select[data-type='main_tips_type']").trigger("change");</script>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">{{ text_text_tip }}</label>
+                                    <div class="clearfix"></div>
+                                    <div class="col-sm-12">
+                                        <ul class="nav nav-tabs" id="tip-text">
+                                            {% for language in languages %}
+                                                <li>
+                                                    <a href="#tab-tip-text-language{{ language['language_id'] }}" data-toggle="tab"><img src="language/{{ language['code'] }}/{{ language['code'] }}.png" title="{{ language['name'] }}" alt="" /> {{ language['name'] }}</a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                        <div class="tab-content">
+                                            {% for language in languages %}
+                                                <div class="tab-pane" id="tab-tip-text-language{{ language['language_id'] }}">
+                                                    <input type="text" name="module_ts_messengers_widget_settings[{{ language['code'] }}][tip_text]" value="{{ module_ts_messengers_widget_settings[language['code']]['tip_text'] is not empty ? module_ts_messengers_widget_settings[language['code']]['tip_text'] : '' }}" class="form-control"/>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        <div class="control-label">{{ text_manager }}</div>
+                                        <div>
+                                            <a href="" id="thumb-image" data-toggle="image" class="img-thumbnail"><img src="{{ thumb }}" alt="" title="" data-placeholder="{{ placeholder }}" class="img-responsive"/></a>
+                                            <input type="hidden" name="module_ts_messengers_widget_settings[image]" value="{{ module_ts_messengers_widget_settings['image'] }}" id="input-image" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <ul class="nav nav-tabs" id="manager-text">
+                                            {% for language in languages %}
+                                                <li>
+                                                    <a href="#tab-manager-text-language{{ language['language_id'] }}" data-toggle="tab"><img src="language/{{ language['code'] }}/{{ language['code'] }}.png" title="{{ language['name'] }}" alt="" /> {{ language['name'] }}</a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                        <div class="tab-content">
+                                            {% for language in languages %}
+                                                <div class="tab-pane" id="tab-manager-text-language{{ language['language_id'] }}">
+                                                    <input type="text" name="module_ts_messengers_widget_settings[{{ language['code'] }}][manager_text]" value="{{ module_ts_messengers_widget_settings[language['code']]['manager_text'] is not empty ? module_ts_messengers_widget_settings[language['code']]['manager_text'] : '' }}" class="form-control"/>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="input-status">{{ text_tip_back_color }}</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" name="module_ts_messengers_widget_settings[tips_back_color]" value="{{ module_ts_messengers_widget_settings['tips_back_color'] is defined ? module_ts_messengers_widget_settings['tips_back_color'] : 'rgba(37, 167, 242, 1)' }}" class="form-control rgba" />
+                                    </div>
+                                    <label class="col-sm-2 control-label" for="input-status">{{ text_text_color }}</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" name="module_ts_messengers_widget_settings[tips_text_color]" value="{{ module_ts_messengers_widget_settings['tips_text_color'] is defined ? module_ts_messengers_widget_settings['tips_text_color'] : 'rgba(255, 255, 255, 1)' }}" class="form-control rgba" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- tab 3 content start -->
+                            <div class="box">
+                                <ul class="nav nav-tabs" id="link-text">
+                                    {% for language in languages %}
+                                        <li class="li-language{{ language['language_id'] }}">
+                                            <a href="#tab-link-text-language{{ language['language_id'] }}" data-toggle="tab"><img src="language/{{ language['code'] }}/{{ language['code'] }}.png" title="{{ language['name'] }}" alt=""/> {{ language['name'] }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                                <div class="tab-content ts-content">
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <td class="text-center" style="width: 20%;">{{ text_link_img }}</td>
+                                            <td class="text-center">{{ text_link }}</td>
+                                            <td class="text-center">{{ text_link_text }}</td>
+                                            <td class="text-center" style="width: 5%;">{{ text_sort_order }}</td>
+                                            <td class="text-center">{{ text_link_status }}</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td class="text-center">
+                                                <span class="icon" data-toggle="modal" data-target="#tg" data-id="tg"><img data-icon="tg" src="{{ module_ts_messengers_widget_data['ts_tg']['icon'] is defined ? module_ts_messengers_widget_data['ts_tg']['icon'] : '../image/catalog/ts-messengers/ts-telegram.svg' }}" alt="" ></span>
+                                                <label class="icon-text control-label">{{ text_telegram }}</label>
+                                                <input type="hidden" name="module_ts_messengers_widget_data[ts_tg][field]" value="tg" />
+                                                <input type="hidden" name="module_ts_messengers_widget_data[ts_tg][icon]" id="icon-val-tg" value="{{ module_ts_messengers_widget_data['ts_tg']['icon'] is defined ? module_ts_messengers_widget_data['ts_tg']['icon'] : '../image/catalog/ts-messengers/ts-telegram.svg' }}" />
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[ts_tg][link]" value="{{ module_ts_messengers_widget_data['ts_tg']['link'] is defined ? module_ts_messengers_widget_data['ts_tg']['link'] : '' }}" placeholder="nickname" class="form-control" />
+                                                <span class="input-tip">{{ text_telegram_tip }}</span>
+                                            </td>
+                                            {% for language in languages %}
+                                                <td class="text-center tab-pane language{{ language['language_id'] }}">
+                                                    <input type="text" name="module_ts_messengers_widget_data[ts_tg][{{ language['code'] }}][link_text]" value="{{ module_ts_messengers_widget_data['ts_tg'][language['code']]['link_text'] is defined ? module_ts_messengers_widget_data['ts_tg'][language['code']]['link_text'] : '' }}" placeholder="Telegram" class="form-control" />
+                                                </td>
+                                            {% endfor %}
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[ts_tg][sort_order]" value="{{ module_ts_messengers_widget_data['ts_tg']['sort_order'] is defined ? module_ts_messengers_widget_data['ts_tg']['sort_order'] : '0' }}" placeholder="" class="form-control" />
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="toggle-button toggle-button--aava"><input id="toggleButton_tg" type="checkbox" name="module_ts_messengers_widget_data[ts_tg][link_status]" {% if (module_ts_messengers_widget_data['ts_tg']['link_status']) %}checked="checked"{% endif %}><label for="toggleButton_tg" data-on-text="On" data-off-text="Off"></label><div class="toggle-button__icon"></div></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">
+                                                <span class="icon" data-toggle="modal" data-target="#viber" data-id="viber"><img data-icon="viber" src="{{ module_ts_messengers_widget_data['ts_viber']['icon'] is defined ? module_ts_messengers_widget_data['ts_viber']['icon'] : '../image/catalog/ts-messengers/ts-viber.svg' }}" alt=""></span>
+                                                <label class="icon-text control-label">{{ text_viber }}</label>
+                                                <input type="hidden" name="module_ts_messengers_widget_data[ts_viber][field]" value="viber" />
+                                                <input type="hidden" name="module_ts_messengers_widget_data[ts_viber][icon]" id="icon-val-viber" value="{{ module_ts_messengers_widget_data['ts_viber']['icon'] is defined ? module_ts_messengers_widget_data['ts_viber']['icon'] : '../image/catalog/ts-messengers/ts-viber.svg' }}" />
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[ts_viber][link]" value="{{ module_ts_messengers_widget_data['ts_viber']['link'] is defined ? module_ts_messengers_widget_data['ts_viber']['link'] : '' }}" placeholder="799999999" class="form-control" />
+                                                <span class="input-tip">{{ text_number_tip }}</span>
+                                            </td>
+                                            {% for language in languages %}
+                                                <td class="text-center tab-pane language{{ language['language_id'] }}">
+                                                    <input type="text" name="module_ts_messengers_widget_data[ts_viber][{{ language['code'] }}][link_text]" value="{{ module_ts_messengers_widget_data['ts_viber'][language['code']]['link_text'] is defined ? module_ts_messengers_widget_data['ts_viber'][language['code']]['link_text'] : '' }}" placeholder="Viber" class="form-control" />
+                                                </td>
+                                            {% endfor %}
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[ts_viber][sort_order]" value="{{ module_ts_messengers_widget_data['ts_viber']['sort_order'] is defined ? module_ts_messengers_widget_data['ts_viber']['sort_order'] : '0' }}" placeholder="" class="form-control" />
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="toggle-button toggle-button--aava"><input id="toggleButton_viber" type="checkbox" name="module_ts_messengers_widget_data[ts_viber][link_status]" {% if (module_ts_messengers_widget_data['ts_viber']['link_status']) %}checked="checked"{% endif %}><label for="toggleButton_viber" data-on-text="On" data-off-text="Off"></label><div class="toggle-button__icon"></div></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">
+                                                <span class="icon" data-toggle="modal" data-target="#whatsapp" data-id="whatsapp"><img data-icon="whatsapp" src="{{ module_ts_messengers_widget_data['ts_whatsapp']['icon'] is defined ? module_ts_messengers_widget_data['ts_whatsapp']['icon'] : '../image/catalog/ts-messengers/ts-whatsapp.svg' }}" alt=""></span>
+                                                <label class="icon-text control-label">{{ text_whatsapp }}</label>
+                                                <input type="hidden" name="module_ts_messengers_widget_data[ts_whatsapp][field]" value="whatsapp" />
+                                                <input type="hidden" name="module_ts_messengers_widget_data[ts_whatsapp][icon]" id="icon-val-whatsapp" value="{{ module_ts_messengers_widget_data['ts_whatsapp']['icon'] is defined ? module_ts_messengers_widget_data['ts_whatsapp']['icon'] : '../image/catalog/ts-messengers/ts-whatsapp.svg' }}" />
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[ts_whatsapp][link]" value="{{ module_ts_messengers_widget_data['ts_whatsapp']['link'] is defined ? module_ts_messengers_widget_data['ts_whatsapp']['link'] : '' }}" placeholder="799999999" class="form-control" />
+                                                <span class="input-tip">{{ text_number_tip }}</span>
+                                            </td>
+                                            {% for language in languages %}
+                                                <td class="text-center tab-pane language{{ language['language_id'] }}">
+                                                    <input type="text" name="module_ts_messengers_widget_data[ts_whatsapp][{{ language['code'] }}][link_text]" value="{{ module_ts_messengers_widget_data['ts_whatsapp'][language['code']]['link_text'] is defined ? module_ts_messengers_widget_data['ts_whatsapp'][language['code']]['link_text'] : '' }}" placeholder="Whatsapp" class="form-control" />
+                                                </td>
+                                            {% endfor %}
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[ts_whatsapp][sort_order]" value="{{ module_ts_messengers_widget_data['ts_whatsapp']['sort_order'] is defined ? module_ts_messengers_widget_data['ts_whatsapp']['sort_order'] : '0' }}" placeholder="" class="form-control" />
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="toggle-button toggle-button--aava"><input id="toggleButton_whatsapp" type="checkbox" name="module_ts_messengers_widget_data[ts_whatsapp][link_status]" {% if (module_ts_messengers_widget_data['ts_whatsapp']['link_status']) %}checked="checked"{% endif %}><label for="toggleButton_whatsapp" data-on-text="On" data-off-text="Off"></label><div class="toggle-button__icon"></div></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">
+                                                <span class="icon" data-toggle="modal" data-target="#messenger" data-id="messenger"><img data-icon="messenger" src="{{ module_ts_messengers_widget_data['ts_messenger']['icon'] is defined ? module_ts_messengers_widget_data['ts_messenger']['icon'] : '../image/catalog/ts-messengers/ts-fbmessenger.svg' }}" alt=""></span>
+                                                <label class="icon-text control-label">{{ text_messenger }}</label>
+                                                <input type="hidden" name="module_ts_messengers_widget_data[ts_messenger][field]" value="messenger" />
+                                                <input type="hidden" name="module_ts_messengers_widget_data[ts_messenger][icon]" id="icon-val-messenger" value="{{ module_ts_messengers_widget_data['ts_messenger']['icon'] is defined ? module_ts_messengers_widget_data['ts_messenger']['icon'] : '../image/catalog/ts-messengers/ts-fbmessenger.svg' }}" />
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[ts_messenger][link]" value="{{ module_ts_messengers_widget_data['ts_messenger']['link'] is defined ? module_ts_messengers_widget_data['ts_messenger']['link'] : '' }}" placeholder="facebook" class="form-control" />
+                                                <span class="input-tip">{{ text_messenger_tip }}</span>
+                                            </td>
+                                            {% for language in languages %}
+                                                <td class="text-center tab-pane language{{ language['language_id'] }}">
+                                                    <input type="text" name="module_ts_messengers_widget_data[ts_messenger][{{ language['code'] }}][link_text]" value="{{ module_ts_messengers_widget_data['ts_messenger'][language['code']]['link_text'] is defined ? module_ts_messengers_widget_data['ts_messenger'][language['code']]['link_text'] : '' }}" placeholder="Messenger" class="form-control" />
+                                                </td>
+                                            {% endfor %}
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[ts_messenger][sort_order]" value="{{ module_ts_messengers_widget_data['ts_messenger']['sort_order'] is defined ? module_ts_messengers_widget_data['ts_messenger']['sort_order'] : '0' }}" placeholder="" class="form-control" />
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="toggle-button toggle-button--aava"><input id="toggleButton_messenger" type="checkbox" name="module_ts_messengers_widget_data[ts_messenger][link_status]" {% if (module_ts_messengers_widget_data['ts_messenger']['link_status']) %}checked="checked"{% endif %}><label for="toggleButton_messenger" data-on-text="On" data-off-text="Off"></label><div class="toggle-button__icon"></div></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">
+                                                <span class="icon" data-toggle="modal" data-target="#skype" data-id="skype"><img data-icon="skype" src="{{ module_ts_messengers_widget_data['ts_skype']['icon'] is defined ? module_ts_messengers_widget_data['ts_skype']['icon'] : '../image/catalog/ts-messengers/ts-skype.svg' }}" alt=""></span>
+                                                <label class="icon-text control-label">{{ text_skype }}</label>
+                                                <input type="hidden" name="module_ts_messengers_widget_data[ts_skype][field]" value="skype" />
+                                                <input type="hidden" name="module_ts_messengers_widget_data[ts_skype][icon]" id="icon-val-skype" value="{{ module_ts_messengers_widget_data['ts_skype']['icon'] is defined ? module_ts_messengers_widget_data['ts_skype']['icon'] : '../image/catalog/ts-messengers/ts-skype.svg' }}" />
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[ts_skype][link]" value="{{ module_ts_messengers_widget_data['ts_skype']['link'] is defined ? module_ts_messengers_widget_data['ts_skype']['link'] : '' }}" placeholder="skype.skype" class="form-control" />
+                                            </td>
+                                            {% for language in languages %}
+                                                <td class="text-center tab-pane language{{ language['language_id'] }}">
+                                                    <input type="text" name="module_ts_messengers_widget_data[ts_skype][{{ language['code'] }}][link_text]" value="{{ module_ts_messengers_widget_data['ts_skype'][language['code']]['link_text'] is defined ? module_ts_messengers_widget_data['ts_skype'][language['code']]['link_text'] : '' }}" placeholder="Skype" class="form-control" />
+                                                </td>
+                                            {% endfor %}
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[ts_skype][sort_order]" value="{{ module_ts_messengers_widget_data['ts_skype']['sort_order'] is defined ? module_ts_messengers_widget_data['ts_skype']['sort_order'] : '0' }}" placeholder="" class="form-control" />
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="toggle-button toggle-button--aava"><input id="toggleButton_skype" type="checkbox" name="module_ts_messengers_widget_data[ts_skype][link_status]" {% if (module_ts_messengers_widget_data['ts_skype']['link_status']) %}checked="checked"{% endif %}><label for="toggleButton_skype" data-on-text="On" data-off-text="Off"></label><div class="toggle-button__icon"></div></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">
+                                                <span class="icon" data-toggle="modal" data-target="#mail" data-id="mail"><img data-icon="mail" src="{{ module_ts_messengers_widget_data['ts_mail']['icon'] is defined ? module_ts_messengers_widget_data['ts_mail']['icon'] : '../image/catalog/ts-messengers/ts-mail.svg' }}" alt=""></span>
+                                                <label class="icon-text control-label">{{ text_mail }}</label>
+                                                <input type="hidden" name="module_ts_messengers_widget_data[ts_mail][field]" value="mail" />
+                                                <input type="hidden" name="module_ts_messengers_widget_data[ts_mail][icon]" id="icon-val-mail" value="{{ module_ts_messengers_widget_data['ts_mail']['icon'] is defined ? module_ts_messengers_widget_data['ts_mail']['icon'] : '../image/catalog/ts-messengers/ts-mail.svg' }}" />
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[ts_mail][link]" value="{{ module_ts_messengers_widget_data['ts_mail']['link'] is defined ? module_ts_messengers_widget_data['ts_mail']['link'] : '' }}" placeholder="mail@mail.com" class="form-control" />
+                                            </td>
+                                            {% for language in languages %}
+                                                <td class="text-center tab-pane language{{ language['language_id'] }}">
+                                                    <input type="text" name="module_ts_messengers_widget_data[ts_mail][{{ language['code'] }}][link_text]" value="{{ module_ts_messengers_widget_data['ts_mail'][language['code']]['link_text'] is defined ? module_ts_messengers_widget_data['ts_mail'][language['code']]['link_text'] : '' }}" placeholder="Mail" class="form-control" />
+                                                </td>
+                                            {% endfor %}
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[ts_mail][sort_order]" value="{{ module_ts_messengers_widget_data['ts_mail']['sort_order'] is defined ? module_ts_messengers_widget_data['ts_mail']['sort_order'] : '0' }}" placeholder="" class="form-control" />
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="toggle-button toggle-button--aava"><input id="toggleButton_mail" type="checkbox" name="module_ts_messengers_widget_data[ts_mail][link_status]" {% if (module_ts_messengers_widget_data['ts_mail']['link_status']) %}checked="checked"{% endif %}><label for="toggleButton_mail" data-on-text="On" data-off-text="Off"></label><div class="toggle-button__icon"></div></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">
+                                                <span class="icon" data-toggle="modal" data-target="#vk" data-id="vk"><img data-icon="vk" src="{{ module_ts_messengers_widget_data['ts_vk']['icon'] is defined ? module_ts_messengers_widget_data['ts_vk']['icon'] : '../image/catalog/ts-messengers/ts-vk.svg' }}" alt=""></span>
+                                                <label class="icon-text control-label">{{ text_vk }}</label>
+                                                <input type="hidden" name="module_ts_messengers_widget_data[ts_vk][field]" value="vk" />
+                                                <input type="hidden" name="module_ts_messengers_widget_data[ts_vk][icon]" id="icon-val-vk" value="{{ module_ts_messengers_widget_data['ts_vk']['icon'] is defined ? module_ts_messengers_widget_data['ts_vk']['icon'] : '../image/catalog/ts-messengers/ts-vk.svg' }}" />
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[ts_vk][link]" value="{{ module_ts_messengers_widget_data['ts_vk']['link'] is defined ? module_ts_messengers_widget_data['ts_vk']['link'] : '' }}" placeholder="vkontakte" class="form-control" />
+                                                <span class="input-tip">{{ text_vk_tip }}</span>
+                                            </td>
+                                            {% for language in languages %}
+                                                <td class="text-center tab-pane language{{ language['language_id'] }}">
+                                                    <input type="text" name="module_ts_messengers_widget_data[ts_vk][{{ language['code'] }}][link_text]" value="{{ module_ts_messengers_widget_data['ts_vk'][language['code']]['link_text'] is defined ? module_ts_messengers_widget_data['ts_vk'][language['code']]['link_text'] : '' }}" placeholder="VK" class="form-control" />
+                                                </td>
+                                            {% endfor %}
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[ts_vk][sort_order]" value="{{ module_ts_messengers_widget_data['ts_vk']['sort_order'] is defined ? module_ts_messengers_widget_data['ts_vk']['sort_order'] : '0' }}" placeholder="" class="form-control" />
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="toggle-button toggle-button--aava"><input id="toggleButton_vk" type="checkbox" name="module_ts_messengers_widget_data[ts_vk][link_status]" {% if (module_ts_messengers_widget_data['ts_vk']['link_status']) %}checked="checked"{% endif %}><label for="toggleButton_vk" data-on-text="On" data-off-text="Off"></label><div class="toggle-button__icon"></div></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">
+                                                <span class="icon" data-toggle="modal" data-target="#instagram" data-id="instagram"><img data-icon="instagram" src="{{ module_ts_messengers_widget_data['ts_instagram']['icon'] is defined ? module_ts_messengers_widget_data['ts_instagram']['icon'] : '../image/catalog/ts-messengers/ts-instagram.svg' }}" alt=""></span>
+                                                <label class="icon-text control-label">{{ text_instagram }}</label>
+                                                <input type="hidden" name="module_ts_messengers_widget_data[ts_instagram][field]" value="instagram" />
+                                                <input type="hidden" name="module_ts_messengers_widget_data[ts_instagram][icon]" id="icon-val-instagram" value="{{ module_ts_messengers_widget_data['ts_instagram']['icon'] is defined ? module_ts_messengers_widget_data['ts_instagram']['icon'] : '../image/catalog/ts-messengers/ts-instagram.svg' }}" />
+
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[ts_instagram][link]" value="{{ module_ts_messengers_widget_data['ts_instagram']['link'] is defined ? module_ts_messengers_widget_data['ts_instagram']['link'] : '' }}" placeholder="account" class="form-control" />
+                                                <span class="input-tip">{{ text_instagram_tip }}</span>
+                                            </td>
+                                            {% for language in languages %}
+                                                <td class="text-center tab-pane language{{ language['language_id'] }}">
+                                                    <input type="text" name="module_ts_messengers_widget_data[ts_instagram][{{ language['code'] }}][link_text]" value="{{ module_ts_messengers_widget_data['ts_instagram'][language['code']]['link_text'] is defined ? module_ts_messengers_widget_data['ts_instagram'][language['code']]['link_text'] : '' }}" placeholder="Instagram" class="form-control" />
+                                                </td>
+                                            {% endfor %}
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[ts_instagram][sort_order]" value="{{ module_ts_messengers_widget_data['ts_instagram']['sort_order'] is defined ? module_ts_messengers_widget_data['ts_instagram']['sort_order'] : '0' }}" placeholder="" class="form-control" />
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="toggle-button toggle-button--aava"><input id="toggleButton_inst" type="checkbox" name="module_ts_messengers_widget_data[ts_instagram][link_status]" {% if (module_ts_messengers_widget_data['ts_instagram']['link_status']) %}checked="checked"{% endif %}><label for="toggleButton_inst" data-on-text="On" data-off-text="Off"></label><div class="toggle-button__icon"></div></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">
+                                                <span class="icon" data-toggle="modal" data-target="#phone1" data-id="phone1"><img data-icon="phone1" src="{{ module_ts_messengers_widget_data['phone1']['icon'] is defined ? module_ts_messengers_widget_data['phone1']['icon'] : '../image/catalog/ts-messengers/ts-phone.svg' }}" alt=""></span>
+                                                <label class="icon-text control-label">{{ text_phone1 }}</label>
+                                                <input type="hidden" name="module_ts_messengers_widget_data[phone1][field]" value="phone1" />
+                                                <input type="hidden" name="module_ts_messengers_widget_data[phone1][icon]" id="icon-val-phone1" value="{{ module_ts_messengers_widget_data['phone1']['icon'] is defined ? module_ts_messengers_widget_data['phone1']['icon'] : '../image/catalog/ts-messengers/ts-phone.svg' }}" />
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[phone1][link]" value="{{ module_ts_messengers_widget_data['phone1']['link'] is defined ? module_ts_messengers_widget_data['phone1']['link'] : '' }}" placeholder="75555555555" class="form-control" />
+                                                <span class="input-tip">{{ text_number_tip }}</span>
+                                            </td>
+                                            {% for language in languages %}
+                                                <td class="text-center tab-pane language{{ language['language_id'] }}">
+                                                    <input type="text" name="module_ts_messengers_widget_data[phone1][{{ language['code'] }}][link_text]" value="{{ module_ts_messengers_widget_data['phone1'][language['code']]['link_text'] is defined ? module_ts_messengers_widget_data['phone1'][language['code']]['link_text'] : '' }}" placeholder="+7(555)-555-55-55" class="form-control" />
+                                                </td>
+                                            {% endfor %}
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[phone1][sort_order]" value="{{ module_ts_messengers_widget_data['phone1']['sort_order'] is defined ? module_ts_messengers_widget_data['phone1']['sort_order'] : '0' }}" placeholder="" class="form-control" />
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="toggle-button toggle-button--aava"><input id="toggleButton_phone1" type="checkbox" name="module_ts_messengers_widget_data[phone1][link_status]" {% if (module_ts_messengers_widget_data['phone1']['link_status']) %}checked="checked"{% endif %}><label for="toggleButton_phone1" data-on-text="On" data-off-text="Off"></label><div class="toggle-button__icon"></div></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">
+                                                <span class="icon" data-toggle="modal" data-target="#phone2" data-id="phone2"><img data-icon="phone2" src="{{ module_ts_messengers_widget_data['phone2']['icon'] is defined ? module_ts_messengers_widget_data['phone2']['icon'] : '../image/catalog/ts-messengers/ts-phone.svg' }}" alt=""></span>
+                                                <label class="icon-text control-label">{{ text_phone2 }}</label>
+                                                <input type="hidden" name="module_ts_messengers_widget_data[phone2][field]" value="phone2" />
+                                                <input type="hidden" name="module_ts_messengers_widget_data[phone2][icon]" id="icon-val-phone2" value="{{ module_ts_messengers_widget_data['phone2']['icon'] is defined ? module_ts_messengers_widget_data['phone2']['icon'] : '../image/catalog/ts-messengers/ts-phone.svg' }}" />
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[phone2][link]" value="{{ module_ts_messengers_widget_data['phone2']['link'] is defined ? module_ts_messengers_widget_data['phone2']['link'] : '' }}" placeholder="75555555555" class="form-control" />
+                                                <span class="input-tip">{{ text_number_tip }}</span>
+                                            </td>
+                                            {% for language in languages %}
+                                                <td class="text-center tab-pane language{{ language['language_id'] }}">
+                                                    <input type="text" name="module_ts_messengers_widget_data[phone2][{{ language['code'] }}][link_text]" value="{{ module_ts_messengers_widget_data['phone2'][language['code']]['link_text'] is defined ? module_ts_messengers_widget_data['phone2'][language['code']]['link_text'] : '' }}" placeholder="+7(555)-555-55-55" class="form-control" />
+                                                </td>
+                                            {% endfor %}
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[phone2][sort_order]" value="{{ module_ts_messengers_widget_data['phone2']['sort_order'] is defined ? module_ts_messengers_widget_data['phone2']['sort_order'] : '0' }}" placeholder="" class="form-control" />
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="toggle-button toggle-button--aava"><input id="toggleButton_phone2" type="checkbox" name="module_ts_messengers_widget_data[phone2][link_status]" {% if (module_ts_messengers_widget_data['phone2']['link_status']) %}checked="checked"{% endif %}><label for="toggleButton_phone2" data-on-text="On" data-off-text="Off"></label><div class="toggle-button__icon"></div></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">
+                                                <span class="icon" data-toggle="modal" data-target="#phone3" data-id="phone3"><img data-icon="phone3" src="{{ module_ts_messengers_widget_data['phone3']['icon'] is defined ? module_ts_messengers_widget_data['phone3']['icon'] : '../image/catalog/ts-messengers/ts-phone.svg' }}" alt=""></span>
+                                                <label class="icon-text control-label">{{ text_phone3 }}</label>
+                                                <input type="hidden" name="module_ts_messengers_widget_data[phone3][field]" value="phone3" />
+                                                <input type="hidden" name="module_ts_messengers_widget_data[phone3][icon]" id="icon-val-phone3" value="{{ module_ts_messengers_widget_data['phone3']['icon'] is defined ? module_ts_messengers_widget_data['phone3']['icon'] : '../image/catalog/ts-messengers/ts-phone.svg' }}" />
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[phone3][link]" value="{{ module_ts_messengers_widget_data['phone3']['link'] is defined ? module_ts_messengers_widget_data['phone3']['link'] : '' }}" placeholder="75555555555" class="form-control" />
+                                                <span class="input-tip">{{ text_number_tip }}</span>
+                                            </td>
+                                            {% for language in languages %}
+                                                <td class="text-center tab-pane language{{ language['language_id'] }}">
+                                                    <input type="text" name="module_ts_messengers_widget_data[phone3][{{ language['code'] }}][link_text]" value="{{ module_ts_messengers_widget_data['phone3'][language['code']]['link_text'] is defined ? module_ts_messengers_widget_data['phone3'][language['code']]['link_text'] : '' }}" placeholder="+7(555)-555-55-55" class="form-control" />
+                                                </td>
+                                            {% endfor %}
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[phone3][sort_order]" value="{{ module_ts_messengers_widget_data['phone3']['sort_order'] is defined ? module_ts_messengers_widget_data['phone3']['sort_order'] : '0' }}" placeholder="" class="form-control" />
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="toggle-button toggle-button--aava"><input id="toggleButton_phone3" type="checkbox" name="module_ts_messengers_widget_data[phone3][link_status]" {% if (module_ts_messengers_widget_data['phone3']['link_status']) %}checked="checked"{% endif %}><label for="toggleButton_phone3" data-on-text="On" data-off-text="Off"></label><div class="toggle-button__icon"></div></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">
+                                                <span class="icon" data-toggle="modal" data-target="#viber_b" data-id="viber_b"><img data-icon="viber_b" src="{{ module_ts_messengers_widget_data['ts_viber_b']['icon'] is defined ? module_ts_messengers_widget_data['ts_viber_b']['icon'] : '../image/catalog/ts-messengers/ts-viber.svg' }}" alt=""></span>
+                                                <label class="icon-text control-label">{{ text_viber_b }}</label>
+                                                <input type="hidden" name="module_ts_messengers_widget_data[ts_viber_b][field]" value="viber_b" />
+                                                <input type="hidden" name="module_ts_messengers_widget_data[ts_viber_b][icon]" id="icon-val-viber_b" value="{{ module_ts_messengers_widget_data['ts_viber_b']['icon'] is defined ? module_ts_messengers_widget_data['ts_viber_b']['icon'] : '../image/catalog/ts-messengers/ts-viber.svg' }}" />
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[ts_viber_b][link]" value="{{ module_ts_messengers_widget_data['ts_viber_b']['link'] is defined ? module_ts_messengers_widget_data['ts_viber_b']['link'] : '' }}" placeholder="viber" class="form-control" />
+                                                <span class="input-tip">{{ text_viber_b_tip }}</span>
+                                            </td>
+                                            {% for language in languages %}
+                                                <td class="text-center tab-pane language{{ language['language_id'] }}">
+                                                    <input type="text" name="module_ts_messengers_widget_data[ts_viber_b][{{ language['code'] }}][link_text]" value="{{ module_ts_messengers_widget_data['ts_viber_b'][language['code']]['link_text'] is defined ? module_ts_messengers_widget_data['ts_viber_b'][language['code']]['link_text'] : '' }}" placeholder="Viber business" class="form-control" />
+                                                </td>
+                                            {% endfor %}
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[ts_viber_b][sort_order]" value="{{ module_ts_messengers_widget_data['ts_viber_b']['sort_order'] is defined ? module_ts_messengers_widget_data['ts_viber_b']['sort_order'] : '0' }}" placeholder="" class="form-control" />
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="toggle-button toggle-button--aava"><input id="toggleButton_viber_b" type="checkbox" name="module_ts_messengers_widget_data[ts_viber_b][link_status]" {% if (module_ts_messengers_widget_data['ts_viber_b']['link_status']) %}checked="checked"{% endif %}><label for="toggleButton_viber_b" data-on-text="On" data-off-text="Off"></label><div class="toggle-button__icon"></div></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">
+                                                <span class="icon" data-toggle="modal" data-target="#viber_group" data-id="viber_group"><img data-icon="viber_group" src="{{ module_ts_messengers_widget_data['ts_viber_group']['icon'] is defined ? module_ts_messengers_widget_data['ts_viber_group']['icon'] : '../image/catalog/ts-messengers/ts-viber.svg' }}" alt=""></span>
+                                                <label class="icon-text control-label">{{ text_viber_group }}</label>
+                                                <input type="hidden" name="module_ts_messengers_widget_data[ts_viber_group][field]" value="viber_group" />
+                                                <input type="hidden" name="module_ts_messengers_widget_data[ts_viber_group][icon]" id="icon-val-viber_group" value="{{ module_ts_messengers_widget_data['ts_viber_group']['icon'] is defined ? module_ts_messengers_widget_data['ts_viber_group']['icon'] : '../image/catalog/ts-messengers/ts-viber.svg' }}" />
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[ts_viber_group][link]" value="{{ module_ts_messengers_widget_data['ts_viber_group']['link'] is defined ? module_ts_messengers_widget_data['ts_viber_group']['link'] : '' }}" placeholder="viber" class="form-control" />
+                                                <span class="input-tip">{{ text_viber_g_tip }}</span>
+                                            </td>
+                                            {% for language in languages %}
+                                                <td class="text-center tab-pane language{{ language['language_id'] }}">
+                                                    <input type="text" name="module_ts_messengers_widget_data[ts_viber_group][{{ language['code'] }}][link_text]" value="{{ module_ts_messengers_widget_data['ts_viber_group'][language['code']]['link_text'] is defined ? module_ts_messengers_widget_data['ts_viber_group'][language['code']]['link_text'] : '' }}" placeholder="Viber group" class="form-control" />
+                                                </td>
+                                            {% endfor %}
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[ts_viber_group][sort_order]" value="{{ module_ts_messengers_widget_data['ts_viber_group']['sort_order'] is defined ? module_ts_messengers_widget_data['ts_viber_group']['sort_order'] : '0' }}" placeholder="" class="form-control" />
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="toggle-button toggle-button--aava"><input id="toggleButton_viber_g" type="checkbox" name="module_ts_messengers_widget_data[ts_viber_group][link_status]" {% if (module_ts_messengers_widget_data['ts_viber_group']['link_status']) %}checked="checked"{% endif %}><label for="toggleButton_viber_g" data-on-text="On" data-off-text="Off"></label><div class="toggle-button__icon"></div></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">
+                                                <span class="icon" data-toggle="modal" data-target="#callback" data-id="callback"><img data-icon="callback" src="{{ module_ts_messengers_widget_data['ts_custom_callback']['icon'] is defined ? module_ts_messengers_widget_data['ts_custom_callback']['icon'] : '../image/catalog/ts-messengers/ts-phone.svg' }}" alt=""></span>
+                                                <label class="icon-text control-label">{{ text_callback }}</label>
+                                                <input type="hidden" name="module_ts_messengers_widget_data[ts_custom_callback][field]" value="callback" />
+                                                <input type="hidden" name="module_ts_messengers_widget_data[ts_custom_callback][icon]" id="icon-val-callback" value="{{ module_ts_messengers_widget_data['ts_custom_callback']['icon'] is defined ? module_ts_messengers_widget_data['ts_custom_callback']['icon'] : '../image/catalog/ts-messengers/ts-phone.svg' }}" />
+                                            </td>
+                                            <td class="text-center">
+                                                <span data-toggle="modal" data-target="#adaptation" class="adaptation">{{ text_adaptation }}<span class="adaptation-val">{{ module_ts_messengers_widget_settings['adaptation'] is defined ? module_ts_messengers_widget_settings['adaptation'] : 'Без адаптации' }}</span></span>
+                                                <input type="hidden" name="module_ts_messengers_widget_settings[adaptation]" id="adaptation-val" value="{{ module_ts_messengers_widget_settings['adaptation'] is defined ? module_ts_messengers_widget_settings['adaptation'] : 'Без адаптации' }}" />
+                                                <input type="text" id="custom_callback" name="module_ts_messengers_widget_data[ts_custom_callback][link]" value="{{ module_ts_messengers_widget_data['ts_custom_callback']['link'] is defined ? module_ts_messengers_widget_data['ts_custom_callback']['link'] : '' }}" placeholder="onclick=callback();" class="form-control" />
+                                            </td>
+                                            {% for language in languages %}
+                                                <td class="text-center tab-pane language{{ language['language_id'] }}">
+                                                    <input type="text" name="module_ts_messengers_widget_data[ts_custom_callback][{{ language['code'] }}][link_text]" value="{{ module_ts_messengers_widget_data['ts_custom_callback'][language['code']]['link_text'] is defined ? module_ts_messengers_widget_data['ts_custom_callback'][language['code']]['link_text'] : '' }}" placeholder="Заказать звонок" class="form-control" />
+                                                </td>
+                                            {% endfor %}
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[ts_custom_callback][sort_order]" value="{{ module_ts_messengers_widget_data['ts_custom_callback']['sort_order'] is defined ? module_ts_messengers_widget_data['ts_custom_callback']['sort_order'] : '0' }}" placeholder="" class="form-control" />
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="toggle-button toggle-button--aava"><input id="toggleButton_cc" type="checkbox" name="module_ts_messengers_widget_data[ts_custom_callback][link_status]" {% if (module_ts_messengers_widget_data['ts_custom_callback']['link_status']) %}checked="checked"{% endif %}><label for="toggleButton_cc" data-on-text="On" data-off-text="Off"></label><div class="toggle-button__icon"></div></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">
+                                                <span class="icon" data-toggle="modal" data-target="#faq" data-id="faq"><img data-icon="faq" src="{{ module_ts_messengers_widget_data['ts_faq']['icon'] is defined ? module_ts_messengers_widget_data['ts_faq']['icon'] : '../image/catalog/ts-messengers/ts-faq.svg' }}" alt=""></span>
+                                                <label class="icon-text control-label">{{ text_cutsom_link }}</label>
+                                                <input type="hidden" name="module_ts_messengers_widget_data[ts_faq][field]" value="faq" />
+                                                <input type="hidden" name="module_ts_messengers_widget_data[ts_faq][icon]" id="icon-val-faq" value="{{ module_ts_messengers_widget_data['ts_faq']['icon'] is defined ? module_ts_messengers_widget_data['ts_faq']['icon'] : '../image/catalog/ts-messengers/ts-faq.svg' }}" />
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[ts_faq][link]" value="{{ module_ts_messengers_widget_data['ts_faq']['link'] is defined ? module_ts_messengers_widget_data['ts_faq']['link'] : '' }}" placeholder="FAQ" class="form-control" />
+                                            </td>
+                                            {% for language in languages %}
+                                                <td class="text-center tab-pane language{{ language['language_id'] }}">
+                                                    <input type="text" name="module_ts_messengers_widget_data[ts_faq][{{ language['code'] }}][link_text]" value="{{ module_ts_messengers_widget_data['ts_faq'][language['code']]['link_text'] is defined ? module_ts_messengers_widget_data['ts_faq'][language['code']]['link_text'] : '' }}" placeholder="FAQ" class="form-control" />
+                                                </td>
+                                            {% endfor %}
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[ts_faq][sort_order]" value="{{ module_ts_messengers_widget_data['ts_faq']['sort_order'] is defined ? module_ts_messengers_widget_data['ts_faq']['sort_order'] : '0' }}" placeholder="" class="form-control" />
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="toggle-button toggle-button--aava"><input id="toggleButton_faq" type="checkbox" name="module_ts_messengers_widget_data[ts_faq][link_status]" {% if (module_ts_messengers_widget_data['ts_faq']['link_status']) %}checked="checked"{% endif %}><label for="toggleButton_faq" data-on-text="On" data-off-text="Off"></label><div class="toggle-button__icon"></div></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">
+                                                <span class="icon" data-toggle="modal" data-target="#jivosite" data-id="jivosite"><img data-icon="jivosite" src="{{ module_ts_messengers_widget_data['ts_jivosite']['icon'] is defined ? module_ts_messengers_widget_data['ts_jivosite']['icon'] : '../image/catalog/ts-messengers/ts-jivosite.svg' }}" alt=""></span>
+                                                <label class="icon-text control-label"><a href="https://www.jivo.ru/" rel="nofollow" target="_blank" style="position: unset;">Jivosite</a></label>
+                                                <input type="hidden" name="module_ts_messengers_widget_data[ts_jivosite][field]" value="jivosite" />
+                                                <input type="hidden" name="module_ts_messengers_widget_data[ts_jivosite][icon]" id="icon-val-jivosite" value="{{ module_ts_messengers_widget_data['ts_jivosite']['icon'] is defined ? module_ts_messengers_widget_data['ts_jivosite']['icon'] : '../image/catalog/ts-messengers/ts-jivosite.svg' }}" />
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">src="//code.jivosite.com/widget/</span>
+                                                    <input type="text" name="module_ts_messengers_widget_data[ts_jivosite][link]" value="{{ module_ts_messengers_widget_data['ts_jivosite']['link'] is defined ? module_ts_messengers_widget_data['ts_jivosite']['link'] : '' }}" placeholder="o6BIpAkavY" class="form-control" />
+                                                    <span class="input-tip">{{ text_jivosite_tip }}</span>
+                                                    <span class="input-group-addon addon-right">"</span>
+                                                </div>
+                                            </td>
+                                            {% for language in languages %}
+                                                <td class="text-center tab-pane language{{ language['language_id'] }}">
+                                                    <input type="text" name="module_ts_messengers_widget_data[ts_jivosite][{{ language['code'] }}][link_text]" value="{{ module_ts_messengers_widget_data['ts_jivosite'][language['code']]['link_text'] is defined ? module_ts_messengers_widget_data['ts_jivosite'][language['code']]['link_text'] : '' }}" placeholder="Online-чат" class="form-control" />
+                                                </td>
+                                            {% endfor %}
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[ts_jivosite][sort_order]" value="{{ module_ts_messengers_widget_data['ts_jivosite']['sort_order'] is defined ? module_ts_messengers_widget_data['ts_jivosite']['sort_order'] : '0' }}" placeholder="" class="form-control" />
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="toggle-button toggle-button--aava"><input id="toggleButton_js" type="checkbox" name="module_ts_messengers_widget_data[ts_jivosite][link_status]" {% if (module_ts_messengers_widget_data['ts_jivosite']['link_status']) %}checked="checked"{% endif %}><label for="toggleButton_js" data-on-text="On" data-off-text="Off"></label><div class="toggle-button__icon"></div></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">
+                                                <span class="icon" data-toggle="modal" data-target="#ydialog" data-id="ydialog"><img data-icon="ydialog" src="{{ module_ts_messengers_widget_data['ts_ydialog']['icon'] is defined ? module_ts_messengers_widget_data['ts_ydialog']['icon'] : '../image/catalog/ts-messengers/ts-ydialog.svg' }}" alt=""></span>
+                                                <label class="icon-text control-label">Яндекс Диалог</label>
+                                                <input type="hidden" name="module_ts_messengers_widget_data[ts_ydialog][field]" value="ydialog" />
+                                                <input type="hidden" name="module_ts_messengers_widget_data[ts_ydialog][icon]" id="icon-val-ydialog" value="{{ module_ts_messengers_widget_data['ts_ydialog']['icon'] is defined ? module_ts_messengers_widget_data['ts_ydialog']['icon'] : '../image/catalog/ts-messengers/ts-ydialog.svg' }}" />
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">Идентификатор диалога "</span>
+                                                    <input type="text" name="module_ts_messengers_widget_data[ts_ydialog][link]" value="{{ module_ts_messengers_widget_data['ts_ydialog']['link'] is defined ? module_ts_messengers_widget_data['ts_ydialog']['link'] : '' }}" placeholder="2acba11f-79c6-1111-8899-cb73a8ef49ce" class="form-control" />
+                                                    <span class="input-group-addon addon-right">"</span>
+                                                </div>
+                                            </td>
+                                            {% for language in languages %}
+                                                <td class="text-center tab-pane language{{ language['language_id'] }}">
+                                                    <input type="text" name="module_ts_messengers_widget_data[ts_ydialog][{{ language['code'] }}][link_text]" value="{{ module_ts_messengers_widget_data['ts_ydialog'][language['code']]['link_text'] is defined ? module_ts_messengers_widget_data['ts_ydialog'][language['code']]['link_text'] : '' }}" placeholder="Online-чат" class="form-control" />
+                                                </td>
+                                            {% endfor %}
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[ts_ydialog][sort_order]" value="{{ module_ts_messengers_widget_data['ts_ydialog']['sort_order'] is defined ? module_ts_messengers_widget_data['ts_ydialog']['sort_order'] : '0' }}" placeholder="" class="form-control" />
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="toggle-button toggle-button--aava"><input id="toggleButton_yd" type="checkbox" name="module_ts_messengers_widget_data[ts_ydialog][link_status]" {% if (module_ts_messengers_widget_data['ts_ydialog']['link_status']) %}checked="checked"{% endif %}><label for="toggleButton_yd" data-on-text="On" data-off-text="Off"></label><div class="toggle-button__icon"></div></div>
+                                            </td>
+                                        </tr>
+                                        <!-- talk me-->
+                                        <tr>
+                                            <td class="text-center">
+                                                <span class="icon" data-toggle="modal" data-target="#talkme" data-id="talkme"><img data-icon="talkme" src="{{ module_ts_messengers_widget_data['ts_talkme']['icon'] is defined ? module_ts_messengers_widget_data['ts_talkme']['icon'] : '../image/catalog/ts-messengers/ts-talkme.svg' }}" alt=""></span>
+                                                <label class="icon-text control-label"><a href="https://talk-me.ru/" rel="nofollow" target="_blank" style="position: unset;">Talk Me</a></label>
+                                                <input type="hidden" name="module_ts_messengers_widget_data[ts_talkme][field]" value="talkme" />
+                                                <input type="hidden" name="module_ts_messengers_widget_data[ts_talkme][icon]" id="icon-val-talkme" value="{{ module_ts_messengers_widget_data['ts_talkme']['icon'] is defined ? module_ts_messengers_widget_data['ts_talkme']['icon'] : '../image/catalog/ts-messengers/ts-talkme.svg' }}" />
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">id = '</span>
+                                                    <input type="text" name="module_ts_messengers_widget_data[ts_talkme][link]" value="{{ module_ts_messengers_widget_data['ts_talkme']['link'] is defined ? module_ts_messengers_widget_data['ts_talkme']['link'] : '' }}" placeholder="0a1aa2e289b005b5fbc9e4c12312a123" class="form-control" />
+                                                    <span class="input-tip">{{ text_talkme_tip }}</span>
+                                                    <span class="input-group-addon addon-right">'</span>
+                                                </div>
+                                            </td>
+                                            {% for language in languages %}
+                                                <td class="text-center tab-pane language{{ language['language_id'] }}">
+                                                    <input type="text" name="module_ts_messengers_widget_data[ts_talkme][{{ language['code'] }}][link_text]" value="{{ module_ts_messengers_widget_data['ts_talkme'][language['code']]['link_text'] is defined ? module_ts_messengers_widget_data['ts_talkme'][language['code']]['link_text'] : '' }}" placeholder="Online-чат" class="form-control" />
+                                                </td>
+                                            {% endfor %}
+                                            <td class="text-center">
+                                                <input type="text" name="module_ts_messengers_widget_data[ts_talkme][sort_order]" value="{{ module_ts_messengers_widget_data['ts_talkme']['sort_order'] is defined ? module_ts_messengers_widget_data['ts_talkme']['sort_order'] : '0' }}" placeholder="" class="form-control" />
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="toggle-button toggle-button--aava"><input id="toggleButton_tm" type="checkbox" name="module_ts_messengers_widget_data[ts_talkme][link_status]" {% if (module_ts_messengers_widget_data['ts_talkme']['link_status']) %}checked="checked"{% endif %}><label for="toggleButton_tm" data-on-text="On" data-off-text="Off"></label><div class="toggle-button__icon"></div></div>
+                                            </td>
+                                        </tr>
+                                        <!-- talk me-->
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- tab css content start -->
+                            <div class="box">
+                                <div class="form-group">
+                                    <label class="col-sm-1 control-label" for="input-type">{{ text_customcss }}</label>
+                                    <div class="col-sm-11">
+                                        <textarea name="module_ts_messengers_widget_settings[customcss]" id="module_ts_messengers_widget_settings[customcss]">{{ module_ts_messengers_widget_settings['customcss'] }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- tab 5 content start -->
+                            <div class="box">
+                                <div class="form-group">
+                                    <div class="col-sm-12 drop">
+                                        <div href="#" class="spoiler_links"><i class="fa fa-caret-down" aria-hidden="true"></i>{{ ask_phone_icons }}<a class="f-acc-toggle"></a></div>
+                                        <div class="spoiler_body" style="display: none;">{{ answer_phone_icons }}</div>
+                                    </div>
+                                    <div class="col-sm-12 drop">
+                                        <div href="#" class="spoiler_links"><i class="fa fa-caret-down" aria-hidden="true"></i>{{ ask_review }}<a class="f-acc-toggle"></a></div>
+                                        <div class="spoiler_body" style="display: none;">{{ answer_review }}</div>
+                                    </div>
+                                    <div class="col-sm-12 drop">
+                                        <div href="#" class="spoiler_links"><i class="fa fa-caret-down" aria-hidden="true"></i>{{ ask_support }}<a class="f-acc-toggle"></a></div>
+                                        <div class="spoiler_body" style="display: none;">{{ answer_support }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- form end -->
+                    </div>
+                    <div class="panel-footer" style="background: #fff;border-bottom-right-radius: 5px;border-bottom-left-radius: 5px;">version: {{ version }}<div class="pull-right"><a href="https://templates-solutions.net/" target="_blank">Сайт разработчика</a></div></div>
+                </div>
+            </div>
+            <!-- tabs content end -->
+        </div>
+    </div>
+    <!-- content end -->
+</div>
+<script>
+    var editor = CodeMirror.fromTextArea(document.getElementById("module_ts_messengers_widget_settings[customcss]"), {
+        mode : "css",
+        lineNumbers: true,
+        autofocus: true,
+        theme: 'monokai',
+        lineWrapping: true
+    });
+    $('#customcss').on('click', function() {
+        setTimeout(function() {
+            $(this).click();
+            editor.refresh();
+        }, 1);
+    });
+    $('.icon').on('click', function() {
+        $('.modal-call').attr("id", $(this).attr("data-id"));
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        $('.spoiler_links').click(function(){
+            $(this).parent().children('.spoiler_body').toggle('normal');
+            $(this).toggleClass('active');
+            return false;
+        });
+    });
+</script>
+<script>
+    $(function() {
+        $('ul.tabs').delegate('li:not(.current)', 'click', function() {
+            $(this).addClass('current').siblings().removeClass('current')
+                .parents('div.section').find('div.box').hide().eq($(this).index()).fadeIn(300);
+        })
+    })
+</script>
+<script>
+    $('.rgba').minicolors({
+        animationSpeed: 50,
+        animationEasing: 'swing',
+        changeDelay: 0,
+        control: 'hue',
+        defaultValue: '',
+        format: 'rgb',
+        showSpeed: 100,
+        hideSpeed: 100,
+        inline: false,
+        keywords: '',
+        letterCase: 'lowercase',
+        opacity: true,
+        position: 'bottom left',
+        theme: 'default',
+        swatches: []
+    });
+</script>
+<script>
+    $('#tip-text a:first').tab('show');
+    $('#link-text a:first').tab('show');
+    $('#manager-text a:first').tab('show');
+    $('.ts-content').find('tr').find('.tab-pane:eq(0)').addClass('active');
+    {% for language in languages %}
+    $('.li-language{{ language['language_id'] }}').on('click', function() {
+        $('.ts-content .tab-pane').removeClass('active');
+        $('.ts-content .tab-pane.language{{ language['language_id'] }}').addClass('active');
+    });
+    {% endfor %}
+</script>
+{{ footer }}
+<div class="modal fade modal-call" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">{{ text_select_icon }}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal-icons-title">Telegram</div>
+                <div class="modal-icons">
+                    {% for image in images %}
+                        {% if ('telegram' in image) %}
+                            <div class="modal-icon col-sm-2"><img src="{{ image }}" alt=""></div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="modal-icons-title">Viber</div>
+                <div class="modal-icons">
+                    {% for image in images %}
+                        {% if ('viber' in image) %}
+                            <div class="modal-icon col-sm-2"><img src="{{ image }}" alt=""></div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="modal-icons-title">Whatsapp</div>
+                <div class="modal-icons">
+                    {% for image in images %}
+                        {% if ('whatsapp' in image) %}
+                            <div class="modal-icon col-sm-2"><img src="{{ image }}" alt=""></div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="modal-icons-title">Messenger</div>
+                <div class="modal-icons">
+                    {% for image in images %}
+                        {% if ('fbmessenger' in image) %}
+                            <div class="modal-icon col-sm-2"><img src="{{ image }}" alt=""></div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="modal-icons-title">Skype</div>
+                <div class="modal-icons">
+                    {% for image in images %}
+                        {% if ('skype' in image) %}
+                            <div class="modal-icon col-sm-2"><img src="{{ image }}" alt=""></div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="modal-icons-title">Mail</div>
+                <div class="modal-icons">
+                    {% for image in images %}
+                        {% if ('mail' in image) %}
+                            <div class="modal-icon col-sm-2"><img src="{{ image }}" alt=""></div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="modal-icons-title">Vk</div>
+                <div class="modal-icons">
+                    {% for image in images %}
+                        {% if ('vk' in image) %}
+                            <div class="modal-icon col-sm-2"><img src="{{ image }}" alt=""></div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="modal-icons-title">Instagram</div>
+                <div class="modal-icons">
+                    {% for image in images %}
+                        {% if ('instagram' in image) %}
+                            <div class="modal-icon col-sm-2"><img src="{{ image }}" alt=""></div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="modal-icons-title">Custom</div>
+                <div class="modal-icons">
+                    {% for image in images %}
+                        {% if not ('instagram' in image) and not ('vk' in image) and not ('mail' in image) and not ('skype' in image) and not ('fbmessenger' in image) and not ('whatsapp' in image) and not ('viber' in image)  and not ('telegram' in image) %}
+                            <div class="modal-icon col-sm-2"><img src="{{ image }}" alt=""></div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{ text_modal_close }}</button>
+            </div>
+        </div>
+        <script>
+            $('.modal-call .modal-icon img').on('click', function() {
+                var id = $('.modal-call').attr("id");
+                $('.icon img[data-icon='+id+']').attr('src', $(this).attr('src'));
+                $('#icon-val-'+ id).val($(this).attr('src'));
+                $('.modal-call').modal('hide');
+            });
+        </script>
+    </div>
+</div>
+<div id="main_icon" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">{{ text_select_icon }}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal-icon col-sm-2"><i class="fa fa-comments"></i></div>
+                <div class="modal-icon col-sm-2"><i class="fa fa-comment"></i></div>
+                <div class="modal-icon col-sm-2"><i class="fa fa-commenting"></i></div>
+                <div class="modal-icon col-sm-2"><i class="fa fa-envelope"></i></div>
+                <div class="modal-icon col-sm-2"><i class="fa fa-info-circle"></i></div>
+                <div class="modal-icon col-sm-2"><i class="fa fa-question-circle"></i></div>
+                <div class="modal-icon col-sm-2"><i class="fa fa-comments-o"></i></div>
+                <div class="modal-icon col-sm-2"><i class="fa fa-comment-o"></i></div>
+                <div class="modal-icon col-sm-2"><i class="fa fa-commenting-o"></i></div>
+                <div class="modal-icon col-sm-2"><i class="fa fa-envelope-o"></i></div>
+                <div class="modal-icon col-sm-2"><i class="fa fa-info"></i></div>
+                <div class="modal-icon col-sm-2"><i class="fa fa-phone"></i></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{ text_modal_close }}</button>
+            </div>
+        </div>
+        <script>
+            $('.modal-icon i').on('click', function() {
+                $('#main-icon').attr('class', $(this).attr('class'));
+                $('#main-icon-val').val($(this).attr('class'));
+                $('#main_icon').modal('hide');
+            });
+        </script>
+    </div>
+</div>
+<div id="adaptation" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">{{ text_adaptation }}</h4>
+            </div>
+            <div class="modal-body">
+                <span class="modal-theme" data-theme="">Без адаптации</span>
+                <span class="modal-theme" data-theme="class=bingc-action-open-passive-form">Binotel</span>
+                <span class="modal-theme" data-theme="onclick=get_popup_call_phone();">Shop-store</span>
+                <span class="modal-theme" data-theme="onclick=get_oct_popup_call_phone();">Luxury</span>
+                <span class="modal-theme" data-theme="onclick=get_oct_popup_call_phone();">Tech-store</span>
+                <span class="modal-theme" data-theme="onclick=octPopupCallPhone()">UltraStore</span>
+                <span class="modal-theme" data-theme="onclick=octPopupCallPhone()">FeelMart</span>
+                <span class="modal-theme" data-theme="onclick=callback();">Unishop</span>
+                <span class="modal-theme" data-theme="onclick=uniRequestOpen(['mail','phone','comment']);">Unishop2</span>
+                <span class="modal-theme" data-theme="onclick=$('#contacts>.dropdown-menu>li>button').click()">Moneymaker2</span>
+                <span class="modal-theme" data-theme="onclick=get_modal_callbacking();">Newstore</span>
+                <span class="modal-theme" data-theme="onclick=get_modal_callbacking();">Cyberstore</span>
+                <span class="modal-theme" data-theme="class=btn-callback">Bestshop</span>
+                <span class="modal-theme" data-theme="class=btn-callback">Grand</span>
+                <span class="modal-theme" data-theme="class=btn-callback">Butik</span>
+                <span class="modal-theme" data-theme="class=btn-callback">Butik2</span>
+                <span class="modal-theme" data-theme="id=callphone">TheMarket</span>
+                <span class="modal-theme" data-theme="onclick=callback();">Coloring</span>
+                <span class="modal-theme" data-theme="class=call-order">Modern</span>
+                <span class="modal-theme" data-theme="class=call-order">Royal</span>
+                <span class="modal-theme" data-theme="class=call-order">Aurus</span>
+                <span class="modal-theme" data-theme="class=call-order">Fractal</span>
+                <span class="modal-theme" data-theme="class=open-callback-form">Supra</span>
+                <span class="modal-theme" data-theme="onclick=$('#xd_zvonok_modal').modal('show');">Fastor</span>
+                <span class="modal-theme" data-theme="onclick=get_revpopup_phone();">Revolution</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{ text_modal_close }}</button>
+            </div>
+        </div>
+        <script>
+            $('#adaptation .modal-theme').on('click', function() {
+                $('.adaptation-val').text($(this).text());
+                $('#custom_callback').val($(this).attr('data-theme'));
+                $('#adaptation-val').val($(this).text());
+                $('#adaptation').modal('hide');
+            });
+        </script>
+    </div>
+</div>

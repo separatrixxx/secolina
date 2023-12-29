@@ -1,0 +1,115 @@
+{{ header }} 
+<div class="container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %} 
+    <li><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>
+    {% endfor %} 
+  </ul>
+  <div class="row">{{ column_left }} 
+    {% if (column_left and column_right) %} 
+    {% set class = 'col-sm-6' %} 
+    {% elseif (column_left or column_right) %} 
+    {% set class = 'col-sm-9' %} 
+    {% else %} 
+    {% set class = 'col-sm-12' %} 
+    {% endif %} 
+    <div id="content" class="{{ class }}">{{ content_top }} 
+      <h1>{{ heading_title }}</h1>
+      <div class="panel-body">
+        <h3>{{ poll_info['question'] }}</h3>
+      </div>
+      <div class="panel panel-default">
+        <div class="col-sm-4">
+          <div class="panel-heading"><h4>{{ heading_results }}</h4></div>
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th class="text-left">{{ column_title }}</th>
+                  <th class="text-right">{{ column_votes }}</th>
+                  <th class="text-right">{{ column_percent }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for poll_option in poll_options %} 
+                <tr>
+                  <td class="text-left">{{ poll_option['title'] }}</td>
+                  <td class="text-right">{{ poll_option['reactions'] }}</td>
+                  <td class="text-right">{{ poll_option['percent'] }}%</td>
+                </tr>
+                {% endfor %} 
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th class="text-left">{{ text_total_votes }}</th>
+                  <th class="text-right">{{ total_reactions }}</th>
+                  <th class="text-right"></th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          {% if (show_poll) %} 
+          {{ poll_module }} 
+          {% endif %} 
+        </div>
+        <div class="col-sm-8">
+          <div class="panel-heading"><h4>{{ heading_chart }}</h4></div>
+          <div class="chart-container">
+            <div id="chart" class="chart-placeholder"></div>
+          </div>
+        </div>
+      </div>
+      {{ content_bottom }}</div>
+    {{ column_right }}</div>
+</div>
+<script type="text/javascript"><!--
+$(document).ready(function() {
+	var data = [];
+	var option_num = 0;
+
+	{% for poll_option in poll_options %} 
+		data[option_num] = {
+			label: '{{ poll_option['title'] }}',
+			data: '{{ poll_option['votes'] }}'
+		}
+
+		option_num++;
+	{% endfor %} 
+
+	var placeholder = $('#chart');
+
+	placeholder.unbind();
+
+	$.plot(placeholder, data, {
+		series: {
+			pie: { 
+				show: true
+			}
+		},
+
+		grid: {
+			hoverable: true,
+			clickable: true
+		}
+	});
+
+	placeholder.bind('plothover', function(event, pos, obj) {
+		if (!obj) {
+			return;
+		}
+
+		var percent = parseFloat(obj.series.percent).toFixed(2);
+		$('#hover').html('<span style="font-weight: bold; color: ' + obj.series.color + '">' + obj.series.label + ' (' + percent + '%)</span>');
+	});
+
+	placeholder.bind('plotclick', function(event, pos, obj) {
+		if (!obj) {
+			return;
+		}
+
+		percent = parseFloat(obj.series.percent).toFixed(2);
+		alert(''  + obj.series.label + ': ' + percent + '%');
+	});
+});
+//--></script>
+{{ footer }}

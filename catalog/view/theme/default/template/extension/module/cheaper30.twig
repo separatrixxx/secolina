@@ -1,0 +1,462 @@
+{% if not type_view %}<div class="close-cheaper" onclick="return closedivshadow{{ module_id }}(); return false;"><svg class="svg-icon-cheaper"><use xlink:href="/catalog/view/javascript/cheaper30/icons.svg#svg-close"/></svg></div>{% endif %}
+<div class="option-div option-div{{ module_id }}">
+  <div class="row">
+	<div class="col-sm-12 col-xs-12"><h3 class="text-left">{{ text_cheaper_h1 }}</h3></div>
+	{% if product_id %}
+		<div class="col-lg-4 col-md-4 col-sm-4 col-xs-3 col-xm-12">
+			<div class="image">
+				{% if image %}<a href="{{ href }}" title=""><img src="{{ image }}" alt="" title="" id="images" class="img-responsive" /></a>{% endif %}
+			</div>
+		</div>
+		<div class="col-lg-8 col-md-8 col-sm-8 col-xs-9 col-xm-12 border-right">
+			<h4 class="text-left">{{ text_cheaper_h4 }}</h4>
+			<br />
+			<h3>{{ name }}</h3>
+			{% if price %}
+			<span class="price">
+			  <ul class="list-unstyled text-left">
+				{% if special == false %}
+				<li>
+				  <h2>{{ price }}</h2>
+				</li>
+				{% else %}
+				<li>
+				  <h2>{{ special }}</h2><span style="text-decoration: line-through;">{{ price }}</span>
+				</li>
+				{% endif %}
+				{% if tax %}
+				<li>{{ text_tax }} {{ tax }}</li>
+				{% endif %}
+			  </ul>
+			</span>
+			{% endif %}
+			<input type="hidden" id="price" value="{{ pr }}" />
+		</div>
+	{% else %}
+	<div class="col-sm-12 col-xs-12">
+		<h4 class="text-left">{{ text_cheaper_h4 }}</h4>
+	</div>
+	{% endif %}
+</div>
+<form class="" action="" method="post" id="cheaperForm{{ module_id }}">
+	<div class="option-div product">
+		<div class="clearfix"></div>
+		<div class="forming_quick col">
+		  <div class="row">
+			<input type="hidden" class="form-control" name="input_date" id="input_date" value="{{ date }}" />
+			<input type="hidden" name="input_product_id" id="input_product_id" value="{{ product_id }}" />
+			{% if fields %}
+				{% for field in fields %}
+					<div class="col-sm-12 form-group col-block">
+						<div class="input-group{% if field.type == 'radio' or field.type == 'checked' %} border-block-module{% endif %}">
+							{% if field.type == 'text' %}
+								{% if field.icon %}<span class="input-group-addon input_field{{ field.id }}"><i class="fa fa-{{ field.icon }}"></i></span>{% endif %}
+								<input type="text" class="form-control{% if field.regex == 'date' %} date{% endif %}{% if field.regex == 'time' %} time{% endif %}{% if field.regex == 'datetime' %} datetime{% endif %} form-required-module" name="input_field[{{ field.id }}]" id="input_field{{ field.id }}" placeholder="{{ field.name }}{% if field.required %}{{ text_cheaper30_required }}{% endif %}" value=""{% if field.type == 'date' %} data-date-format="DD/MM/YYYY"{% endif %}{% if field.type == 'time' %} data-time-format="HH/MM"{% endif %}{% if field.type == 'datetime' %} data-datetime-format="DD/MM/YYYY HH/MM"{% endif %} />
+							{% endif %}
+							{% if field.type == 'textarea' %}
+								{% if field.icon %}<span class="input-group-addon input_field{{ field.id }}"><i class="fa fa-{{ field.icon }}"></i></span>{% endif %}
+								<textarea type="text" class="form-control form-required-module" name="input_field[{{ field.id }}]" id="input_field{{ field.id }}" placeholder="{{ field.name }}{% if field.required %}{{ text_cheaper30_required }}{% endif %}"></textarea>
+							{% endif %}
+							{% if field.type == 'select' %}
+								{% if field.query_value %}
+								<div class="margin-bottom-module"><i class="fa fa-{{ field.icon }}"></i>&nbsp;&nbsp;<strong>{{ field.name }}{% if field.required %}{{ text_cheaper30_required }}{% endif %}</strong></div>
+								<div class="">
+									<select name="input_field[{{ field.id }}][]" class="form-control form-required-module">
+										<option value=""> {{ text_select }}</option>
+										{% for select_value in field.query_value %}
+											<option value="{{ select_value }}"> {{ select_value }}</option>
+										{% endfor %}
+									</select>
+								</div>
+								{% endif %}
+							{% endif %}
+							{% if field.type == 'radio' %}
+								{% if field.query_value %}
+								<div class="margin-bottom-module"><i class="fa fa-{{ field.icon }}"></i>&nbsp;&nbsp;<strong>{{ field.name }}{% if field.required %}{{ text_cheaper30_required }}{% endif %}</strong></div>
+								<div class="">
+									{% for select_value in field.query_value %}
+										<label class="text-left margin-right-module" data-class="checked-check{{ field.id }}"><input type="radio" name="input_field[{{ field.id }}][]" value="{{ select_value }}" class="form-required-module"> {{ select_value }}</label>
+									{% endfor %}
+								</div>
+								{% endif %}
+							{% endif %}
+							{% if field.type == 'checked' %}
+								{% if field.query_value %}
+								<div class="margin-bottom-module"><i class="fa fa-{{ field.icon }}"></i>&nbsp;&nbsp;<strong>{{ field.name }}{% if field.required %}{{ text_cheaper30_required }}{% endif %}</strong></div>
+								<div class="">
+									{% for select_value in field.query_value %}
+										<label class="text-left margin-right-module" data-class="checked-check{{ field.id }}"><input type="checkbox" name="input_field[{{ field.id }}][]" value="{{ select_value }}" class="form-required-module"> {{ select_value }}</label>
+									{% endfor %}
+								{% endif %}
+								</div>
+							{% endif %}
+							{% if field.type == 'file' %}
+								<div class="margin-bottom-module"><i class="fa fa-{{ field.icon }}"></i>&nbsp;&nbsp;<strong>{{ field.name }}{% if field.required %}{{ text_cheaper30_required }}{% endif %}</strong></div>
+								<button type="button" data-module_id="{{ module_id }}" data-loading-text="{{ text_loading }}" class="btn btn-default btn-block button-upload"><i class="fa fa-upload"></i> {{ button_upload }}</button>
+								<input type="text" name="input_field[{{ field.id }}][file]" value="" id="input-file{{ module_id }}" class="visibility_cheaper form-required-module" />
+							{% endif %}
+						</div>
+					</div>
+				{% endfor %}
+			{% endif %}
+			<div class="clearfix"></div>
+			<div class="col-sm-12 captcha-module{{ module_id }}">
+				<div class="input-group">
+					{% if captch == 'default' %}
+						<div class="form-group required marg-bottom-0">
+							<label class="control-label display-block-module">{{ entry_valid_default_legend }}</label>
+							<div class="input-group">
+								<div id="captchaimage{{ module_id }}" class="input-group-btn captchaimage"><a id="refreshimg" title="Click to refresh image"><img src="index.php?route={{ extension }}module/cheaper30/image/{{ time }}&module_id={{ module_id }}" width="132" height="46" alt="Captcha image"></a></div>
+								<input type="text" maxlength="6" name="captcha" id="captcha" class="form-control" style="height: 46px;" />
+								<input type="hidden" name="submit" id="submit" value="Check" />
+							</div>
+						</div>
+					{% else %}
+						{{ captcha }}
+					{% endif %}
+				</div>
+			</div>
+			<div class="clearfix"></div>
+			{% if protection.text and protection.text != "" %}
+				<div class="col-xs-12 col-sm-12 checkbox person{% if protection.format == 'text' %} text_person{% endif %}">
+					{% if protection.format and protection.format == 'checkbox' %}
+					  <div class="table">
+						<div class="input-group-btn">
+						  <input type="checkbox" name="input_zachita" id="zachita" value="1" />
+						</div>
+						<label for="zachita" class="table-cell-form-control"><span class="text_p">{{ protection.text }}</span></label>
+					  </div>
+					{% endif %}
+					{% if protection.format and protection.format == 'text' %}
+					  {{ protection.text }}
+					{% endif %}
+				</div>
+			{% endif %}
+			<div class="col-lg-12 button-cheaper">
+				<button type="submit" class="btn btn-primary col-xm-12 margin-bottom-xm"><i class="fa fa-envelope-o"></i>&nbsp;&nbsp;<span> {{ text_send_cheaper30_module }}</span></button>
+				{% if not type_view %}<button type="button" class="btn btn-white pull-right col-xm-12" onclick="return closedivshadow{{ module_id }}(); return false;"><i class="fa fa-sign-out"></i><span>&nbsp;&nbsp;{{ text_close_cheaper30_module }}</span></button>{% endif %}
+            </div><div class="clearfix"></div>
+		  </div>
+		</div>
+	</div>
+	<div id="temp_image" class="temp_image">
+		<img data-src="catalog/view/javascript/cheaper30/success_module.gif" class="temp_image_success" />
+	</div>
+</form>
+</div>
+<script src="catalog/view/javascript/cheaper30/jsdelivr/jquery.validate.js" type="text/javascript"></script>
+<script src="catalog/view/javascript/cheaper30/jsdelivr/additional-methods.js" type="text/javascript"></script>
+<script src="catalog/view/javascript/jquery/datetimepicker/moment/moment.min.js" type="text/javascript"></script>
+<script src="catalog/view/javascript/jquery/datetimepicker/moment/moment-with-locales.min.js" type="text/javascript"></script>
+<script src="catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+<link href="catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css" type="text/css" rel="stylesheet" media="screen" />
+<script src="catalog/view/javascript/cheaper30/jsdelivr/jquery.mask.phone.js" type="text/javascript"></script>
+<script><!-- 
+$('.divshadow').addClass('divshadow{{ module_id }}');
+var divshadow{{ module_id }} = '.divshadow.divshadow{{ module_id }}';
+{% if type_view %}
+	var divshadow{{ module_id }} = '.divshadowmodule.divshadowmodule{{ module_id }}';
+	$('.option-div{{ module_id }}').wrap('<div class="divshadowmodule divshadowmodule{{ module_id }}"></div>');
+{% endif %}
+{% if position == 'content_top' or position == 'content_bottom' %}
+	$(divshadow{{ module_id }} + ' .col-block').removeAttr('class').addClass('col-sm-6 form-group col-block');
+{% endif %}
+$(divshadow{{ module_id }} + ' .option-div').removeAttr('id');
+$(divshadow{{ module_id }}).addClass('{{ theme }}');
+function quick_pay_button{{ module_id }}(){
+	var date = $('#input_date').val();
+	var product_id = $('#input_product_id').val();
+	var price = $('#price').val();
+	data = $('.option-div{{ module_id }} .forming_quick input[type=\'text\'], .option-div{{ module_id }} .forming_quick textarea, .option-div{{ module_id }} .forming_quick input[type=\'radio\']:checked, .option-div{{ module_id }} .forming_quick input[type=\'checkbox\']:checked, .option-div{{ module_id }} .forming_quick select, .option-div{{ module_id }} .forming_quick input[type=\'hidden\']');
+	$.ajax({
+		url: 'index.php?route={{ extension }}module/cheaper30/quick',
+		type: 'post',
+		data: data.serialize() + '&date=' + date + '&prod_id=' + product_id + '&price=' + price + '&module_id={{ module_id }}',
+		dataType: 'json',
+		beforeSend: function(){
+			$(divshadow{{ module_id }}).addClass('loading');
+		},
+		complete: function(json){
+			$(divshadow{{ module_id }}).removeClass('loading');
+			{% if captch == 'default' %}
+				captchaimage{{ module_id }}();
+			{% else %}
+				captchaThirdimage{{ module_id }}();
+			{% endif %}
+		},
+		success: function(json){
+			
+			$(divshadow{{ module_id }} + ' > .option-div').append('<div id="window-cheaper"{% if not type_view %} class="popup_module"{% endif %}></div>');
+			
+			if (json['message']){
+				$('#window-cheaper').append('<img src="" class="hide_cheaper real_image_success img-responsive" />');
+				$('#window-cheaper img.real_image_success').attr('src', $('#temp_image img.temp_image_success').attr('data-src')).removeClass('hide_cheaper');
+			
+				setTimeout(function(){
+					{% if not type_view %}
+						$(divshadow{{ module_id }} + ' .option-div').css('height', '160px');
+						$(divshadow{{ module_id }} + ' .option-div > .row, ' + divshadow{{ module_id }} + ' form').remove();
+						centering(divshadow{{ module_id }});
+					{% endif %}
+				},1000);
+				if (json['message']['success_send']){
+					setTimeout(function(){
+						$('#window-cheaper').addClass('gif-background after-background{% if position == "column_left" or position == "column_right" %} column-module{% endif %}');
+					},1000);
+					setTimeout(function(){
+						$('#window-cheaper').removeClass('gif-background');
+						$('#window-cheaper .text-msg').addClass('text-anim');
+						
+					},3500);
+					$(divshadow{{ module_id }} + ' > .option-div #window-cheaper').append('<span class="text-msg">' + json['message']['success_send'] + '</span>');
+				}
+				if (json['message']['error_send']){
+					setTimeout(function(){
+						$('#window-cheaper .text-msg').addClass('text-anim');
+					},1000);
+					$(divshadow{{ module_id }} + ' > .option-div #window-cheaper').append('<span class="text-msg">' + json['message']['error_send'] + '</span>');
+				}
+				setTimeout(function(){
+					$(divshadow{{ module_id }} + ' #window-cheaper').remove();
+					{% if captch == 'basic' or captch == 'basic_captcha' %}captchaThirdimage{{ module_id }}();{% endif %}
+					return closedivshadow{{ module_id }}(); return false;
+				},5000);
+			}
+			if (json['error']){
+				$('.captcha-module{{ module_id }}  > div').after('<label class="error-module">' + json['error'] + '</label>');
+			}
+		}
+	});
+	return false;
+}
+setTimeout(function(){
+	$('.header-popup').addClass('show').addClass('animated').addClass('flipInX');
+}, 1000);
+//--></script>
+<script>
+	function closedivshadow{{ module_id }}(){
+		$('body .divshadow').removeClass('animated').removeClass('bounceIn').addClass('animated bounceOut');
+		setTimeout(function(){
+			$('body .divshadow').empty();
+			$('body .divshadow, body .modal-bg-cheaper').removeClass('show');
+			$('.modal-bg').removeClass('show');
+			$('body .divshadow').removeClass('cheaper30').removeClass('loading col-lg-offset-4 col-lg-4 col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8 col-xs-offset-1 col-xs-10 divshadow{{ module_id }}');
+		},700);
+	}
+	$('body .divshadow .close').click(function() {
+		closedivshadow{{ module_id }}();
+	});
+	localStorage.setItem('swalCheaper', '1');
+	$(document).keydown(function(e) {
+		var container = $('body .divshadow.show');
+		var containerfind = $('body').find('.divshadow.show').html();
+		if (containerfind != null && e.keyCode === 27) {
+			closedivshadow{{ module_id }}();
+			return false;
+		}
+	});
+	$(document).ready(function() {
+		$('body .divshadow').addClass('cheaper30').addClass('col-lg-offset-4 col-lg-4 col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8 col-xs-offset-1 col-xs-10');
+		centering('.divshadow');
+	});
+	$('body').on('click', '.modal-bg-cheaper', function(){
+		closedivshadow{{ module_id }}(); return false;
+	});
+</script>
+{% if bootstrap %}<link href="catalog/view/javascript/cheaper30/bootstrap.min.css" type="text/css" rel="stylesheet" media="screen" />{% endif %}
+{% if font %}<link href="catalog/view/javascript/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />{% endif %}
+<script>
+{% if fields %}
+	$('#cheaperForm{{ module_id }}').validate({
+		rules: {
+			{% for id,field in fields %}
+				'input_field[{{ field.id }}]{{ field.type == "file" ? "[file]" : "" }}{{ field.type == "checked" or field.type == "radio" or field.type == "select" ? "[]" : "" }}': {
+						required: {% if field.required %}true{% else %}false{% endif %},
+				{% if field.regex != 'phoneUS' %}
+					{% if field.regex and field.valid %}
+						{% if field.valid is iterable %}
+							{{ field.regex }}: [{{ field.valid|join(',') }}],
+						{% else %}
+							{{ field.regex }}: {{ field.valid }},
+						{% endif %}
+					{% endif %}
+				{% endif %}
+				{% if field.regex == 'email' or field.regex == 'url' or field.regex == 'date' or field.regex == 'dateISO' or field.regex == 'number' or field.regex == 'phoneUS' %}
+					{{ field.regex }}: true,
+				{% endif %}
+				require_from_group: [1, ".form-required-module"]
+				},
+			{% endfor %}
+			{% if protection.format and protection.format == 'checkbox' %}
+				input_zachita: {
+					required: true,
+				},
+			{% endif %}
+			{% if captch == 'default' %}
+				captcha:{
+					required: true,
+					remote: 'index.php?route={{ extension }}module/cheaper30/process&module_id={{ module_id }}'
+				}
+			{% endif %}
+		},
+		messages: {
+			input_zachita: {
+				required: "{{ text_error_zachita }}",
+			}
+		},
+		submitHandler: function() {
+			return quick_pay_button{{ module_id }}();
+			return false;
+		},
+		
+		
+	});
+	{% if localization_scripts %}
+		$.getScript('{{ localization_scripts }}');
+	{% endif %}
+{% endif %}
+$.validator.addMethod( "require_from_group", function( value, element, options ) {
+	var $fields = $( options[ 1 ], element.form ),
+		$fieldsFirst = $fields.eq( 0 ),
+		validator = $fieldsFirst.data( "valid_req_grp" ) ? $fieldsFirst.data( "valid_req_grp" ) : $.extend( {}, this ),
+		isValid = $fields.filter( function() {
+			return validator.elementValue( this );
+		} ).length >= options[ 0 ];
+
+	// Store the cloned validator for future validation
+	$fieldsFirst.data( "valid_req_grp", validator );
+
+	// If element isn't being validated, run each require_from_group field's validation rules
+	if ( !$( element ).data( "being_validated" ) ) {
+		$fields.data( "being_validated", true );
+		$fields.each( function() {
+			validator.element( this );
+		} );
+		$fields.data( "being_validated", false );
+	}
+	return isValid;
+}, $.validator.format( '{{ error_require_from_group }}' ) );
+$('.date').datetimepicker({
+	language: '{{ lan }}',
+	pickTime: false
+});
+$('.time').datetimepicker({
+	language: '{{ lan }}',
+	pickDate: false
+});
+$('.datetime').datetimepicker({
+	language: '{{ lan }}',
+	pickDate: true,
+	pickTime: true
+});
+$('button.button-upload').on('click', function() {
+	var node = this;
+	$('#form-upload').remove();
+	$('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file" /></form>');
+	$('#form-upload input[name=\'file\']').trigger('click');
+	if (typeof timer != 'undefined'){
+    	clearInterval(timer);
+	}
+	timer = setInterval(function() {
+		if ($('#form-upload input[name=\'file\']').val() != '') {
+			clearInterval(timer);
+
+			$.ajax({
+				url: 'index.php?route=tool/upload',
+				type: 'post',
+				dataType: 'json',
+				data: new FormData($('#form-upload')[0]),
+				cache: false,
+				contentType: false,
+				processData: false,
+				beforeSend: function() {
+					$(node).button('loading');
+				},
+				complete: function() {
+					$(node).button('reset');
+				},
+				success: function(json) {
+					$('.text-danger').remove();
+
+					if (json['error']) {
+						$(node).parent().find('input').after('<label class="error-module">' + json['error'] + '</label>');
+					}
+
+					if (json['success']) {
+						$(node).parent().parent().find('.error-module').remove();
+						$(node).parent().find('input').after('<label class="success-module">' + json['success'] + '</label>');
+						$(node).parent().find('input').val(json['code']);
+					}
+				},
+				error: function(xhr, ajaxOptions, thrownError) {
+					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+				}
+			});
+		}
+	}, 500);
+});
+function captchaimage{{ module_id }}(){
+	$.post('index.php?route={{ extension }}module/cheaper30/newsession&module_id={{ module_id }}').done(function(){
+		$("#captchaimage{{ module_id }}").load('index.php?route={{ extension }}module/cheaper30/refreshimage&module_id={{ module_id }}',function(){
+			$('#captcha').val('');
+			$('body #captchaimage{{ module_id }} #refreshimg').click(function(){
+				captchaimage{{ module_id }}();
+				return false;
+			});
+		});
+	});
+}
+function captchaThirdimage{{ module_id }}(){
+	var html_captcha = '{{ captcha }}';
+	$.ajax({
+		type: 'get',
+		url: 'index.php?route={{ extension }}module/cheaper30/loadcaptcha&module_id={{ module_id }}',
+		data: '',
+		dataType: 'html',
+		cache: false,
+		success: function(html_captcha){
+			$('.captcha-module{{ module_id }} > .input-group').empty().append(html_captcha);
+			restructureCaptcha{{ module_id }}();
+			$(".captcha-module{{ module_id }} img").prop("src", "index.php?route=extension/captcha/basic_captcha/captcha/?" + new Date().valueOf());
+		},
+	});
+}
+function restructureCaptcha{{ module_id }}(){
+	{% if captch == 'google' or captch == 'google_captcha' %}
+		$('.captcha-module{{ module_id }} .col-sm-2').addClass('hide');
+		$('.captcha-module{{ module_id }} .col-sm-10').removeClass('col-sm-10').addClass('col-sm-12');
+	{% endif %}
+	{% if captch == 'basic' or captch == 'basic_captcha' %}
+		$('.captcha-module{{ module_id }} .col-sm-2').removeClass('col-sm-2').addClass('display-block-module');
+		$('.captcha-module{{ module_id }} .col-sm-10').removeClass('col-sm-10').addClass('input-group');
+		$('.captcha-module{{ module_id }} img').wrap('<div class="input-group-btn"></div>');
+		$('.captcha-module{{ module_id }} .form-group .input-group').append($('.captcha-module{{ module_id }} .input-group .form-control'));
+		$('.captcha-module{{ module_id }} .form-group').addClass('marg-bottom-0');
+	{% endif %}
+	{% if captch == 'default' %}
+		captchaimage{{ module_id }}();
+	{% endif %}
+	$('.captcha-module{{ module_id }} label.control-label').removeClass('control-label');
+}
+setTimeout(function(){
+	restructureCaptcha{{ module_id }}();
+},0);
+if (!$('.person').text().replace(/\s/g, '')){
+	$('.person').remove();
+}
+setTimeout(function(){
+	$('.bootstrap-datetimepicker-widget').attr('style', 'z-index: 2147483647 !important');
+},1000);
+{% if config_language %}
+	{% if fields %}
+		{% for field in fields %}
+			{% if field.regex == 'phoneUS' %}
+				$('#cheaperForm{{ module_id }} input[name=\'input_field[{{ field.id }}]\']').mask('{{ field.valid[config_language] }}',{autoclear: false});
+			{% endif %}
+		{% endfor %}
+	{% endif %}
+{% endif %}
+</script>
+<style>
+{% if style %}{{ style }}{% endif %}
+</style>

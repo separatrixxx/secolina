@@ -1,0 +1,370 @@
+{% if ((width_container is defined and width_container == 2) or (width_container is defined and width_container == 3)) %}
+</div></div></div> 
+{% endif %}
+<div id="ocdbanner-{{ module }}" class="ocdbanner{{ class_fluid }}" data-ocdbanner="{{ module }}"{{ background }}>
+  {% if (width_container is defined and width_container == 3) %}
+  <div class="container">
+  {% endif %}
+  {% if ((name_front_show is defined and name_front_show != 0) and (name_front is defined and name_front != '')) %}
+  <div class="title-module">{{ name_front }}</div>
+  {% endif %}
+  {% set group_row = 1 %}
+  {% for group_tab in group_tabs %} 
+  {% if (group_tab.status is defined and group_tab.status != 0) %}
+  {% if (group_tab.mode is defined and group_tab.mode == 'grid') %}  
+  <div class="banner-group group-bootstrap"{% if (group_tab.rows is defined and group_tab.rows != '') %} data-group-rows="{{ group_tab.rows }}"{% endif %}>  
+  {% elseif (group_tab.mode is defined and group_tab.mode == 'carousel') %}
+  <div class="banner-group group-carousel">
+  {% else %}
+  <div class="banner-group group-grid">
+  {% endif %}
+    {% if (group_tab.title_group_front is defined and group_tab.title_group_front != 0) %}
+    <div class="title-group">{{ group_tab.title_group }}</div>
+    {% endif %}
+    {% if (group_tab.mode is defined and group_tab.mode == 'grid') %}
+    <div class="row">
+      {% if (group_tab.rows is not defined or group_tab.rows == '2') %}
+      {% set bootstrap_class = ' col-xs-6 col-sm-6 col-md-6 col-lg-6' %}
+      {% elseif (group_tab.rows is not defined or group_tab.rows == '3') %}
+      {% set bootstrap_class = ' col-xs-6 col-sm-4 col-md-4 col-lg-4' %}
+      {% elseif (group_tab.rows is not defined or group_tab.rows == '4') %}
+      {% set bootstrap_class = ' col-xs-6 col-sm-4 col-md-3 col-lg-3' %}
+      {% elseif (group_tab.rows is not defined or group_tab.rows == '6') %}
+      {% set bootstrap_class = ' col-xs-6 col-sm-2 col-md-2 col-lg-2' %}
+      {% elseif (group_tab.rows is not defined or group_tab.rows == '12') %}
+      {% set bootstrap_class = ' col-xs-6 col-sm-1 col-md-1 col-lg-1' %}
+      {% else %}
+      {% set bootstrap_class = ' col-sm-12' %}
+      {% endif %}
+    {% elseif (group_tab.mode is defined and group_tab.mode == 'carousel') %}
+    <div id="group-carousel-{{ group_row }}" class="splide splide-{{ group_row }}">
+      <div class="splide__track">
+        <div class="splide__list">    
+    {% else %}
+    <div class="respgrid{% if (group_tab.banner_width_mobile is not defined or group_tab.banner_width_mobile != 0) %} respgrid-banner-full{% endif %} respgrid-{{ group_row }}" data-group="{{ group_row }}" data-gutter="{{ group_tab.gutter }}">
+    {% endif %}
+      {% set banner_row = 1 %}
+      {% if (group_tab.banner_image is defined) %}
+      {% for key,banner_image in group_tab.banner_image %}
+      {% if (banner_image.status is defined and banner_image.status != 0) %}    
+      {% if (group_tab.mode is defined and group_tab.mode == 'grid') %}
+      <div class="item-banner{{ bootstrap_class }}">
+      {% elseif (group_tab.mode is defined and group_tab.mode == 'carousel') %}
+      <div class="splide__slide item-banner">
+      {% else %}
+      {% if ((banner_image.type is defined and banner_image.type == 'image_image') and banner_image.image == '') %}
+      {% set class_no_image_banner = ' item-grid-no-image' %}
+      {% else %}
+      {% set class_no_image_banner = '' %}
+      {% endif %}
+      {% for slider_item in banner_image.image_slider %}
+      {% if (slider_item.image_slide is empty) %}
+      {% set class_no_image_banner = ' item-grid-no-image' %}
+      {% else %}
+      {% set class_no_image_banner = '' %}
+      {% endif %}
+      {% endfor %}
+      <div class="item-grid item-grid-{{ group_row }}{{ class_no_image_banner }}" data-colspan="{{ group_tab.grid_stack[key]['gs_width'] }}" data-rowspan="{{ group_tab.grid_stack[key]['gs_height'] }}">
+      {% endif %}
+        {% if (((banner_image.type is defined and banner_image.type == 'image_image') and (group_tab.mode is defined and group_tab.mode != 'respgrid')) or ((banner_image.type is defined and banner_image.type == 'image_image') and (group_tab.mode is defined and group_tab.mode == 'respgrid') and banner_image.image != '')) %}
+        {% if ((banner_image.title_show is defined and banner_image.title_show != 0) and (banner_image.position_title is defined and banner_image.position_title == 'title_before_image')) %}
+        {% if (banner_image.link_image or (banner_image.link_image and banner_image.link_video != 0)) %}
+        <div class="title-banner before-title {{ banner_image.text_align }}"><a href="{{ banner_image.link_image }}" {{ banner_image.link_target }}>{{ banner_image.title_image }}</a></div>
+        {% else %}
+        <div class="title-banner before-title {{ banner_image.text_align }}">{{ banner_image.title_image }}</div>
+        {% endif %}
+        {% endif %}
+        {% if (banner_image.link_image and banner_image.link_video != 0) %}
+        <a href="{{ banner_image.link_image }}" {{ banner_image.link_target }}{% if (banner_image.animation is defined and banner_image.animation != '') %} data-animation="{{ banner_image.animation }}"{% endif %}>
+          <img src="{{ banner_image.image }}" title="{{ banner_image.title_img }}" alt="{{ banner_image.alt_image }}" class="img-responsive" width="{{ banner_image.image_width }}" height="{{ banner_image.image_height }}" />
+          {% if ((banner_image.title_show is defined and banner_image.title_show != 0) or (banner_image.desc_show is defined and banner_image.desc_show != 0)) %}
+          <div class="block-desc">
+            {% if ((banner_image.title_show is defined and banner_image.title_show != 0) and (banner_image.position_title is defined and banner_image.position_title == 'title_html_image')) %}
+            <div class="title-banner html-title {{ banner_image.text_align }}">{{ banner_image.title_image }}</div>
+            {% endif %}
+            {% if ((banner_image.desc_show is defined and banner_image.desc_show != 0) and (banner_image.description is defined and banner_image.description != '')) %}
+            <div class="banner-desc">{{ banner_image.description }}</div>
+            {% endif %}
+          </div>
+          {% endif %}
+        </a>
+        {% elseif (banner_image.link_image) %}
+        <a href="{{ banner_image.link_image }}" {{ banner_image.link_target }}{% if (banner_image.animation is defined and banner_image.animation != '') %} data-animation="{{ banner_image.animation }}"{% endif %}> 
+          <img src="{{ banner_image.image }}" title="{{ banner_image.title_img }}" alt="{{ banner_image.alt_image }}" class="img-responsive" width="{{ banner_image.image_width }}" height="{{ banner_image.image_height }}" />
+          {% if ((banner_image.title_show is defined and banner_image.title_show != 0) or (banner_image.desc_show is defined and banner_image.desc_show != 0)) %}
+          <div class="block-desc">
+            {% if ((banner_image.title_show is defined and banner_image.title_show != 0) and (banner_image.position_title is defined and banner_image.position_title == 'title_html_image')) %}
+            <div class="title-banner html-title {{ banner_image.text_align }}">{{ banner_image.title_image }}</div>
+            {% endif %}
+            {% if ((banner_image.desc_show is defined and banner_image.desc_show != 0) and (banner_image.description is defined and banner_image.description != '')) %}
+            <div class="banner-desc">{{ banner_image.description }}</div>
+            {% endif %}
+          </div>
+          {% endif %}
+        </a>
+        {% else %}  
+        <div class="no-link"{% if (banner_image.animation is defined and banner_image.animation != '') %} data-animation="{{ banner_image.animation }}"{% endif %}>  
+          <img src="{{ banner_image.image }}" title="{{ banner_image.title_img }}" alt="{{ banner_image.alt_image }}" class="img-responsive" width="{{ banner_image.image_width }}" height="{{ banner_image.image_height }}" />
+          {% if ((banner_image.title_show is defined and banner_image.title_show != 0) or (banner_image.desc_show is defined and banner_image.desc_show != 0)) %}
+          <div class="block-desc">
+            {% if ((banner_image.title_show is defined and banner_image.title_show != 0) and (banner_image.position_title is defined and banner_image.position_title == 'title_html_image')) %}
+            <div class="title-banner html-title {{ banner_image.text_align }}">{{ banner_image.title_image }}</div>
+            {% endif %}
+            {% if ((banner_image.desc_show is defined and banner_image.desc_show != 0) and (banner_image.description is defined and banner_image.description != '')) %}
+            <div class="banner-desc">{{ banner_image.description }}</div>
+            {% endif %}
+          </div>
+          {% endif %}
+        </div>
+        {% endif %}
+        {% if ((banner_image.title_show is defined and banner_image.title_show != 0) and (banner_image.position_title is defined and banner_image.position_title == 'title_after_image')) %}
+        {% if (banner_image.link_image or (banner_image.link_image and banner_image.link_video != 0)) %}
+        <div class="title-banner after-title {{ banner_image.text_align }}"><a href="{{ banner_image.link_image }}" {{ banner_image.link_target }}>{{ banner_image.title_image }}</a></div>
+        {% else %}
+        <div class="title-banner after-title {{ banner_image.text_align }}">{{ banner_image.title_image }}</div>
+        {% endif %}
+        {% endif %}
+        {% endif %}
+        {% if (banner_image.type is defined and banner_image.type == 'image_video') %}
+        {% if (banner_image.align_title_video is defined and banner_image.align_title_video == 'left') %}
+        {% set before_title_class = ' class="title-banner before-title text-left"' %}
+        {% set after_title_class = ' class="title-banner after-title text-left"' %}
+        {% elseif (banner_image.align_title_video is defined and banner_image.align_title_video == 'center') %}
+        {% set before_title_class = ' class="title-banner before-title text-center"' %}
+        {% set after_title_class = ' class="title-banner after-title text-center"' %}
+        {% else %}
+        {% set before_title_class = ' class="title-banner before-title text-right"' %}
+        {% set after_title_class = ' class="title-banner after-title text-right"' %}
+        {% endif %}
+        {% if ((banner_image.title_video_show is defined and banner_image.title_video_show != 0) and (banner_image.position_title_video is defined and banner_image.position_title_video == 'title_before_image')) %}
+        <div{{ before_title_class }}>{{ banner_image.title_video }}</div>
+        {% endif %}
+        {% if (banner_image.type_image_video_host is defined and banner_image.type_image_video_host == 'youtube') %}
+        {% set video_host = ' class="youtube-host embed-responsive embed-responsive-16by9"' %}
+        {% else %}
+        {% set video_host = ' class="vimeo-host embed-responsive embed-responsive-16by9"' %}
+        {% endif %}
+        <div class="iframe-video">
+          <div{{ video_host }}>
+            {% if (banner_image.type_image_video_host is defined and banner_image.type_image_video_host == 'youtube') %}
+            <iframe src="//www.youtube.com/embed/{{ banner_image.type_image_video_id }}" loading="lazy" class="embed-responsive-item" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            {% else %}
+            <iframe src="//player.vimeo.com/video/{{ banner_image.type_image_video_id }}" loading="lazy" class="embed-responsive-item" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            {% endif %}
+          </div>
+        </div>
+        {% if ((banner_image.title_video_show is defined and banner_image.title_video_show != 0) and (banner_image.position_title_video is defined and banner_image.position_title_video == 'title_after_image')) %}
+        <div{{ after_title_class }}>{{ banner_image.title_video }}</div>
+        {% endif %}
+        {% endif %}
+        {% if (((banner_image.type is defined and banner_image.type == 'image_slider') and (group_tab.mode is defined and group_tab.mode != 'respgrid')) or ((banner_image.type is defined and banner_image.type == 'image_slider') and (group_tab.mode is defined and group_tab.mode == 'respgrid') and class_no_image_banner == '')) %}
+        <div class="type-slider">
+          {% set slider_row = 1 %}
+          {% if (banner_image.image_slider is defined) %}
+          <div id="slider-{{ group_row }}-{{ banner_row }}" class="splide slider-splide-{{ group_row }}">  
+            <div class="splide__track">
+              <div class="splide__list">
+                {% for slider_item in banner_image.image_slider %} 
+                {% if (slider_item.status is defined and slider_item.status != 0) %}
+                <div class="splide__slide item-slide slider-{{ module }}-{{ group_row }}-{{ banner_row }}-{{ slider_row }}">
+                  {% if (slider_item.link_slide and slider_item.link_slide_video != 0) %}
+                  <a href="{{ slider_item.link_slide }}"{{ slider_item.link_target_slide }}>
+                    <img src="{{ slider_item.image_slide }}" title="{{ slider_item.title_slide_img }}" alt="{{ slider_item.alt_slide }}" class="img-responsive" />
+                    {% if ((slider_item.title_slide_show is defined and slider_item.title_slide_show != 0) or (slider_item.desc_slide_show is defined and slider_item.desc_slide_show != 0)) %}
+                    <div class="block-desc">
+                      {% if (slider_item.title_slide_show is defined and slider_item.title_slide_show != 0) %}
+                      <div class="slide-title {{ slider_item.title_slide_align }}">{{ slider_item.title_slide }}</div>
+                      {% endif %}
+                      {% if ((slider_item.desc_slide_show is defined and slider_item.desc_slide_show != 0) and (slider_item.desc_slide is defined and slider_item.desc_slide != '')) %}
+                      <div class="slide-desc">{{ slider_item.desc_slide }}</div>
+                      {% endif %}
+                    </div>
+                    {% endif %}
+                  </a>
+                  {% elseif (slider_item.link_slide) %}
+                  <a href="{{ slider_item.link_slide }}"{{ slider_item.link_target_slide }}>
+                    <img src="{{ slider_item.image_slide }}" title="{{ slider_item.title_slide_img }}" alt="{{ slider_item.alt_slide }}" class="img-responsive" />
+                    {% if ((slider_item.title_slide_show is defined and slider_item.title_slide_show != 0) or (slider_item.desc_slide_show is defined and slider_item.desc_slide_show != 0)) %}
+                    <div class="block-desc">
+                      {% if (slider_item.title_slide_show is defined and slider_item.title_slide_show != 0) %}
+                      <div class="slide-title {{ slider_item.title_slide_align }}">{{ slider_item.title_slide }}</div>
+                      {% endif %}
+                      {% if ((slider_item.desc_slide_show is defined and slider_item.desc_slide_show != 0) and (slider_item.desc_slide is defined and slider_item.desc_slide != '')) %}
+                      <div class="slide-desc">{{ slider_item.desc_slide }}</div>
+                      {% endif %}                    
+                    </div>
+                    {% endif %}
+                  </a>
+                  {% else %}
+                  <img src="{{ slider_item.image_slide }}" title="{{ slider_item.title_slide_img }}" alt="{{ slider_item.alt_slide }}" class="img-responsive" />
+                  {% if ((slider_item.title_slide_show is defined and slider_item.title_slide_show != 0) or (slider_item.desc_slide_show is defined and slider_item.desc_slide_show != 0)) %}
+                  <div class="block-desc">
+                    {% if (slider_item.title_slide_show is defined and slider_item.title_slide_show != 0) %}
+                    <div class="slide-title {{ slider_item.title_slide_align }}">{{ slider_item.title_slide }}</div>
+                    {% endif %}
+                    {% if ((slider_item.desc_slide_show is defined and slider_item.desc_slide_show != 0) and (slider_item.desc_slide is defined and slider_item.desc_slide != '')) %}
+                    <div class="slide-desc">{{ slider_item.desc_slide }}</div>
+                    {% endif %}
+                  </div>
+                  {% endif %}  
+                  {% endif %}
+                  {% set slider_row = slider_row + 1 %}
+                </div>
+                {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+        {% endif %}
+      {% if ((group_tab.mode is defined and group_tab.mode == 'grid') or (group_tab.mode is defined and group_tab.mode == 'carousel') or (group_tab.mode is defined and group_tab.mode == 'respgrid')) %}
+      </div>
+      {% endif %}    
+      {% set banner_row = banner_row + 1 %}
+      {% endif %}
+      {% endfor %}
+      {% endif %} 
+    {% if (group_tab.mode is defined and group_tab.mode == 'grid') %}
+    </div>
+    {% elseif (group_tab.mode is defined and group_tab.mode == 'carousel') %}
+        </div>
+      </div>
+    </div>
+    {% else %}
+    </div>
+    {% endif %}
+  {% if ((group_tab.mode is defined and group_tab.mode == 'grid') or (group_tab.mode is defined and group_tab.mode == 'carousel') or (group_tab.mode is defined and group_tab.mode == 'respgrid')) %}
+  </div> 
+  {% endif %}
+  {% set group_row = group_row + 1 %}
+  {% endif %}
+  {% endfor %}
+{% set group_row = 1 %} 
+{% for group_tab in group_tabs %} 
+{% if (group_tab.status is defined and group_tab.status != 0) %}   
+{% if (group_tab.mode is defined and group_tab.mode == 'respgrid') %}
+<script type="text/javascript">
+var settings = {
+  gutter: "{{ group_tab.gutter }}px",
+  itemclass: "#ocdbanner-{{ module }} .respgrid-{{ group_row }} .item-grid",
+  breakpoints: {
+    "*": {
+      "range": "*",
+      "options": {
+        "column": 12,
+      }
+    },    
+{% for breakpoint in group_tab.breakpoint %}
+    "{{ breakpoint.name }}": {
+      "range": "{{ breakpoint.range }}",
+      "options": {
+        "column": {{ breakpoint.column }},
+        "gutter": "{{ breakpoint.gutter }}px",
+      }
+    },
+{% endfor %}
+  }
+};
+respgrid("#ocdbanner-{{ module }} .respgrid-{{ group_row }}", settings);
+</script>
+{% endif %}
+{% if (group_tab.mode is defined and group_tab.mode == 'carousel') %}
+<script type="text/javascript">
+new Splide("#ocdbanner-{{ module }} .splide-{{ group_row }}", {
+  rewind: true,
+  {% if (group_tab.carousel_loop is defined and group_tab.carousel_loop != 0) %}
+  type: "loop",
+  {% endif %}
+  {% if (group_tab.carousel_item) %}
+  perPage: 3,
+  perMove: 1,
+  gap: 20,
+  breakpoints: {
+    {% for carousel_item in group_tab.carousel_item %}
+    "{{ carousel_item.window }}": {
+      perPage: {{ carousel_item.item }},
+      gap: {{ carousel_item.spaceBetween }},
+    },
+    {% endfor %}
+  },
+  {% else %}
+  perPage: 3,
+  perMove: 1,
+  gap: 20,
+  breakpoints: {
+    "640": {
+      perPage: 2,
+      gap: 20,
+    },
+    "320": {
+      perPage: 1,
+      gap: 10,
+    }
+  },
+  {% endif %} 
+  {% if (group_tab.carousel_autoplay is defined and group_tab.carousel_autoplay != 0) %}
+  autoplay: true,
+  {% if (group_tab.carousel_autoplay_speed is defined and group_tab.carousel_autoplay_speed != '') %}
+  interval: {{ group_tab.carousel_autoplay_speed }},
+  {% endif %}
+  {% else %}
+  autoPlay: false,
+  {% endif %}
+  {% if (group_tab.carousel_pagination is defined and group_tab.carousel_pagination == 0) %}
+  pagination: false,
+  {% endif %}
+  {% if (group_tab.carousel_navigation is defined and group_tab.carousel_navigation == 0) %}
+  arrows: false,
+  {% endif %}
+}).mount();
+</script>
+{% endif %}
+{% set banner_row = 1 %} 
+{% if (group_tab.banner_image is defined) %} 
+{% for banner_image in group_tab.banner_image %} 
+{% if (banner_image.type is defined and banner_image.type == 'image_slider') %}
+<script type="text/javascript">
+new Splide("#ocdbanner-{{ module }} #slider-{{ group_row }}-{{ banner_row }}", {
+  rewind: true,
+  {% if (banner_image.slider_mode is defined and banner_image.slider_mode == 'fade') %}
+  type: "fade",
+  {% if (banner_image.slider_loop is defined and banner_image.slider_loop == 1) %}
+  rewind: true,
+  {% endif %} 
+  {% else %}
+  {% if (banner_image.slider_loop is defined and banner_image.slider_loop == 1) %}
+  type: "loop",
+  {% endif %}
+  {% endif %}
+  perPage: 1,
+  {% if (banner_image.slider_autoplay is defined and banner_image.slider_autoplay != 0) %}
+  autoplay: true,
+  {% if (banner_image.slider_autoplay_speed is defined and banner_image.slider_autoplay_speed != '') %}
+  interval: {{ banner_image.slider_autoplay_speed }},
+  {% endif %}
+  {% else %}
+  autoPlay: false,
+  {% endif %}
+  {% if (banner_image.slider_pagination is defined and banner_image.slider_pagination == 0) %}
+  pagination: false,
+  {% endif %}
+  {% if (banner_image.slider_navigation is defined and banner_image.slider_navigation == 0) %}
+  arrows: false,
+  {% endif %}
+}).mount();
+</script>
+{% endif %} 
+{% set banner_row = banner_row + 1 %} 
+{% endfor %}
+{% endif %}  
+{% set group_row = group_row + 1 %} 
+{% endif %} 
+{% endfor %}
+  {% if (width_container is defined and width_container == 3) %}
+  </div>
+  {% endif %}
+</div>
+{% if ((width_container is defined and width_container == 2) or (width_container is defined and width_container == 3)) %}  
+<div><div class="container"><div>
+{% endif %}
